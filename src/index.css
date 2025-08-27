@@ -1,102 +1,31 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* …reszta Twojego CSS… */
-
-
-:root {
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
-  --card: 222.2 84% 4.9%;
-  --card-foreground: 210 40% 98%;
-  --popover: 222.2 84% 4.9%;
-  --popover-foreground: 210 40% 98%;
-  --primary: 262.1 83.3% 57.8%;
-  --primary-foreground: 210 40% 98%;
-  --secondary: 217.2 32.6% 17.5%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
-  --accent: 217.2 32.6% 17.5%;
-  --accent-foreground: 210 40% 98%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 217.2 32.6% 17.5%;
-  --input: 217.2 32.6% 17.5%;
-  --ring: 262.1 83.3% 57.8%;
-  --radius: 0.5rem;
+/* Global gradient bg */
+:root{
+  --bg-from:#0b1023;
+  --bg-via:#301a7b;
+  --bg-to:#0f2a5f;
 }
 
-* {
-  border-color: hsl(var(--border));
+html, body { height: 100%; }
+body{
+  @apply bg-gradient-to-br from-[var(--bg-from)] via-[var(--bg-via)] to-[var(--bg-to)];
 }
 
-body {
-  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
-  color: hsl(var(--foreground));
-  font-family: 'Inter', sans-serif;
-  font-feature-settings: "cv11", "ss01";
-  font-variation-settings: "opsz" 32;
-  min-height: 100vh;
+/* Layout helpers */
+.container {
+  @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
 }
 
-.glass-card {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+/* Glass cards */
+.glass {
+  @apply rounded-2xl border border-white/10 bg-white/5 shadow-xl shadow-black/20 backdrop-blur;
 }
 
-.blob-gradient {
-  background: linear-gradient(135deg, #7C3AED 0%, #22D3EE 100%);
-}
-
-.hero-bg {
-  background: radial-gradient(ellipse at top, rgba(124, 58, 237, 0.3) 0%, transparent 50%),
-              radial-gradient(ellipse at bottom right, rgba(34, 211, 238, 0.2) 0%, transparent 50%);
-}
-
-.text-gradient {
-  background: linear-gradient(135deg, #7C3AED 0%, #22D3EE 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
-}
-
-.animate-pulse-slow {
-  animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-.scroll-smooth {
-  scroll-behavior: smooth;
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #7C3AED, #22D3EE);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #6D28D9, #0891B2);
+/* Big gradient headline */
+.h1-gradient {
+  @apply bg-clip-text text-transparent;
+  background-image: linear-gradient(90deg, #7C3AED 0%, #22D3EE 100%);
 }

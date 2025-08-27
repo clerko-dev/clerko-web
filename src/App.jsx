@@ -1,31 +1,27 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Toaster } from '@/components/ui/toaster';
-import Navbar from '@/components/Navbar';
-import Home from '@/pages/Home';
-import Tools from '@/pages/Tools';
-import HowTo from '@/pages/HowTo';
-import Store from '@/pages/Store';
-import Privacy from '@/pages/Privacy';
-import Terms from '@/pages/Terms';
+import { Routes, Route, Link, Navigate } from "react-router-dom";
+import Home from "./pages/Home.jsx";
+import Tools from "./pages/Tools.jsx";
+import HowTo from "./pages/HowTo.jsx";
+import Store from "./pages/Store.jsx";
+import Privacy from "./pages/Privacy.jsx";
+import Terms from "./pages/Terms.jsx";
+import Navbar from "./components/Navbar.jsx";
+import Footer from "./components/Footer.jsx";
 
-function App() {
+export default function App() {
   return (
-    <Router>
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-900">
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/tools" element={<Tools />} />
-          <Route path="/how-to" element={<HowTo />} />
-          <Route path="/store" element={<Store />} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/terms" element={<Terms />} />
-        </Routes>
-        <Toaster />
-      </div>
-    </Router>
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/tools" element={<Tools />} />
+        <Route path="/how-to" element={<HowTo />} />
+        <Route path="/store" element={<Store />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+      <Footer />
+    </div>
   );
 }
-
-export default App;
