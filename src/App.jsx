@@ -10,7 +10,8 @@ import GeneratorSection from "./components/home/GeneratorSection.jsx";
 import SocialProofSection from "./components/home/SocialProofSection.jsx";
 import PricingSection from "./components/home/PricingSection.jsx";
 import FAQSection from "./components/home/FAQSection.jsx";
-import Footer from "./components/home/Footer.jsx";
+import Footer from "./components/Footer";
+
 
 // Global styles (Tailwind)
 import "./index.css";

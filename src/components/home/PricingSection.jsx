@@ -1,55 +1,49 @@
 import React from "react";
-import { Check, Crown, Sparkles } from "lucide-react";
-import { track } from "@/lib/analytics";
+import { track } from "../../lib/analytics";
 
-const Feature = ({ children }) => (
-  <li className="flex items-start gap-2 text-sm text-white/85">
-    <Check className="mt-0.5 h-4 w-4 text-cyan-300" />
-    <span>{children}</span>
-  </li>
-);
+const PRICES = {
+  PRO_MONTHLY: "https://buy.stripe.com/REPLACE_ME_MONTHLY", // TODO: wklej swój Payment Link
+  LIFETIME: "https://buy.stripe.com/REPLACE_ME_LIFETIME",   // TODO: wklej swój Payment Link
+};
 
-function Card({ title, price, period, featured = false, children, plan = "free", ctaHref = "#generator" }) {
-  const onClick = () => track("click_get_started", { plan });
-
+function Tier({ name, price, period, features, href, highlight = false }) {
   return (
     <div
       className={[
-        "relative rounded-2xl border p-6 backdrop-blur transition gradient-ring",
-        featured
-          ? "border-white/20 bg-white/[0.06] shadow-xl shadow-cyan-500/10"
-          : "border-white/10 bg-white/[0.04]"
+        "group flex flex-col rounded-2xl border p-6 shadow-2xl backdrop-blur",
+        highlight
+          ? "border-indigo-400/30 bg-indigo-400/10 shadow-indigo-500/10"
+          : "border-white/10 bg-white/5",
       ].join(" ")}
     >
-      {featured && (
-        <div className="absolute -top-3 left-6 inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-indigo-500 to-cyan-400 px-3 py-1 text-[10px] font-semibold text-black shadow">
-          <Crown className="h-3 w-3" /> RECOMMENDED
-        </div>
-      )}
-
-      <div className="mb-4 flex items-center gap-2">
-        {featured ? <Sparkles className="h-5 w-5 text-cyan-300" /> : null}
-        <h3 className="text-lg font-semibold">{title}</h3>
+      <div className="mb-2 text-sm font-semibold text-white/70">{name}</div>
+      <div className="mb-4 flex items-end gap-1">
+        <div className="text-3xl font-extrabold">${price}</div>
+        {period && <div className="pb-1 text-sm text-white/60">/{period}</div>}
       </div>
 
-      <div className="mb-4">
-        <span className="text-3xl font-bold">{price}</span>
-        <span className="text-white/60">/{period}</span>
-      </div>
-
-      <ul className="mb-6 space-y-2">{children}</ul>
+      <ul className="mb-6 space-y-2 text-sm text-white/80">
+        {features.map((f) => (
+          <li key={f} className="flex items-start gap-2">
+            <span className="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-cyan-400" />
+            <span>{f}</span>
+          </li>
+        ))}
+      </ul>
 
       <a
-        href={ctaHref}
-        onClick={onClick}
+        href={href}
+        target="_blank"
+        rel="noopener"
+        onClick={() => track("checkout_click", { tier: name })}
         className={[
-          "inline-flex w-full items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold transition",
-          featured
+          "mt-auto inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-semibold transition",
+          highlight
             ? "bg-gradient-to-r from-indigo-500 to-cyan-400 text-black shadow-lg shadow-cyan-500/20 hover:brightness-110"
-            : "border border-white/15 bg-white/10 text-white/90 hover:bg-white/15"
+            : "border border-white/15 bg-white/10 text-white/90 hover:bg-white/15",
         ].join(" ")}
       >
-        Get started
+        Get {name}
       </a>
     </div>
   );
@@ -57,33 +51,57 @@ function Card({ title, price, period, featured = false, children, plan = "free",
 
 export default function PricingSection() {
   return (
-    <section className="relative bg-[#0A0B14] py-16 sm:py-20">
+    <section id="pricing" className="relative bg-[#0A0B14] py-20">
       <div className="container-x">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Simple, fair pricing</h2>
-          <p className="mt-2 text-white/70">Start free. Upgrade when you need more exports and templates.</p>
+        <div className="mx-auto mb-10 max-w-2xl text-center">
+          <h2 className="text-3xl font-extrabold">Simple pricing</h2>
+          <p className="mt-2 text-white/70">
+            Start free. Upgrade when you need PDF export, saved templates, and branding.
+          </p>
         </div>
 
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
-          <Card title="Free" price="$0" period="mo" plan="free">
-            <Feature>Unlimited drafts</Feature>
-            <Feature>Copy to clipboard</Feature>
-            <Feature>Basic templates</Feature>
-          </Card>
-
-          <Card title="Pro" price="$9" period="mo" featured plan="pro">
-            <Feature>PDF export</Feature>
-            <Feature>Saved templates</Feature>
-            <Feature>Custom branding</Feature>
-            <Feature>Open tracking</Feature>
-          </Card>
-
-          <Card title="Team" price="$29" period="mo" plan="team">
-            <Feature>Everything in Pro</Feature>
-            <Feature>Shared library</Feature>
-            <Feature>Roles & approvals</Feature>
-          </Card>
+        <div className="grid gap-4 md:grid-cols-3">
+          <Tier
+            name="Starter"
+            price="0"
+            period=""
+            href="#generator"
+            features={[
+              "Proposal generator",
+              "Basic templates",
+              "Copy to clipboard",
+            ]}
+          />
+          <Tier
+            name="Pro"
+            price="9"
+            period="mo"
+            href={PRICES.PRO_MONTHLY}
+            highlight
+            features={[
+              "Everything in Starter",
+              "PDF export",
+              "Saved templates",
+              "Branding removal",
+              "Email support",
+            ]}
+          />
+          <Tier
+            name="Lifetime"
+            price="49"
+            period=""
+            href={PRICES.LIFETIME}
+            features={[
+              "All Pro features",
+              "Lifetime updates",
+              "Priority support",
+            ]}
+          />
         </div>
+
+        <p className="mt-6 text-center text-xs text-white/50">
+          Prices in USD. Taxes may apply. Payment via Stripe.
+        </p>
       </div>
     </section>
   );

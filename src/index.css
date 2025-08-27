@@ -60,3 +60,31 @@ body{
   }
   .gradient-ring:hover::before { opacity: .8; }
 }
+/* Container */
+.container-x {
+  max-width: 1152px; /* ~max-w-6xl */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem; /* px-4 */
+  padding-right: 1rem;
+}
+
+/* Glass */
+.glass {
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
+  border-radius: 1rem;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+
+/* Hero mesh background */
+.hero-mesh {
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(40% 40% at 20% 30%, rgba(124, 58, 237, 0.35), transparent 60%),
+    radial-gradient(40% 40% at 80% 20%, rgba(34, 211, 238, 0.35), transparent 60%),
+    radial-gradient(40% 40% at 60% 80%, rgba(59, 130, 246, 0.25), transparent 60%);
+  filter: blur(40px);
+}
