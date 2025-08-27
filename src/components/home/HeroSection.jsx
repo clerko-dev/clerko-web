@@ -2,16 +2,18 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
+import { track } from "@/lib/analytics";
 
 export default function HeroSection() {
+  const onTry = () => track("click_try_free", { location: "hero" });
+
   return (
     <section className="relative overflow-hidden bg-[#0A0B14]">
-      {/* tło: gradient + lekki glow */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <div className="absolute -inset-x-20 -top-40 h-[480px] bg-[radial-gradient(ellipse_at_top,rgba(124,58,237,0.35),transparent_50%),radial-gradient(ellipse_at_center,rgba(34,211,238,0.18),transparent_55%)] blur-2xl" />
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 pb-16 pt-20 sm:px-6 lg:px-8 lg:pt-24">
+      <div className="container-x pb-16 pt-20 lg:pt-24">
         <motion.div
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
@@ -28,13 +30,14 @@ export default function HeroSection() {
           </h1>
 
           <p className="mx-auto mt-4 max-w-2xl text-white/70">
-            Clerko helps you draft, preview and ship offers fast. Templates, clean pricing,
-            and a shareable preview. No fluff — just deals closed faster.
+            Draft, preview and ship offers fast. Templates, clean pricing, and a shareable preview.
+            No fluff — just deals closed faster.
           </p>
 
           <div className="mt-8 flex items-center justify-center gap-3">
             <a
               href="#generator"
+              onClick={onTry}
               className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-cyan-400 px-5 py-3 text-sm font-semibold text-black shadow-lg shadow-cyan-500/20 transition hover:brightness-110"
             >
               Try free now

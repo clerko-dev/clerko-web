@@ -1,5 +1,6 @@
 import React from "react";
 import { Check, Crown, Sparkles } from "lucide-react";
+import { track } from "@/lib/analytics";
 
 const Feature = ({ children }) => (
   <li className="flex items-start gap-2 text-sm text-white/85">
@@ -8,11 +9,13 @@ const Feature = ({ children }) => (
   </li>
 );
 
-function Card({ title, price, period, featured = false, children, ctaHref = "#generator" }) {
+function Card({ title, price, period, featured = false, children, plan = "free", ctaHref = "#generator" }) {
+  const onClick = () => track("click_get_started", { plan });
+
   return (
     <div
       className={[
-        "relative rounded-2xl border p-6 backdrop-blur transition",
+        "relative rounded-2xl border p-6 backdrop-blur transition gradient-ring",
         featured
           ? "border-white/20 bg-white/[0.06] shadow-xl shadow-cyan-500/10"
           : "border-white/10 bg-white/[0.04]"
@@ -38,6 +41,7 @@ function Card({ title, price, period, featured = false, children, ctaHref = "#ge
 
       <a
         href={ctaHref}
+        onClick={onClick}
         className={[
           "inline-flex w-full items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold transition",
           featured
@@ -54,27 +58,27 @@ function Card({ title, price, period, featured = false, children, ctaHref = "#ge
 export default function PricingSection() {
   return (
     <section className="relative bg-[#0A0B14] py-16 sm:py-20">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="container-x">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Simple, fair pricing</h2>
           <p className="mt-2 text-white/70">Start free. Upgrade when you need more exports and templates.</p>
         </div>
 
         <div className="mt-10 grid gap-6 md:grid-cols-3">
-          <Card title="Free" price="$0" period="mo">
+          <Card title="Free" price="$0" period="mo" plan="free">
             <Feature>Unlimited drafts</Feature>
             <Feature>Copy to clipboard</Feature>
             <Feature>Basic templates</Feature>
           </Card>
 
-          <Card title="Pro" price="$9" period="mo" featured>
+          <Card title="Pro" price="$9" period="mo" featured plan="pro">
             <Feature>PDF export</Feature>
             <Feature>Saved templates</Feature>
             <Feature>Custom branding</Feature>
             <Feature>Open tracking</Feature>
           </Card>
 
-          <Card title="Team" price="$29" period="mo">
+          <Card title="Team" price="$29" period="mo" plan="team">
             <Feature>Everything in Pro</Feature>
             <Feature>Shared library</Feature>
             <Feature>Roles & approvals</Feature>
