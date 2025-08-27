@@ -1,8 +1,7 @@
-@'
 {
   "compilerOptions": {
     "baseUrl": ".",
     "paths": { "@/*": ["src/*"] }
-  }
+  },
+  "include": ["src"]
 }
-'@ | Set-Content -Encoding UTF8 .\jsconfig.json
