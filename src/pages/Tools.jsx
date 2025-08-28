@@ -1,22 +1,22 @@
-﻿import React from "react";
+import React from "react";
 import SEO from "@/components/SEO.jsx";
-import { Button } from "@/components/ui/Button.jsx";
+import Button from "@/components/ui/Button.jsx";
 
 const tools = [
   {
     slug: "csv-to-json",
-    title: "CSV â†’ JSON",
+    title: "CSV → JSON",
     desc: "Clean conversion for your datasets and imports.",
   },
   {
     slug: "image-to-webp",
-    title: "Image â†’ WebP",
+    title: "Image → WebP",
     desc: "Compress images without visible quality loss.",
   },
   {
     slug: "pdf-merge",
     title: "Merge PDFs",
-    desc: "Combine multiple PDFs into one â€” instant.",
+    desc: "Combine multiple PDFs into one — instant.",
   },
   {
     slug: "text-cleaner",
@@ -34,8 +34,8 @@ export default function Tools() {
   return (
     <>
       <SEO
-        title="Clerko Tools â€” Free utilities"
-        description="A curated set of free tools: CSVâ†”JSON, PDF merge, image to WebP, and more."
+        title="Clerko Tools — Free utilities"
+        description="A curated set of free tools: CSV↔JSON, PDF merge, image to WebP, and more."
         pathname="/tools"
       />
       <section className="relative bg-[#0A0B14]">
