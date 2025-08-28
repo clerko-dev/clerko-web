@@ -9,10 +9,37 @@ import Privacy from "@/pages/Privacy";
 import Terms from "@/pages/Terms";
 import { Toaster } from "@/components/ui/toaster";
 
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+  componentDidCatch(error, info) {
+    // Możesz wpiąć monitoring (Sentry itp.)
+    console.error("Runtime error:", error, info);
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen text-white bg-black/90 p-6">
+          <h1 className="text-2xl font-bold mb-2">Something went wrong</h1>
+          <pre className="text-sm whitespace-pre-wrap opacity-80">
+            {String(this.state.error)}
+          </pre>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" });
+    window.scrollTo({ top: 0, behavior: "auto" });
   }, [pathname]);
   return null;
 }
@@ -37,10 +64,12 @@ function AppInner() {
 export default function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-900">
-        <ScrollToTop />
-        <AppInner />
-      </div>
+      <ErrorBoundary>
+        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-900">
+          <ScrollToTop />
+          <AppInner />
+        </div>
+      </ErrorBoundary>
     </Router>
   );
 }
