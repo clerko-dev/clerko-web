@@ -1,35 +1,46 @@
-// src/App.jsx
-import React from "react";
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import Navbar from "@/components/Navbar";
+import Home from "@/pages/Home";
+import Tools from "@/pages/Tools";
+import HowTo from "@/pages/HowTo";
+import Store from "@/pages/Store";
+import Privacy from "@/pages/Privacy";
+import Terms from "@/pages/Terms";
+import { Toaster } from "@/components/ui/toaster";
 
-// NAV + SEKCJE HOME
-import Navbar from "./components/Navbar.jsx";
-import HeroSection from "./components/home/HeroSection.jsx";
-import FeaturesSection from "./components/home/FeaturesSection.jsx";
-import StepsSection from "./components/home/StepsSection.jsx";
-import GeneratorSection from "./components/home/GeneratorSection.jsx";
-import SocialProofSection from "./components/home/SocialProofSection.jsx";
-import PricingSection from "./components/home/PricingSection.jsx";
-import FAQSection from "./components/home/FAQSection.jsx";
-import Footer from "./components/Footer";
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [pathname]);
+  return null;
+}
 
-
-// Global styles (Tailwind)
-import "./index.css";
+function AppInner() {
+  return (
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/tools" element={<Tools />} />
+        <Route path="/how-to" element={<HowTo />} />
+        <Route path="/store" element={<Store />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
+      </Routes>
+      <Toaster />
+    </>
+  );
+}
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-[#0A0B14] text-white">
-      <Navbar />
-      <main className="overflow-x-clip">
-        <HeroSection />
-        <FeaturesSection />
-        <StepsSection />
-        <GeneratorSection />
-        <SocialProofSection />
-        <PricingSection />
-        <FAQSection />
-      </main>
-      <Footer />
-    </div>
+    <Router>
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-900">
+        <ScrollToTop />
+        <AppInner />
+      </div>
+    </Router>
   );
 }
