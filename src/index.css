@@ -1,102 +1,58 @@
-<meta charset="utf-8" />
+/* src/index.css */
 
+/* Tailwind layers */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Global gradient bg */
+/* ========== Design tokens / tło ========== */
 :root{
-  --bg-from:#0b1023;
-  --bg-via:#301a7b;
-  --bg-to:#0f2a5f;
+  --bg:#0A0B14;
+  --card: rgba(255,255,255,.06);
+  --border: rgba(255,255,255,.12);
+  --text:#E5E7EB;
 }
 
-html, body { height: 100%; }
+html, body, #root{
+  height:100%;
+}
+
 body{
-  @apply bg-gradient-to-br from-[var(--bg-from)] via-[var(--bg-via)] to-[var(--bg-to)];
+  background: radial-gradient(1200px 1200px at 10% -10%, rgba(124,58,237,.35), transparent 60%),
+              radial-gradient(1200px 1200px at 110% 10%, rgba(34,211,238,.35), transparent 60%),
+              var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Layout helpers */
-.container {
-  @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+/* delikatna siatka w tle (opcjonalnie) */
+.bg-grid{
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: radial-gradient(circle at 30% 20%, black 35%, transparent 70%);
 }
 
-/* Glass cards */
-.glass {
-  @apply rounded-2xl border border-white/10 bg-white/5 shadow-xl shadow-black/20 backdrop-blur;
+/* Karty / szkło */
+.glass{
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+  backdrop-filter: blur(10px);
 }
 
-/* Big gradient headline */
-.h1-gradient {
-  @apply bg-clip-text text-transparent;
-  background-image: linear-gradient(90deg, #7C3AED 0%, #22D3EE 100%);
-}
-/* --- Polish Pack v1 additions --- */
-@layer base {
-  html { scroll-behavior: smooth; }
-  body { background: #0A0B14; color: #fff; font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"; }
-  h1, h2, h3 { letter-spacing: -0.02em; }
+/* Gradient brandowy do nagłówków/akcentów */
+.brand-gradient{
+  background-image: linear-gradient(90deg, #7C3AED, #22D3EE);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-@layer components {
-  .glass {
-    @apply rounded-2xl border border-white/10 bg-white/[0.05] backdrop-blur shadow-[0_8px_30px_rgba(0,0,0,0.12)];
-  }
-  .container-x {
-    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
-  }
-  /* subtelna ramka gradientowa */
-  .gradient-ring {
-    position: relative;
-  }
-  .gradient-ring::before {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    border-radius: 1rem;
-    background: linear-gradient(135deg,#7C3AED55,#22D3EE55);
-    filter: blur(6px);
-    z-index: -1;
-    opacity: 0;
-    transition: opacity .25s ease;
-  }
-  .gradient-ring:hover::before { opacity: .8; }
-}
-/* Container */
-.container-x {
-  max-width: 1152px; /* ~max-w-6xl */
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1rem; /* px-4 */
-  padding-right: 1rem;
-}
-
-/* Glass */
-.glass {
-  border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(12px);
-  border-radius: 1rem;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-}
-
-/* Hero mesh background */
-.hero-mesh {
-  position: absolute;
-  inset: -20%;
-  background:
-    radial-gradient(40% 40% at 20% 30%, rgba(124, 58, 237, 0.35), transparent 60%),
-    radial-gradient(40% 40% at 80% 20%, rgba(34, 211, 238, 0.35), transparent 60%),
-    radial-gradient(40% 40% at 60% 80%, rgba(59, 130, 246, 0.25), transparent 60%);
-  filter: blur(40px);
-}
-
-/* inputs styl wspólny użyty w Login/Signup */
-.input{
-  @apply w-full rounded-lg bg-slate-900/60 border border-slate-700 px-3 py-2 text-white outline-none focus:ring-2 ring-indigo-500;
-}
-
-/* scroll reveal */
+/* ========== Scroll reveal ========== */
 [data-reveal]{
   opacity: 0;
   transform: translateY(16px);
@@ -106,7 +62,6 @@ body{
 .reveal-in{ opacity: 1; transform: none; }
 .reveal-out{ opacity: .15; transform: translateY(-8px); }
 
-/* preferencje dostępności – wyłącz animacje, gdy użytkownik woli mniej ruchu */
 @media (prefers-reduced-motion: reduce) {
   [data-reveal]{
     opacity: 1 !important;
@@ -114,3 +69,29 @@ body{
     transition: none !important;
   }
 }
+
+/* ========== Przyciski bazowe (gdy używamy <a> albo natywnego <button>) ========== */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  gap:.5rem; height:2.75rem; padding:0 .95rem; border-radius: .75rem;
+  font-weight: 600; border:1px solid transparent;
+}
+.btn-primary{
+  background: linear-gradient(90deg, #7C3AED, #22D3EE);
+  color:white; border-color: transparent;
+}
+.btn-primary:hover{ filter: brightness(1.08); }
+.btn-secondary{
+  background: rgba(255,255,255,.08);
+  color:white; border-color: var(--border);
+}
+.btn-secondary:hover{ background: rgba(255,255,255,.12); }
+
+/* Linki w treści */
+a.text-link{
+  color:#93C5FD; text-underline-offset: 4px;
+}
+a.text-link:hover{ text-decoration: underline; }
+
+/* Fix pod kod / monospace */
+code, pre{ font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
