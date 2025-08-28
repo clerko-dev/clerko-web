@@ -1,73 +1,47 @@
-// src/components/layout/Navbar.jsx
 import React from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "@/context/AuthProvider.jsx";
 
 export default function Navbar() {
-  const { user } = useAuth();
-  const loc = useLocation();
-  const navigate = useNavigate();
-
-  const goHome = (e) => {
-    e.preventDefault();
-    if (loc.pathname !== "/") navigate("/");
-    // płynny scroll na górę
-    requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "smooth" }));
-  };
-
   return (
-    <header className="sticky top-0 z-40 backdrop-blur bg-black/20 border-b border-white/5">
-      <nav className="container mx-auto flex items-center justify-between py-4 px-6">
+    <header className="sticky top-0 z-50 w-full backdrop-blur supports-[backdrop-filter]:bg-black/30 border-b border-white/10">
+      <nav className="container mx-auto flex items-center justify-between px-4 py-3">
+        {/* Logo -> przewija do góry */}
         <a
           href="/"
-          onClick={goHome}
-          className="flex items-center gap-2 font-semibold tracking-tight"
+          onClick={(e) => {
+            // jeśli już jesteśmy na stronie głównej, tylko przewiń na górę
+            if (window.location.pathname === "/") {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+          }}
+          className="flex items-center gap-2 font-semibold text-white"
+          aria-label="Clerko — Home"
         >
-          <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-gradient-to-br from-[#7C3AED] to-[#22D3EE] text-black font-bold">
-            ⚡
-          </span>
-          <span>Clerko</span>
+          <span className="inline-block w-6 h-6 rounded-md bg-gradient-to-tr from-violet-500 to-cyan-400" />
+          Clerko
         </a>
 
-        <ul className="hidden md:flex items-center gap-6 text-sm">
-          <li><Link to="/" className="hover:opacity-80">Home</Link></li>
-          <li><Link to="/tools" className="hover:opacity-80">Tools</Link></li>
-          <li><Link to="/how-to" className="hover:opacity-80">Guides</Link></li>
-          <li><Link to="/store" className="hover:opacity-80">Store</Link></li>
-        </ul>
-
-        <div className="flex items-center gap-3">
+        {/* Linki */}
+        <div className="hidden md:flex items-center gap-6">
+          <a href="/" className="text-white/80 hover:text-white transition">Home</a>
+          <a href="/tools" className="text-white/80 hover:text-white transition">Tools</a>
+          <a href="/how-to" className="text-white/80 hover:text-white transition">Guides</a>
+          <a href="/store" className="text-white/80 hover:text-white transition">Store</a>
+          <a href="/account" className="text-white/90 hover:text-white transition">Account</a>
+          {/* CTA -> przewija do generatora */}
           <a
-            href="#generator"
+            href="/#generator"
             onClick={(e) => {
-              e.preventDefault();
-              if (loc.pathname !== "/") navigate("/");
-              setTimeout(() => {
+              if (window.location.pathname === "/") {
+                e.preventDefault();
                 const el = document.getElementById("generator");
                 if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-              }, 0);
+              }
             }}
-            className="px-4 py-2 rounded-lg bg-gradient-to-r from-[#7C3AED] to-[#22D3EE] text-black font-medium hover:opacity-90"
+            className="inline-flex items-center rounded-xl bg-gradient-to-r from-violet-500 to-cyan-500 px-4 py-2 text-sm font-semibold text-white shadow-lg hover:opacity-95 transition"
           >
             Try Free
           </a>
-
-          {user ? (
-            <Link
-              to="/account"
-              className="px-3 py-2 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10"
-              title={user.email}
-            >
-              Account
-            </Link>
-          ) : (
-            <Link
-              to="/account"
-              className="px-3 py-2 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10"
-            >
-              Sign in
-            </Link>
-          )}
         </div>
       </nav>
     </header>
