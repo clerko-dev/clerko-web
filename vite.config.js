@@ -1,16 +1,21 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import path from "node:path";
 
+// rozbijamy vendor na mniejsze części + zwiększamy limit ostrzeżenia
 export default defineConfig({
-  base: "/",                 // absolutne ścieżki – OK na Vercel
   plugins: [react()],
-  resolve: {
-    alias: { "@": path.resolve(__dirname, "src") }
-  },
   build: {
-    outDir: "dist",
-    sourcemap: true,         // ułatwia debug w produkcji
-    chunkSizeWarningLimit: 1200
-  }
+    chunkSizeWarningLimit: 1200,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            if (id.includes("react-router")) return "vendor-router";
+            if (id.includes("react-dom"))     return "vendor-react-dom";
+            return "vendor";
+          }
+        },
+      },
+    },
+  },
 });
