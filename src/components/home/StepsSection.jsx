@@ -1,64 +1,38 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+// src/components/home/StepsSection.jsx
+import React from "react";
 
-const StepsSection = () => {
+export default function StepsSection() {
   const steps = [
     {
-      step: "01",
-      title: "Input Details",
-      description: "Enter your project requirements, client information, and key deliverables in our intuitive interface."
+      title: "Input details",
+      text: "Client, scope, price — wpisujesz kilka pól, my formatujemy elegancką ofertę.",
     },
     {
-      step: "02", 
-      title: "AI Generation",
-      description: "Our advanced AI analyzes your input and generates a professional, customized proposal in seconds."
+      title: "AI generation",
+      text: "Błyskawiczny draft treści (angielski), potem szybka personalizacja.",
     },
     {
-      step: "03",
-      title: "Download & Send",
-      description: "Review, customize if needed, and download your proposal as PDF or send directly to clients."
-    }
+      title: "Download & send",
+      text: "Kopiuj lub (wkrótce) eksport do PDF/Docs, śledzenie otwarć w planie Pro.",
+    },
   ];
 
   return (
-    <section className="py-20 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            How it <span className="text-gradient">works</span>
-          </h2>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            Three simple steps to create professional proposals that convert
-          </p>
-        </motion.div>
+    <section id="how-it-works" className="py-16 sm:py-24" data-reveal>
+      <div className="container mx-auto px-4">
+        <h2 className="text-2xl md:text-3xl font-bold mb-6">
+          How it works <span className="brand-gradient">in 3 simple steps</span>
+        </h2>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {steps.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: index * 0.2 }}
-              viewport={{ once: true }}
-              className="glass-card rounded-2xl p-8 text-center group hover:scale-105 transition-transform duration-300"
-            >
-              <div className="w-16 h-16 blob-gradient rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold text-white">
-                {item.step}
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-4">{item.title}</h3>
-              <p className="text-gray-300 leading-relaxed">{item.description}</p>
-            </motion.div>
+        <div className="grid md:grid-cols-3 gap-4">
+          {steps.map((s, i) => (
+            <div key={i} className="glass p-6 md:p-8">
+              <h3 className="font-semibold text-lg">{s.title}</h3>
+              <p className="text-white/70 mt-2">{s.text}</p>
+            </div>
           ))}
         </div>
       </div>
     </section>
   );
-};
-
-export default StepsSection;
+}

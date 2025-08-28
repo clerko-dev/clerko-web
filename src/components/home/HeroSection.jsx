@@ -1,48 +1,53 @@
+// src/components/home/HeroSection.jsx
 import React from "react";
-import { track } from "../../lib/analytics";
+import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
 
 export default function HeroSection() {
-  return (
-    <section className="relative isolate overflow-hidden bg-[#0A0B14] pt-32 sm:pt-36">
-      {/* tĹ‚o â€“ gradient mesh */}
-      <div className="pointer-events-none absolute inset-0 -z-10 opacity-60">
-        <div className="hero-mesh" />
-      </div>
+  const navigate = useNavigate();
+  const location = useLocation();
 
-      <div className="container-x text-center">
-        <h1 className="mx-auto max-w-3xl text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
+  const goTo = (hash) => {
+    if (location.pathname !== "/") {
+      navigate(`/${hash}`);
+      return;
+    }
+    const el = document.querySelector(hash);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  return (
+    <section className="relative bg-[#0A0B14] py-16 sm:py-24" data-reveal>
+      <div className="container mx-auto px-4 text-center">
+        <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
           Proposals & quotes{" "}
-          <span className="bg-gradient-to-r from-indigo-400 to-cyan-300 bg-clip-text text-transparent">
-            in minutes
-          </span>
+          <span className="brand-gradient">in minutes</span>
         </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-base text-white/70">
-          Generate client-ready proposals fast. Clean templates, instant preview, clear pricing.
-          Close deals faster with Clerko.
+        <p className="mt-4 text-white/70 max-w-2xl mx-auto">
+          Type a few fields, see the preview, copy or export (soon). Clean, fast,
+          and client-friendly proposals.
         </p>
 
+        {/* CTA */}
         <div className="mt-8 flex items-center justify-center gap-3">
-          <a
-            href="#generator"
-            onClick={() => track("cta_try_free")}
-            className="inline-flex items-center rounded-xl bg-gradient-to-r from-indigo-500 to-cyan-400 px-5 py-3 text-sm font-semibold text-black shadow-lg shadow-cyan-500/20 transition hover:brightness-110"
+          <button
+            className="btn btn-primary"
+            onClick={() => goTo("#generator")}
           >
             Try free
-          </a>
-          <a
-            href="#pricing"
-            onClick={() => track("cta_view_pricing")}
-            className="inline-flex items-center rounded-xl border border-white/15 bg-white/10 px-5 py-3 text-sm font-semibold text-white/90 backdrop-blur transition hover:bg-white/15"
+          </button>
+          <button
+            className="btn btn-secondary"
+            onClick={() => goTo("#pricing")}
           >
             View pricing
-          </a>
+          </button>
         </div>
 
-        <div className="mx-auto mt-10 max-w-4xl rounded-2xl border border-white/10 bg-white/5 p-2 shadow-2xl shadow-black/40 backdrop-blur">
-          <div className="aspect-[16/9] w-full rounded-xl bg-black/30" />
-          {/* tu moĹĽemy kiedyĹ› podmieniÄ‡ na realny screencast/demo */}
-        </div>
+        {/* Usunięto dodatkowe pole pod CTA */}
       </div>
+
+      {/* Tło/ozdoby jeśli chcesz */}
+      <div className="absolute inset-0 -z-10 bg-grid opacity-50 pointer-events-none" />
     </section>
   );
 }
