@@ -1,6 +1,6 @@
 ﻿import React from "react";
 import SEO from "@/components/SEO.jsx";
-import Button from '@/components/ui/Button.jsx.jsx'
+import Button from '@/components/ui/Button.jsx'
 
 
 const items = [
