@@ -1,38 +1,63 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import Navbar from '@/components/layout/Navbar.jsx';
-import Footer from '@/components/layout/Footer.jsx';
-import Home from '@/pages/Home.jsx';
-import Tools from '@/pages/Tools.jsx';
-import HowTo from '@/pages/HowTo.jsx';
-import Store from '@/pages/Store.jsx';
-import Privacy from '@/pages/Privacy.jsx';
-import Terms from '@/pages/Terms.jsx';
-import Login from '@/pages/Login.jsx';
-import Signup from '@/pages/Signup.jsx';
-import Dashboard from '@/pages/Dashboard.jsx';
-import { ProtectedRoute } from '@/lib/route-helpers.jsx';
-import { AuthProvider } from '@/lib/auth.jsx';
+import React, { useEffect } from "react";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
+
+import Navbar from "@/components/layout/Navbar.jsx";
+import Footer from "@/components/layout/Footer.jsx";
+
+import Home from "@/pages/Home.jsx";
+import Tools from "@/pages/Tools.jsx";
+import HowTo from "@/pages/HowTo.jsx";
+import Store from "@/pages/Store.jsx";
+import Login from "@/pages/Login.jsx";
+import Signup from "@/pages/Signup.jsx";
+import Dashboard from "@/pages/Dashboard.jsx";
+
+import { initScrollReveal } from "@/lib/scroll-reveal";
+
+function ScrollEffects() {
+  const { pathname, hash } = useLocation();
+
+  // 1) inicjalizacja efektów po montażu i przy zmianie trasy
+  useEffect(() => {
+    const stop = initScrollReveal();
+    return () => stop?.();
+  }, [pathname]);
+
+  // 2) obsługa #anchor (np. #generator po kliknięciu Try Free)
+  useEffect(() => {
+    if (hash) {
+      const id = hash.slice(1);
+      const el = document.getElementById(id);
+      if (el) setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [pathname, hash]);
+
+  return null;
+}
 
 export default function App() {
   return (
-    <AuthProvider>
-      <div className="min-h-screen bg-gradient-to-br from-[#0b0f1a] via-[#151b2b] to-[#2b0b53] text-white">
+    <HelmetProvider>
+      <BrowserRouter>
+        <ScrollEffects />
         <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/tools" element={<Tools />} />
-          <Route path="/how-to" element={<HowTo />} />
-          <Route path="/store" element={<Store />} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/terms" element={<Terms />} />
-
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-        </Routes>
+        <main className="pt-20">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/tools" element={<Tools />} />
+            <Route path="/how-to" element={<HowTo />} />
+            <Route path="/store" element={<Store />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="*" element={<Home />} />
+          </Routes>
+        </main>
         <Footer />
-      </div>
-    </AuthProvider>
+      </BrowserRouter>
+    </HelmetProvider>
   );
 }

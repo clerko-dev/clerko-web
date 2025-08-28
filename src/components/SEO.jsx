@@ -3,7 +3,7 @@ import React from "react";
 import { Helmet } from "react-helmet-async";
 
 export default function SEO({
-  title = "Clerko – Proposals & quotes in minutes",
+  <title>{title ? `${title} — Clerko` : "Clerko — Proposals & quotes in minutes"}</title>
   description = "Create professional quotes and proposals in minutes with Clerko.",
   url = "https://clerko-web.vercel.app",
   image = "/og.png",
