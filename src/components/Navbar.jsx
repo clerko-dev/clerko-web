@@ -1,61 +1,76 @@
-import React from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
+import { useEffect } from "react";
+
+const linkBase =
+  "px-3 py-2 text-sm font-medium transition-colors rounded-md hover:text-white/90";
+const linkActive = "text-white bg-white/10";
+const linkIdle = "text-white/70";
 
 export default function Navbar() {
-  const location = useLocation();
-  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
-  const handleTryFree = () => {
-    if (location.pathname !== "/") {
-      navigate("/");
-      setTimeout(() => {
-        const el = document.getElementById("generator");
-        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 60);
-    } else {
-      const el = document.getElementById("generator");
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  // smooth-scroll gdy na Home pojawia się hash
+  useEffect(() => {
+    if (location.hash) {
+      document.querySelector(location.hash)?.scrollIntoView({ behavior: "smooth" });
     }
-  };
+  }, [pathname]);
 
   return (
-    <nav
-      className="fixed top-0 left-0 right-0 z-50 h-16 border-b border-white/10
-                 bg-black/50 backdrop-blur supports-[backdrop-filter]:bg-black/50"
-      aria-label="Primary"
-    >
-      {/* UWAGA: pointer-events-none — dekoracja nie blokuje klików */}
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-black/30 to-transparent" />
-      <div className="mx-auto max-w-7xl h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        <Link to="/" className="inline-flex items-center gap-2">
-          <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-fuchsia-500 to-cyan-400 ring-1 ring-white/20" />
-          <span className="text-white font-semibold tracking-tight">Clerko</span>
+    <header className="sticky top-0 z-50 backdrop-blur bg-[#0A0B14]/60 border-b border-white/5">
+      <nav className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+        {/* Logo */}
+        <Link to="/" className="text-white font-semibold tracking-tight">
+          Clerko
         </Link>
 
-        <div className="hidden md:flex items-center gap-6">
-          <Link className="text-sm text-white/80 hover:text-white" to="/tools">Tools</Link>
-          <Link className="text-sm text-white/80 hover:text-white" to="/how-to">How-to / Guides</Link>
-          <Link className="text-sm text-white/80 hover:text-white" to="/store">Store</Link>
-          <button
-            onClick={handleTryFree}
-            className="ml-2 inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium text-white
-                       bg-gradient-to-r from-fuchsia-500 via-violet-500 to-cyan-400 hover:opacity-90 transition shadow-md"
+        {/* Links */}
+        <div className="flex items-center gap-1">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `${linkBase} ${isActive ? linkActive : linkIdle}`
+            }
+            end
           >
-            Try free
-          </button>
+            Home
+          </NavLink>
+          <NavLink
+            to="/tools"
+            className={({ isActive }) =>
+              `${linkBase} ${isActive ? linkActive : linkIdle}`
+            }
+          >
+            Tools
+          </NavLink>
+          <NavLink
+            to="/how-to"
+            className={({ isActive }) =>
+              `${linkBase} ${isActive ? linkActive : linkIdle}`
+            }
+          >
+            How-to
+          </NavLink>
+          <NavLink
+            to="/store"
+            className={({ isActive }) =>
+              `${linkBase} ${isActive ? linkActive : linkIdle}`
+            }
+          >
+            Store
+          </NavLink>
         </div>
 
-        {/* Minimalny mobile toggler – na szybko bez menu rozwijanego */}
-        <div className="md:hidden">
-          <button
-            onClick={handleTryFree}
-            className="inline-flex items-center justify-center rounded-lg px-3 py-2 text-sm font-medium text-white
-                       bg-gradient-to-r from-fuchsia-500 via-violet-500 to-cyan-400"
-          >
-            Try free
-          </button>
-        </div>
-      </div>
-    </nav>
+        {/* CTA */}
+        <Link
+          to="/#generator"
+          className="px-4 py-2 rounded-lg text-sm font-semibold text-white
+                     bg-gradient-to-r from-[#7C3AED] to-[#22D3EE] shadow
+                     hover:opacity-90 transition-opacity"
+        >
+          Try Free
+        </Link>
+      </nav>
+    </header>
   );
 }
