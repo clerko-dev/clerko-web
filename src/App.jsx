@@ -1,75 +1,34 @@
-import React, { useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import Navbar from "@/components/Navbar";
-import Home from "@/pages/Home";
-import Tools from "@/pages/Tools";
-import HowTo from "@/pages/HowTo";
-import Store from "@/pages/Store";
-import Privacy from "@/pages/Privacy";
-import Terms from "@/pages/Terms";
-import { Toaster } from "@/components/ui/toaster";
+import { Routes, Route } from "react-router-dom";
 
-class ErrorBoundary extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false, error: null };
-  }
-  static getDerivedStateFromError(error) {
-    return { hasError: true, error };
-  }
-  componentDidCatch(error, info) {
-    // Możesz wpiąć monitoring (Sentry itp.)
-    console.error("Runtime error:", error, info);
-  }
-  render() {
-    if (this.state.hasError) {
-      return (
-        <div className="min-h-screen text-white bg-black/90 p-6">
-          <h1 className="text-2xl font-bold mb-2">Something went wrong</h1>
-          <pre className="text-sm whitespace-pre-wrap opacity-80">
-            {String(this.state.error)}
-          </pre>
-        </div>
-      );
-    }
-    return this.props.children;
-  }
-}
+import Navbar from "./components/Navbar.jsx";
+import Footer from "./components/Footer.jsx";
 
-function ScrollToTop() {
-  const { pathname } = useLocation();
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "auto" });
-  }, [pathname]);
-  return null;
-}
-
-function AppInner() {
-  return (
-    <>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/tools" element={<Tools />} />
-        <Route path="/how-to" element={<HowTo />} />
-        <Route path="/store" element={<Store />} />
-        <Route path="/privacy" element={<Privacy />} />
-        <Route path="/terms" element={<Terms />} />
-      </Routes>
-      <Toaster />
-    </>
-  );
-}
+import Home from "./pages/Home.jsx";
+import Tools from "./pages/Tools.jsx";
+import HowTo from "./pages/HowTo.jsx";
+import Store from "./pages/Store.jsx";
+import Terms from "./pages/Terms.jsx";
+import Privacy from "./pages/Privacy.jsx";
 
 export default function App() {
   return (
-    <Router>
-      <ErrorBoundary>
-        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-900">
-          <ScrollToTop />
-          <AppInner />
-        </div>
-      </ErrorBoundary>
-    </Router>
+    <div className="min-h-dvh flex flex-col bg-[#0A0B14]">
+      <Navbar />
+
+      <main className="flex-1">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/tools" element={<Tools />} />
+          <Route path="/how-to" element={<HowTo />} />
+          <Route path="/store" element={<Store />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/privacy" element={<Privacy />} />
+          {/* fallback */}
+          <Route path="*" element={<Home />} />
+        </Routes>
+      </main>
+
+      <Footer />
+    </div>
   );
 }
