@@ -4,6 +4,7 @@ import { Suspense, lazy } from "react";
 import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
 import Home from "./pages/Home.jsx";
+import { ScrollToTop, HashScroller } from "./lib/route-helpers.jsx"; // <— DODAJ
 
 const Tools   = lazy(() => import("./pages/Tools.jsx"));
 const HowTo   = lazy(() => import("./pages/HowTo.jsx"));
@@ -15,6 +16,8 @@ export default function App() {
   return (
     <div className="min-h-dvh flex flex-col bg-[#0A0B14] text-white">
       <Navbar />
+      <ScrollToTop />   {/* <— DODAJ */}
+      <HashScroller />  {/* <— DODAJ */}
       <main className="flex-1">
         <Suspense fallback={<div className="p-10 text-white/60">Loading…</div>}>
           <Routes>
