@@ -5,11 +5,20 @@ import path from 'path'
 export default defineConfig({
   plugins: [react()],
   resolve: {
-    alias: {
-      '@': path.resolve(__dirname, 'src'),
-    },
+    alias: { '@': path.resolve(__dirname, 'src') }
   },
   build: {
     chunkSizeWarningLimit: 1200,
-  },
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('react-router')) return 'router'
+            if (id.includes('react-dom') || id.includes('react')) return 'react'
+            return 'vendor'
+          }
+        }
+      }
+    }
+  }
 })
