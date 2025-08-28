@@ -5,8 +5,7 @@ import { HelmetProvider } from 'react-helmet-async'
 import App from './App.jsx'
 import './index.css'
 
-const rootEl = document.getElementById('root')
-createRoot(rootEl).render(
+createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <HelmetProvider>
       <BrowserRouter>

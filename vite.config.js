@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import path from 'path'
+import path from 'node:path'
 
 export default defineConfig({
   plugins: [react()],
@@ -9,22 +9,14 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-  optimizeDeps: {
-    include: [
-      'react',
-      'react-dom',
-      'react-router-dom',
-      'react-helmet-async',
-      'framer-motion',
-      'lucide-react'
-    ],
-  },
   build: {
+    outDir: 'dist',
+    sourcemap: false,
     chunkSizeWarningLimit: 1200,
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom']
+        manualChunks(id) {
+          if (id.includes('node_modules')) return 'vendor'
         }
       }
     }
