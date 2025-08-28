@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { Link } from "react-router-dom";
 
 export default function Footer() {
@@ -13,7 +13,7 @@ export default function Footer() {
           <Link to="/terms" className="hover:text-white">Terms</Link>
           <a href="mailto:hello@clerko.app" className="hover:text-white">Contact</a>
         </nav>
-        <p className="text-xs text-white/40">© {new Date().getFullYear()} Clerko. All rights reserved.</p>
+        <p className="text-xs text-white/40">Â© {new Date().getFullYear()} Clerko. All rights reserved.</p>
       </div>
     </footer>
   );

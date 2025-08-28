@@ -2,86 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Clerko — Proposals & Quotes in Minutes</title>
-    <meta name="description" content="Generate client-ready proposals fast. Templates, clean pricing, shareable preview. Close deals faster with Clerko." />
-    <link rel="canonical" href="https://clerko-web.vercel.app/" />
-
-    <meta name="robots" content="index,follow" />
-    <meta name="googlebot" content="index,follow" />
-
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="theme-color" content="#0A0B14" />
-
-    <!-- Open Graph -->
-    <meta property="og:title" content="Clerko — Proposals & Quotes in Minutes" />
-    <meta property="og:description" content="Generate client-ready proposals fast." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://clerko-web.vercel.app/" />
-    <meta property="og:image" content="https://clerko-web.vercel.app/og.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Clerko — Proposals & Quotes in Minutes" />
-    <meta name="twitter:description" content="Generate client-ready proposals fast." />
-    <meta name="twitter:image" content="https://clerko-web.vercel.app/og.png" />
-
-    <!-- GA4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YT2WV1HLT5"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){ dataLayer.push(arguments); }
-      gtag('js', new Date());
-      gtag('config', 'G-YT2WV1HLT5');
-    </script>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-
-    <!-- JSON-LD -->
-    <script type="application/ld+json">
-    {
-      "@context":"https://schema.org",
-      "@type":"Organization",
-      "name":"Clerko",
-      "url":"https://clerko-web.vercel.app/",
-      "logo":"https://clerko-web.vercel.app/favicon.svg"
-    }
-    </script>
-    <script type="application/ld+json">
-    {
-      "@context":"https://schema.org",
-      "@type":"SoftwareApplication",
-      "name":"Clerko",
-      "applicationCategory":"BusinessApplication",
-      "operatingSystem":"Web",
-      "offers":{
-        "@type":"Offer",
-        "price":"0",
-        "priceCurrency":"USD"
-      }
-    }
-    </script>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>Clerko — Proposals & Quotes</title>
   </head>
-  <script>
-  // prosty logger produkcyjny – pokaże alert i wyśle błąd do konsoli
-  window.addEventListener('error', (e) => {
-    console.error('Runtime error:', e.error || e.message);
-    const msg = (e?.error?.message || e?.message || 'Unknown JS error');
-    if (!window.__alreadyAlerted) {
-      window.__alreadyAlerted = true;
-      alert('App error: ' + msg + '\nSprawdź Console (F12) → zakładka Console.');
-    }
-  });
-  window.addEventListener('unhandledrejection', (e) => {
-    console.error('Unhandled promise rejection:', e.reason);
-  });
-</script>
-
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>

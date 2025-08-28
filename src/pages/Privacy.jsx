@@ -1,11 +1,11 @@
-import React from "react";
+﻿import React from "react";
 import SEO from "@/components/SEO.jsx";
 
 export default function Privacy() {
   return (
     <>
       <SEO
-        title="Privacy — Clerko"
+        title="Privacy â€” Clerko"
         description="How Clerko collects, stores and uses data. Simple, transparent, and privacy-first."
         pathname="/privacy"
       />
@@ -37,7 +37,7 @@ export default function Privacy() {
             <section>
               <h2 className="text-xl font-semibold text-white">How we store</h2>
               <p className="mt-2">
-                Secure, access-controlled storage. We don’t sell personal data. You can request
+                Secure, access-controlled storage. We donâ€™t sell personal data. You can request
                 deletion anytime via support.
               </p>
             </section>
@@ -45,7 +45,7 @@ export default function Privacy() {
             <section>
               <h2 className="text-xl font-semibold text-white">Cookies</h2>
               <p className="mt-2">
-                Only what’s needed for session/auth and basic, privacy-friendly analytics.
+                Only whatâ€™s needed for session/auth and basic, privacy-friendly analytics.
               </p>
             </section>
 

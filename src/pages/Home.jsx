@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet-async";
+﻿import { Helmet } from "react-helmet-async";
 
 import HeroSection from "../components/home/HeroSection.jsx";
 import SocialProofSection from "../components/home/SocialProofSection.jsx";
@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <>
       <Helmet>
-        <title>Clerko — Proposals & Quotes in Minutes</title>
+        <title>Clerko â€” Proposals & Quotes in Minutes</title>
         <meta
           name="description"
           content="Generate client-ready proposals and quotes in minutes. Templates, one-click export, and tracking."

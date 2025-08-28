@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+﻿import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-/** Zawsze scrolluj do góry po zmianie ścieżki (nie dotyczy samej zmiany hash) */
+/** Zawsze scrolluj do gĂłry po zmianie Ĺ›cieĹĽki (nie dotyczy samej zmiany hash) */
 export function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -10,8 +10,8 @@ export function ScrollToTop() {
   return null;
 }
 
-/** Po zmianie #hash przewiń płynnie do elementu o tym id.
- *  Działa także gdy sekcja montuje się „odrobinę później”.
+/** Po zmianie #hash przewiĹ„ pĹ‚ynnie do elementu o tym id.
+ *  DziaĹ‚a takĹĽe gdy sekcja montuje siÄ™ â€žodrobinÄ™ pĂłĹşniejâ€ť.
  */
 export function HashScroller() {
   const { hash } = useLocation();

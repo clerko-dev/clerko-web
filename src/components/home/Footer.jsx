@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Zap } from 'lucide-react';
 
 const Footer = () => {
@@ -48,7 +48,7 @@ const Footer = () => {
         
         <div className="border-t border-white/10 pt-8 text-center">
           <p className="text-gray-400">
-            © 2024 Clerko. All rights reserved.
+            Â© 2024 Clerko. All rights reserved.
           </p>
         </div>
       </div>

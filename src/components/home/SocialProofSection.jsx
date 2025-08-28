@@ -1,6 +1,7 @@
-import React from 'react';
+﻿import React from 'react';
 import { motion } from 'framer-motion';
-import { Star } from 'lucide-react';
+import { Star, Check } from 'lucide-react'
+
 
 const SocialProofSection = () => {
   const stats = [

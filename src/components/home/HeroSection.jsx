@@ -1,10 +1,10 @@
-import React from "react";
+﻿import React from "react";
 import { track } from "../../lib/analytics";
 
 export default function HeroSection() {
   return (
     <section className="relative isolate overflow-hidden bg-[#0A0B14] pt-32 sm:pt-36">
-      {/* tło – gradient mesh */}
+      {/* tĹ‚o â€“ gradient mesh */}
       <div className="pointer-events-none absolute inset-0 -z-10 opacity-60">
         <div className="hero-mesh" />
       </div>
@@ -40,7 +40,7 @@ export default function HeroSection() {
 
         <div className="mx-auto mt-10 max-w-4xl rounded-2xl border border-white/10 bg-white/5 p-2 shadow-2xl shadow-black/40 backdrop-blur">
           <div className="aspect-[16/9] w-full rounded-xl bg-black/30" />
-          {/* tu możemy kiedyś podmienić na realny screencast/demo */}
+          {/* tu moĹĽemy kiedyĹ› podmieniÄ‡ na realny screencast/demo */}
         </div>
       </div>
     </section>

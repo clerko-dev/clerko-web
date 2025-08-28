@@ -1,9 +1,9 @@
-import React from "react";
+﻿import React from "react";
 import { track } from "../../lib/analytics";
 
 const PRICES = {
-  PRO_MONTHLY: "https://buy.stripe.com/REPLACE_ME_MONTHLY", // TODO: wklej swój Payment Link
-  LIFETIME: "https://buy.stripe.com/REPLACE_ME_LIFETIME",   // TODO: wklej swój Payment Link
+  PRO_MONTHLY: "https://buy.stripe.com/REPLACE_ME_MONTHLY", // TODO: wklej swĂłj Payment Link
+  LIFETIME: "https://buy.stripe.com/REPLACE_ME_LIFETIME",   // TODO: wklej swĂłj Payment Link
 };
 
 function Tier({ name, price, period, features, href, highlight = false }) {

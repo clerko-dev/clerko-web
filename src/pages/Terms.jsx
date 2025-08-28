@@ -1,11 +1,11 @@
-import React from "react";
+﻿import React from "react";
 import SEO from "@/components/SEO.jsx";
 
 export default function Terms() {
   return (
     <>
       <SEO
-        title="Terms — Clerko"
+        title="Terms â€” Clerko"
         description="The terms of using Clerko: acceptable use, subscriptions, refunds, and liability."
         pathname="/terms"
       />
@@ -21,8 +21,8 @@ export default function Terms() {
             <section>
               <h2 className="text-xl font-semibold text-white">Use of Service</h2>
               <p className="mt-2">
-                You agree to use Clerko legally and responsibly. Don’t abuse resources or
-                infringe others’ rights.
+                You agree to use Clerko legally and responsibly. Donâ€™t abuse resources or
+                infringe othersâ€™ rights.
               </p>
             </section>
 
@@ -45,7 +45,7 @@ export default function Terms() {
             <section>
               <h2 className="text-xl font-semibold text-white">Liability</h2>
               <p className="mt-2">
-                Service is provided “as is”. We aim for high uptime but disclaim warranties to the
+                Service is provided â€śas isâ€ť. We aim for high uptime but disclaim warranties to the
                 extent permitted by law.
               </p>
             </section>
@@ -53,7 +53,7 @@ export default function Terms() {
             <section>
               <h2 className="text-xl font-semibold text-white">Changes</h2>
               <p className="mt-2">
-                We may update these terms. We’ll post updates and the “Last updated” date.
+                We may update these terms. Weâ€™ll post updates and the â€śLast updatedâ€ť date.
               </p>
             </section>
           </div>

@@ -1,11 +1,11 @@
-import React from "react";
+﻿import React from "react";
 import { Helmet } from "react-helmet-async";
 
 const SITE = "https://clerko-web.vercel.app";
 
 export default function SEO({
-  title = "Clerko — Instant proposals & quotes",
-  description = "Create professional proposals & quotes in minutes. Templates, exports, tracking — all in one.",
+  title = "Clerko â€” Instant proposals & quotes",
+  description = "Create professional proposals & quotes in minutes. Templates, exports, tracking â€” all in one.",
   pathname = "/",
   image = `${SITE}/og-default.png`,
   noindex = false

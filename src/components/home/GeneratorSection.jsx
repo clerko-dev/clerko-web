@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+﻿import { useMemo, useState } from "react";
 
 export default function GeneratorSection() {
   const [client, setClient]   = useState("");
@@ -95,7 +95,7 @@ export default function GeneratorSection() {
               <textarea
                 value={notes}
                 onChange={(e)=>setNotes(e.target.value)}
-                placeholder="Requirements, timeline, milestones…"
+                placeholder="Requirements, timeline, milestonesâ€¦"
                 rows={4}
                 className="mt-1 w-full rounded-lg bg-black/30 border border-white/10 px-3 py-2 outline-none focus:ring-2 focus:ring-white/20"
               />

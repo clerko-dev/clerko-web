@@ -1,12 +1,13 @@
-import React from "react";
+﻿import React from "react";
 import SEO from "@/components/SEO.jsx";
-import { Button } from "@/components/ui/button";
+import Button from '@/components/ui/Button.jsx.jsx'
+
 
 const items = [
   {
     sku: "starter-templates",
     title: "Starter Templates (10)",
-    desc: "Agency, dev, design, SEO, SMM — ready to ship.",
+    desc: "Agency, dev, design, SEO, SMM â€” ready to ship.",
     price: "$19",
   },
   {
@@ -27,7 +28,7 @@ export default function Store() {
   return (
     <>
       <SEO
-        title="Clerko Store — Templates & add-ons"
+        title="Clerko Store â€” Templates & add-ons"
         description="Download ready-to-use proposal templates and brand assets that close faster."
         pathname="/store"
       />
