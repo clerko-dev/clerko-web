@@ -1,13 +1,17 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import { fileURLToPath, URL } from "node:url";
+import path from "node:path";
 
 export default defineConfig({
+  base: "/",
   plugins: [react()],
   resolve: {
     alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
+      "@": path.resolve(__dirname, "src"),
     },
   },
-  build: { outDir: "dist" },
+  build: {
+    outDir: "dist",
+    chunkSizeWarningLimit: 1200 // tylko żeby uciszyć ostrzeżenie
+  }
 });

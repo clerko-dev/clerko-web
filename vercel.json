@@ -1,10 +1,12 @@
 {
-  "framework": "vite",
+  "version": 2,
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }],
-  "headers": [
-    { "source": "/robots.txt", "headers": [{ "key": "Content-Type", "value": "text/plain; charset=utf-8" }] },
-    { "source": "/sitemap.xml", "headers": [{ "key": "Content-Type", "value": "application/xml; charset=utf-8" }] }
+  "rewrites": [
+    { "source": "/assets/:path*", "destination": "/assets/:path*" },
+    { "source": "/robots.txt", "destination": "/robots.txt" },
+    { "source": "/sitemap.xml", "destination": "/sitemap.xml" },
+    { "source": "/favicon.ico", "destination": "/favicon.ico" },
+    { "source": "/:path*", "destination": "/index.html" }
   ]
 }
