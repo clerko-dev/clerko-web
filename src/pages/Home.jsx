@@ -1,4 +1,4 @@
-﻿import { Helmet } from "react-helmet-async";
+import { Helmet } from "react-helmet-async";
 
 import HeroSection from "../components/home/HeroSection.jsx";
 import SocialProofSection from "../components/home/SocialProofSection.jsx";

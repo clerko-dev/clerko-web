@@ -1,49 +1,43 @@
-import React from "react";
+import React from 'react';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import Button from '@/components/ui/Button.jsx';
 
 export default function Navbar() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const goHomeTop = (e) => {
+    e.preventDefault();
+    if (location.pathname === '/') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      navigate('/');
+      setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 0);
+    }
+  };
+
+  const nav = 'text-white/80 hover:text-white transition';
+
   return (
-    <header className="sticky top-0 z-50 w-full backdrop-blur supports-[backdrop-filter]:bg-black/30 border-b border-white/10">
-      <nav className="container mx-auto flex items-center justify-between px-4 py-3">
-        {/* Logo -> przewija do góry */}
-        <a
-          href="/"
-          onClick={(e) => {
-            // jeśli już jesteśmy na stronie głównej, tylko przewiń na górę
-            if (window.location.pathname === "/") {
-              e.preventDefault();
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }
-          }}
-          className="flex items-center gap-2 font-semibold text-white"
-          aria-label="Clerko — Home"
-        >
-          <span className="inline-block w-6 h-6 rounded-md bg-gradient-to-tr from-violet-500 to-cyan-400" />
-          Clerko
+    <header className="sticky top-0 z-40 backdrop-blur-lg bg-black/20 border-b border-white/10">
+      <div className="container mx-auto flex items-center justify-between py-3">
+        <a href="/" onClick={goHomeTop} className="flex items-center gap-2 font-semibold text-white">
+          <span className="inline-block w-6 h-6 rounded-lg bg-gradient-to-br from-indigo-400 to-cyan-400" />
+          <span>Clerko</span>
         </a>
 
-        {/* Linki */}
-        <div className="hidden md:flex items-center gap-6">
-          <a href="/" className="text-white/80 hover:text-white transition">Home</a>
-          <a href="/tools" className="text-white/80 hover:text-white transition">Tools</a>
-          <a href="/how-to" className="text-white/80 hover:text-white transition">Guides</a>
-          <a href="/store" className="text-white/80 hover:text-white transition">Store</a>
-          <a href="/account" className="text-white/90 hover:text-white transition">Account</a>
-          {/* CTA -> przewija do generatora */}
-          <a
-            href="/#generator"
-            onClick={(e) => {
-              if (window.location.pathname === "/") {
-                e.preventDefault();
-                const el = document.getElementById("generator");
-                if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-              }
-            }}
-            className="inline-flex items-center rounded-xl bg-gradient-to-r from-violet-500 to-cyan-500 px-4 py-2 text-sm font-semibold text-white shadow-lg hover:opacity-95 transition"
-          >
-            Try Free
-          </a>
+        <nav className="hidden md:flex items-center gap-6">
+          <NavLink to="/" className={nav}>Home</NavLink>
+          <NavLink to="/tools" className={nav}>Tools</NavLink>
+          <NavLink to="/how-to" className={nav}>Guides</NavLink>
+          <NavLink to="/store" className={nav}>Store</NavLink>
+        </nav>
+
+        <div className="flex items-center gap-2">
+          <Link to="/login"><Button variant="secondary">Login</Button></Link>
+          <Link to="/signup"><Button>Try Free</Button></Link>
         </div>
-      </nav>
+      </div>
     </header>
   );
 }

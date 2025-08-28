@@ -1,4 +1,4 @@
-﻿import { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 export default function GeneratorSection() {
   const [client, setClient]   = useState("");

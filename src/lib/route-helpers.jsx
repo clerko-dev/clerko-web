@@ -1,5 +1,14 @@
-﻿import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import React from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
+import { useAuth } from './auth.jsx';
+
+export function ProtectedRoute({ children }) {
+  const { initialized, user } = useAuth();
+  const location = useLocation();
+  if (!initialized) return null; // krótkie mrugnięcie, można dodać spinner
+  if (!user) return <Navigate to="/login" state={{ from: location }} replace />;
+  return children;
+}
 
 /** Zawsze scrolluj do gĂłry po zmianie Ĺ›cieĹĽki (nie dotyczy samej zmiany hash) */
 export function ScrollToTop() {
