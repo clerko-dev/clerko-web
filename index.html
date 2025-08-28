@@ -67,6 +67,21 @@
     }
     </script>
   </head>
+  <script>
+  // prosty logger produkcyjny – pokaże alert i wyśle błąd do konsoli
+  window.addEventListener('error', (e) => {
+    console.error('Runtime error:', e.error || e.message);
+    const msg = (e?.error?.message || e?.message || 'Unknown JS error');
+    if (!window.__alreadyAlerted) {
+      window.__alreadyAlerted = true;
+      alert('App error: ' + msg + '\nSprawdź Console (F12) → zakładka Console.');
+    }
+  });
+  window.addEventListener('unhandledrejection', (e) => {
+    console.error('Unhandled promise rejection:', e.reason);
+  });
+</script>
+
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>

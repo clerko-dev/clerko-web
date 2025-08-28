@@ -4,9 +4,9 @@
   "outputDirectory": "dist",
   "rewrites": [
     { "source": "/assets/:path*", "destination": "/assets/:path*" },
+    { "source": "/favicon.ico", "destination": "/favicon.ico" },
     { "source": "/robots.txt", "destination": "/robots.txt" },
     { "source": "/sitemap.xml", "destination": "/sitemap.xml" },
-    { "source": "/favicon.ico", "destination": "/favicon.ico" },
     { "source": "/:path*", "destination": "/index.html" }
   ]
 }
