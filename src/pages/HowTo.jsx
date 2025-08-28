@@ -1,6 +1,6 @@
-﻿import React from "react";
+import React from "react";
 import SEO from "@/components/SEO.jsx";
-import { Button } from "@/components/ui/Button.jsx";
+import Button from "@/components/ui/Button.jsx";
 
 const guides = [
   {
@@ -24,7 +24,7 @@ export default function HowTo() {
   return (
     <>
       <SEO
-        title="Clerko Guides â€” Close more deals"
+        title="Clerko Guides — Close more deals"
         description="Short, tactical guides on proposals, pricing, scope and client communication."
         pathname="/how-to"
       />
@@ -51,7 +51,7 @@ export default function HowTo() {
           </div>
 
           <div className="mt-10 text-center">
-            <Button as="a" href="/#generator" variant="gradient">Try free â€” generate proposal</Button>
+            <Button as="a" href="/#generator" variant="gradient">Try free — generate proposal</Button>
           </div>
         </div>
       </section>
