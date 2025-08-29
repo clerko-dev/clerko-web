@@ -8,39 +8,36 @@ html, body, #root { height: 100%; }
 body {
   @apply bg-[#0A0B14] text-white antialiased selection:bg-white/20;
   background-image: radial-gradient(60% 40% at 50% -10%, rgba(124,58,237,.25), transparent 60%);
-  html { scroll-behavior: smooth; }
 }
 
-/* Layout helpers */
+/* Container helper */
 .container { @apply max-w-6xl mx-auto; }
 
-/* Glass card */
-.glass { @apply rounded-2xl border border-white/10 bg-white/5 backdrop-blur; }
-
-/* Buttons */
-.btn-primary { @apply inline-flex items-center justify-center rounded-lg px-4 py-2 font-medium bg-gradient-to-r from-[#7C3AED] to-[#22D3EE]; }
-.btn-outline { @apply inline-flex items-center justify-center rounded-lg px-4 py-2 font-medium border border-white/15; }
-
-/* Inputs */
-.input {
-  @apply w-full rounded-lg bg-black/30 border border-white/10 px-3 py-2 outline-none;
-}
-.input:focus { @apply ring-2 ring-white/20; }
-
-/* Progressive enhancement dla data-reveal:
-   - Bez JS: elementy są WIDOCZNE
-   - Z JS: dodamy klasę .reveal-init i elementy animują się przy scrollu
-*/
+/* --- Reveal with safe fallback --- */
+/* Domyślnie TREŚĆ WIDOCZNA (fallback) */
 [data-reveal] { opacity: 1; transform: none; }
-.reveal-init [data-reveal] {
+
+/* Gdy JS działa (dodajemy klasę .js na <html>) – startuj od zera i animuj */
+.js [data-reveal] {
   opacity: 0;
-  transform: translateY(16px);
+  transform: translateY(8px);
   transition: opacity .6s ease, transform .6s ease;
+  will-change: opacity, transform;
 }
-.reveal-init [data-reveal].is-visible {
-  opacity: 1;
-  transform: none;
+[data-reveal].in {
+  opacity: 1 !important;
+  transform: none !important;
 }
-@layer base {
-  h1, h2, h3 { @apply font-display; }
-}
+
+/* Typografia (Sora jako display) */
+.h1 { @apply font-display font-extrabold tracking-tight text-4xl sm:text-5xl md:text-6xl; }
+.h2 { @apply font-display font-bold tracking-tight text-3xl sm:text-4xl; }
+.lead { @apply text-white/80 text-base sm:text-lg; }
+
+/* CTA przyciski */
+.btn-primary { @apply inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-semibold bg-white text-black hover:bg-white/90 transition; }
+.btn-ghost  { @apply inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-semibold border border-white/20 hover:bg-white/5 transition; }
+
+/* Hero layout */
+.hero { @apply relative py-20 sm:py-28; }
+.hero-badges { @apply flex gap-2 mt-6; }

@@ -1,40 +1,21 @@
-// src/lib/reveal.js
-(function () {
-  if (typeof window === "undefined") return;
+// Simple IntersectionObserver that adds .in to [data-reveal] when visible
+(() => {
+  if (typeof window === 'undefined') return;
 
-  const start = () => {
-    const root = document.documentElement;
-    if (!root.classList.contains("reveal-init")) {
-      root.classList.add("reveal-init");
-    }
+  const els = Array.from(document.querySelectorAll('[data-reveal]'));
+  if (!('IntersectionObserver' in window) || els.length === 0) return;
 
-    const nodes = Array.from(document.querySelectorAll("[data-reveal]"));
-    if (!nodes.length) return;
-
-    if (!("IntersectionObserver" in window)) {
-      // Fallback: pokaż wszystko od razu
-      nodes.forEach((el) => el.classList.add("is-visible"));
-      return;
-    }
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            e.target.classList.add("is-visible");
-            io.unobserve(e.target);
-          }
+  const io = new IntersectionObserver(
+    (entries, obs) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          obs.unobserve(e.target);
         }
-      },
-      { rootMargin: "0px 0px -12% 0px", threshold: 0.1 }
-    );
+      });
+    },
+    { threshold: 0.12, rootMargin: '0px 0px -5% 0px' }
+  );
 
-    nodes.forEach((el) => io.observe(el));
-  };
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", start, { once: true });
-  } else {
-    start();
-  }
+  els.forEach((el) => io.observe(el));
 })();
