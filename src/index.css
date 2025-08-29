@@ -3,7 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Baza */
 @layer base {
   :root {
     --bg: #0b0f14;
@@ -16,7 +15,6 @@
   a { @apply text-[var(--brand)]; }
 }
 
-/* Przydatne utilsy zgodne z tym, co używaliśmy */
 @layer components {
   .container { @apply max-w-7xl mx-auto px-4; }
   .btn { @apply inline-flex items-center gap-2 rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-2 hover:bg-slate-900; }
