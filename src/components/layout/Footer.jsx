@@ -27,7 +27,9 @@ export default function Footer() {
           <Link to="/terms" className="hover:text-white">Terms</Link>
         </nav>
 
-        <div className="text-white/50">&copy; {year} Clerko. All rights reserved.</div>
+        <div className="text-xs text-white/50">
+  &copy; 2025 Clerko. All rights reserved.
+</div>
       </div>
     </footer>
   );
