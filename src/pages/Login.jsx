@@ -1,78 +1,71 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SEO from "@/components/SEO.jsx";
-import Button from "@/components/ui/Button.jsx";
-import { supabase } from "@/lib/supabase";
+import { signInWithEmail, signInWithApple } from "@/lib/auth.jsx";
 
 export default function Login() {
-  const n = useNavigate();
-  const [email, setEmail] = useState("");
+  const nav = useNavigate();
+  const [email, setEmail]       = useState("");
   const [password, setPassword] = useState("");
-  const [msg, setMsg] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading]   = useState(false);
+  const [error, setError]       = useState("");
 
-  async function handleLogin(e) {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setMsg(null);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    setLoading(false);
-    if (error) return setMsg(error.message);
-    n("/dashboard");
-  }
+    setError("");
+    try {
+      setLoading(true);
+      await signInWithEmail({ email, password });
+      nav("/dashboard");
+    } catch (err) {
+      setError(err.message || "Login error");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  async function handleGoogle() {
-    setLoading(true);
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: { redirectTo: `${window.location.origin}/dashboard` },
-    });
-    setLoading(false);
-    if (error) setMsg(error.message);
-  }
+  const onApple = async () => {
+    try {
+      await signInWithApple();
+    } catch (err) {
+      setError(err.message || "Apple sign-in error");
+    }
+  };
 
   return (
     <>
-      <SEO title="Log in — Clerko" description="Access your proposals and PRO features." />
-      <section className="container max-w-md mx-auto px-4 py-20">
-        <h1 className="text-3xl font-bold text-white mb-6">Log in</h1>
+      <SEO title="Log in" />
+      <section className="container px-4 py-16">
+        <div className="max-w-md mx-auto glass p-6 md:p-8" data-reveal>
+          <h1 className="text-2xl font-semibold mb-1">Welcome back</h1>
+          <p className="text-white/60 mb-6">Log in to continue.</p>
 
-        <form onSubmit={handleLogin} className="glass p-6 rounded-2xl space-y-4">
-          <input
-            type="email"
-            className="input"
-            placeholder="you@company.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <input
-            type="password"
-            className="input"
-            placeholder="••••••••"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <Button type="submit" disabled={loading} className="w-full">
-            {loading ? "Logging in..." : "Log in"}
-          </Button>
+          {error && <div className="mb-4 text-sm text-red-400">{error}</div>}
 
-          <div className="text-center text-slate-400">or</div>
+          <form onSubmit={onSubmit} className="space-y-4">
+            <div>
+              <label className="text-sm">Email</label>
+              <input className="input mt-1" type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@company.com" />
+            </div>
+            <div>
+              <label className="text-sm">Password</label>
+              <input className="input mt-1" type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="••••••••" />
+            </div>
 
-          <Button type="button" variant="secondary" onClick={handleGoogle} className="w-full">
-            Continue with Google
-          </Button>
+            <button className="btn-primary w-full" disabled={loading}>
+              {loading ? "Signing in..." : "Log in"}
+            </button>
+          </form>
 
-          {msg && <p className="text-sm text-amber-300">{msg}</p>}
+          <div className="my-4 text-center text-white/40 text-xs">or</div>
 
-          <p className="text-sm text-slate-400 pt-2">
-            No account?{" "}
-            <Link to="/signup" className="text-indigo-300 hover:text-indigo-200 underline">
-              Create one
-            </Link>
+          <button onClick={onApple} className="btn-outline w-full">Continue with Apple</button>
+
+          <p className="mt-6 text-sm text-white/60">
+            New here?{" "}
+            <Link to="/signup" className="text-white hover:underline">Create an account</Link>
           </p>
-        </form>
+        </div>
       </section>
     </>
   );

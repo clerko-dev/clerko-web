@@ -1,93 +1,80 @@
-// src/pages/Signup.jsx
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SEO from "@/components/SEO.jsx";
-import Button from "@/components/ui/Button.jsx";
-import { supabase } from "@/lib/supabase";
+import { signUpWithEmail, signInWithApple } from "@/lib/auth.jsx";
 
 export default function Signup() {
-  const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const nav = useNavigate();
+  const [username, setUsername] = useState("");
+  const [email, setEmail]     = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [msg, setMsg] = useState(null);
+  const [loading, setLoading]   = useState(false);
+  const [error, setError]       = useState("");
 
-  async function handleSignup(e) {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setMsg(null);
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { emailRedirectTo: `${window.location.origin}/dashboard` },
-    });
-    setLoading(false);
-    if (error) return setMsg(error.message);
-    // jeśli wymagane potwierdzenie maila – pokaż komunikat
-    setMsg("Sprawdź skrzynkę i potwierdź adres e-mail. Po potwierdzeniu zaloguj się.");
-  }
+    setError("");
+    if (!/^[a-z0-9_]{3,20}$/i.test(username)) {
+      setError("Username: 3–20 znaków, litery/cyfry/underscore.");
+      return;
+    }
+    try {
+      setLoading(true);
+      await signUpWithEmail({ email, password, username });
+      nav("/dashboard");
+    } catch (err) {
+      setError(err.message || "Signup error");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  async function handleGoogle() {
-    setLoading(true);
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: { redirectTo: `${window.location.origin}/dashboard` },
-    });
-    setLoading(false);
-    if (error) setMsg(error.message);
-  }
+  const onApple = async () => {
+    try {
+      await signInWithApple();
+    } catch (err) {
+      setError(err.message || "Apple sign-in error");
+    }
+  };
 
   return (
     <>
-      <SEO title="Create account — Clerko" description="Sign up to save proposals and unlock PRO features." />
-      <section className="container max-w-md mx-auto px-4 py-16">
-        <h1 className="text-3xl font-bold text-white mb-6">Create account</h1>
+      <SEO title="Sign up" />
+      <section className="container px-4 py-16">
+        <div className="max-w-md mx-auto glass p-6 md:p-8" data-reveal>
+          <h1 className="text-2xl font-semibold mb-1">Create your account</h1>
+          <p className="text-white/60 mb-6">Start generating proposals in minutes.</p>
 
-        <form onSubmit={handleSignup} className="glass p-6 rounded-2xl space-y-4">
-          <label className="block">
-            <span className="text-sm text-slate-300">Email</span>
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 w-full rounded-lg bg-slate-900/60 border border-slate-700 px-3 py-2 text-white outline-none focus:ring-2 ring-indigo-500"
-              placeholder="you@company.com"
-            />
-          </label>
+          {error && <div className="mb-4 text-sm text-red-400">{error}</div>}
 
-          <label className="block">
-            <span className="text-sm text-slate-300">Password</span>
-            <input
-              type="password"
-              required
-              minLength={6}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 w-full rounded-lg bg-slate-900/60 border border-slate-700 px-3 py-2 text-white outline-none focus:ring-2 ring-indigo-500"
-              placeholder="••••••••"
-            />
-          </label>
+          <form onSubmit={onSubmit} className="space-y-4">
+            <div>
+              <label className="text-sm">Username</label>
+              <input className="input mt-1" value={username} onChange={e=>setUsername(e.target.value)} placeholder="e.g., acme_owner" />
+            </div>
+            <div>
+              <label className="text-sm">Email</label>
+              <input className="input mt-1" type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@company.com" />
+            </div>
+            <div>
+              <label className="text-sm">Password</label>
+              <input className="input mt-1" type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="••••••••" />
+            </div>
 
-          <Button type="submit" disabled={loading} className="w-full">
-            {loading ? "Creating..." : "Create account"}
-          </Button>
+            <button className="btn-primary w-full" disabled={loading}>
+              {loading ? "Creating..." : "Create account"}
+            </button>
+          </form>
 
-          <div className="text-center text-slate-400">or</div>
+          <div className="my-4 text-center text-white/40 text-xs">or</div>
 
-          <Button type="button" variant="secondary" onClick={handleGoogle} className="w-full">
-            Continue with Google
-          </Button>
+          <button onClick={onApple} className="btn-outline w-full">Continue with Apple</button>
 
-          {msg && <p className="text-sm text-amber-300">{msg}</p>}
-
-          <p className="text-sm text-slate-400 pt-2">
+          <p className="mt-6 text-sm text-white/60">
             Already have an account?{" "}
-            <a href="/login" className="text-indigo-300 hover:text-indigo-200 underline">
-              Log in
-            </a>
+            <Link to="/login" className="text-white hover:underline">Log in</Link>
           </p>
-        </form>
+        </div>
       </section>
     </>
   );
