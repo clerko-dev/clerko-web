@@ -41,5 +41,6 @@ body {
   transform: none;
 }
 @layer base {
-  h1, h2, h3, .font-display { @apply font-display; }
+  /* Nadaj Sora tylko nagłówkom */
+  h1, h2, h3 { @apply font-display; }
 }
