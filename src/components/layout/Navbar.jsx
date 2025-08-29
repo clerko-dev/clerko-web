@@ -7,15 +7,13 @@ const navLink = ({ isActive }) =>
 
 export default function Navbar() {
   return (
-    <header className="sticky top-0 z-40 bg-[var(--bg)]/85 backdrop-blur-lg border-b border-slate-800/60">
+    <header className="sticky top-0 z-40 bg-[var(--bg)]/80 backdrop-blur border-b border-slate-800/60">
       <div className="container flex items-center justify-between py-3">
-        {/* Brand */}
         <Link to="/" className="flex items-center gap-2">
           <span className="inline-flex h-7 w-7 rounded-xl bg-gradient-to-br from-violet-500 to-sky-400" />
           <span className="font-semibold">Clerko</span>
         </Link>
 
-        {/* Center nav */}
         <nav className="hidden md:flex items-center gap-2">
           <NavLink to="/" className={navLink}>Home</NavLink>
           <NavLink to="/tools" className={navLink}>Tools</NavLink>
@@ -23,12 +21,9 @@ export default function Navbar() {
           <NavLink to="/store" className={navLink}>Store</NavLink>
         </nav>
 
-        {/* CTA */}
         <Link
           to="/signup"
-          className="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium
-                     bg-gradient-to-r from-fuchsia-500 to-sky-400 text-white
-                     shadow-[0_8px_30px_rgba(2,6,23,0.35)] ring-1 ring-white/10 hover:opacity-95"
+          className="btn-gradient text-sm"
           onClick={() => track("cta_click", { location: "navbar", label: "try_free" })}
         >
           Try Free
