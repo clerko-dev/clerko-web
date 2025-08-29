@@ -1,55 +1,62 @@
 // src/lib/auth.jsx
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { supabase } from './supabase';
+import { supabase } from "@/lib/supabase";
 
-const AuthContext = createContext(null);
-
-export function AuthProvider({ children }) {
-  const [initialized, setInitialized] = useState(false);
-  const [session, setSession] = useState(null);
-
-  useEffect(() => {
-    let ignore = false;
-
-    (async () => {
-      const { data } = await supabase.auth.getSession();
-      if (!ignore) {
-        setSession(data.session ?? null);
-        setInitialized(true);
-      }
-    })();
-
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, newSession) => {
-      setSession(newSession ?? null);
-    });
-
-    return () => {
-      ignore = true;
-      sub?.subscription?.unsubscribe?.();
-    };
-  }, []);
-
-  const signInWithPassword = (email, password) =>
-    supabase.auth.signInWithPassword({ email, password });
-
-  const signUp = (email, password) =>
-    supabase.auth.signUp({ email, password });
-
-  const signOut = () => supabase.auth.signOut();
-
-  const signInWithGoogle = () =>
-    supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: { redirectTo: import.meta.env.VITE_SITE_URL + '/dashboard' },
-    });
-
-  return (
-    <AuthContext.Provider
-      value={{ initialized, session, user: session?.user ?? null, signInWithPassword, signUp, signOut, signInWithGoogle }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+/**
+ * Logowanie użytkownika klasyczne: email + hasło
+ */
+export async function signInWithEmail(email, password) {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+  if (error) throw error;
+  return data;
 }
 
-export const useAuth = () => useContext(AuthContext);
+/**
+ * Rejestracja: email + hasło + username
+ * - zapisujemy username w user_metadata
+ * - (opcjonalnie) możesz dodać też insert do tabeli profiles
+ */
+export async function signUpWithEmail({ email, password, username }) {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: { username },
+    },
+  });
+  if (error) throw error;
+
+  // jeżeli email confirmation jest WYŁĄCZONE, user będzie od razu zalogowany
+  // jeżeli WŁĄCZONE — user musi kliknąć link z maila, a username zapisaliśmy już w metadata
+  return data;
+}
+
+/**
+ * Ustaw/zmień username w metadata
+ */
+export async function setUsername(username) {
+  const { data, error } = await supabase.auth.updateUser({
+    data: { username },
+  });
+  if (error) throw error;
+  return data;
+}
+
+/**
+ * Pobierz aktualnego usera (z metadata)
+ */
+export async function getCurrentUser() {
+  const { data, error } = await supabase.auth.getUser();
+  if (error) throw error;
+  return data.user;
+}
+
+/**
+ * Wylogowanie
+ */
+export async function signOut() {
+  const { error } = await supabase.auth.signOut();
+  if (error) throw error;
+}
