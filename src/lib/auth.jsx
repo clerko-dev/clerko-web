@@ -1,6 +1,32 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { supabase } from './supabase.js'
 
+/**
+ * --- Named exports (używane przez strony) ---
+ * Dzięki nim Login.jsx/Signup.jsx mogą importować:
+ *   import { signInWithEmail, signUpWithEmail, sendMagicLink, signOut } from '@/lib/auth.jsx'
+ * Dodatkowo udostępniamy to samo przez hook `useAuth()`.
+ */
+export async function signInWithEmail(email, password) {
+  return supabase.auth.signInWithPassword({ email, password })
+}
+
+export async function signUpWithEmail(email, password) {
+  return supabase.auth.signUp({ email, password })
+}
+
+export async function sendMagicLink(email) {
+  return supabase.auth.signInWithOtp({ email, options: { shouldCreateUser: true } })
+}
+
+export async function signOut() {
+  return supabase.auth.signOut()
+}
+
+/**
+ * --- Context + hook ---
+ * Zapewnia dostęp do `user`, `session`, `loading` oraz metod auth w całej aplikacji.
+ */
 const AuthContext = createContext(null)
 
 export function AuthProvider({ children }) {
@@ -11,7 +37,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     let mounted = true
 
-    // Pobierz bieżącą sesję po starcie
+    // Bieżąca sesja po starcie
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (!mounted) return
       setSession(session)
@@ -35,20 +61,11 @@ export function AuthProvider({ children }) {
     user,
     session,
     loading,
-
-    // E-mail + hasło
-    signInWithEmail: async (email, password) =>
-      supabase.auth.signInWithPassword({ email, password }),
-
-    signUpWithEmail: async (email, password) =>
-      supabase.auth.signUp({ email, password }),
-
-    // Magic link (opcjonalnie)
-    sendMagicLink: async (email) =>
-      supabase.auth.signInWithOtp({ email, options: { shouldCreateUser: true } }),
-
-    // Wylogowanie
-    signOut: async () => supabase.auth.signOut()
+    // metody dostępne przez hook
+    signInWithEmail,
+    signUpWithEmail,
+    sendMagicLink,
+    signOut
   }), [user, session, loading])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

@@ -1,7 +1,8 @@
-:root { --bg: #0b0f14; --fg: #e6edf3; --muted: #8a939e; --accent: #6aa6ff; }
+:root { --bg: #0b0f14; --fg: #e6edf3; --muted: #8a939e; --brand: #6aa6ff; }
+* { box-sizing: border-box; }
 html, body, #root { height: 100%; }
-body { margin: 0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background: var(--bg); color: var(--fg); }
-a { color: var(--accent); text-decoration: none; }
-.min-h-\[60vh\] { min-height: 60vh; }
-.reveal { opacity: 0; transform: translateY(8px); transition: all .4s ease; }
-.reveal-in { opacity: 1; transform: translateY(0); }
+body { margin: 0; background: var(--bg); color: var(--fg);
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+a { color: var(--brand); text-decoration: none; }
+.btn { display:inline-flex; gap:8px; padding:10px 14px; border:1px solid #1c2430; border-radius:10px; background:#0e141b; color:inherit; }
+.btn:hover { border-color:#2b3646; background:#111a24; }
