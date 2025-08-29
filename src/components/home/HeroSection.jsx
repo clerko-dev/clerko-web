@@ -3,10 +3,10 @@ import React from "react";
 export default function HeroSection() {
   return (
     <section className="relative overflow-hidden bg-[#0A0B14] pt-24 sm:pt-28 pb-16">
-      {/* Background glows — decorative only */}
+      {/* dekoracyjne poświaty */}
       <div aria-hidden className="pointer-events-none absolute inset-0 z-0">
         <div
-          className="absolute -top-40 left-1/2 h-[720px] w-[1100px] -translate-x-1/2 rounded-full blur-3xl opacity-30"
+          className="absolute -top-48 left-1/2 h-[800px] w-[1200px] -translate-x-1/2 rounded-full blur-3xl opacity-30"
           style={{
             background:
               "radial-gradient(50% 50% at 50% 50%, #7dd3fc 0%, rgba(125,211,252,0) 60%)",
@@ -21,54 +21,46 @@ export default function HeroSection() {
         />
       </div>
 
-      <div className="relative z-10 container mx-auto max-w-6xl px-4" data-reveal="from-bottom">
-        {/* Eyebrow */}
-        <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[13px] text-zinc-300/80">
-          <span className="h-1.5 w-1.5 rounded-full bg-cyan-400/90" />
-          Close deals faster
-        </div>
-
-        {/* Headline */}
-        <h1 className="mt-4 text-balance text-4xl sm:text-5xl md:text-6xl font-semibold leading-tight tracking-tight">
-          <span className="bg-gradient-to-r from-white via-white to-zinc-300 bg-clip-text text-transparent">
-            Proposals & quotes in minutes
+      <div className="relative z-10 container mx-auto max-w-6xl px-4 text-center" data-reveal="from-bottom">
+        {/* headline */}
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold leading-tight tracking-tight">
+          <span className="text-white">Proposals &amp; quotes </span>
+          <span className="bg-gradient-to-r from-indigo-400 via-cyan-400 to-sky-400 bg-clip-text text-transparent">
+            in minutes
           </span>
         </h1>
 
-        {/* Subheadline */}
-        <p className="mt-5 max-w-2xl text-lg text-zinc-300/80">
-          Generate elegant, ready-to-send proposals with pricing, scope and terms. Export, copy, or email in one click.
+        {/* subheadline */}
+        <p className="mt-4 max-w-2xl mx-auto text-lg text-zinc-300/80">
+          Generate client-ready proposals fast. Clean templates, instant preview, clear pricing.
+          <br className="hidden sm:block" />
+          Close deals faster with Clerko.
         </p>
 
-        {/* CTAs */}
-        <div className="mt-8 flex flex-wrap gap-3">
+        {/* CTA */}
+        <div className="mt-7 flex items-center justify-center gap-3">
           <a
             href="#generator"
-            className="rounded-xl bg-cyan-500/90 hover:bg-cyan-400 text-[#0A0B14] font-medium px-5 py-3 transition"
+            className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-sky-500 to-indigo-500 text-[#0A0B14] font-medium px-5 py-3 shadow-lg shadow-sky-500/10 hover:from-sky-400 hover:to-indigo-400 transition"
           >
             Try free
           </a>
           <a
             href="#pricing"
-            className="rounded-xl border border-white/15 bg-white/[0.02] hover:bg-white/[0.06] text-zinc-100 font-medium px-5 py-3 transition"
+            className="inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/[0.03] px-5 py-3 text-zinc-100 hover:bg-white/[0.06] transition"
           >
             View pricing
           </a>
         </div>
 
-        {/* Trust row */}
-        <div className="mt-6 flex flex-wrap items-center gap-6 text-sm text-zinc-400/80">
-          <div className="flex items-center gap-2">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400/80" />
-            No credit card required
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400/80" />
-            Export to PDF & email
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400/80" />
-            Templates for agencies & freelancers
+        {/* duży “szklany” placeholder (jak na screenie) */}
+        <div
+          className="mt-10 md:mt-12"
+          data-reveal="from-bottom"
+          aria-label="Hero preview placeholder"
+        >
+          <div className="mx-auto max-w-5xl rounded-2xl p-[2px] bg-gradient-to-br from-indigo-500/20 via-white/5 to-sky-500/20">
+            <div className="rounded-[14px] min-h-[360px] md:min-h-[420px] bg-[#0B0D16]/90 border border-white/10 shadow-2xl shadow-sky-500/5" />
           </div>
         </div>
       </div>
