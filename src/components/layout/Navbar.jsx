@@ -1,44 +1,47 @@
-// src/components/Navbar.jsx
 import React from "react";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
-  const navigate = useNavigate();
   const location = useLocation();
+  const navigate = useNavigate();
 
-  const goHome = (e) => {
+  const goTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
+  const goTryFree = (e) => {
     e.preventDefault();
-    if (location.pathname !== "/") navigate("/");
-    // chwilę później scroll to top (po renderze)
-    requestAnimationFrame(() =>
-      window.scrollTo({ top: 0, behavior: "smooth" })
-    );
+    if (location.pathname !== "/") {
+      navigate("/");
+      // poczekaj aż Home się zrenderuje
+      setTimeout(() => {
+        const el = document.getElementById("generator");
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 0);
+    } else {
+      const el = document.getElementById("generator");
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   };
 
-  const linkCls = ({ isActive }) =>
-    `px-3 py-2 rounded-lg text-sm ${
-      isActive ? "bg-white/10 text-white" : "text-white/70 hover:text-white"
-    }`;
-
   return (
-    <header className="sticky top-0 z-40 backdrop-blur bg-black/30 border-b border-white/10">
-      <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <a href="/" onClick={goHome} className="font-semibold tracking-tight">
+    <header className="sticky top-0 z-40 backdrop-blur border-b border-white/10">
+      <div className="container mx-auto px-4 h-14 flex items-center justify-between">
+        <Link to="/" onClick={goTop} className="font-semibold tracking-tight">
           Clerko
-        </a>
+        </Link>
 
-        <div className="flex items-center gap-1">
-          <NavLink to="/" className={linkCls}>Home</NavLink>
-          <NavLink to="/tools" className={linkCls}>Tools</NavLink>
-          <NavLink to="/store" className={linkCls}>Store</NavLink>
-          <NavLink to="/how-to" className={linkCls}>Guides</NavLink>
-        </div>
+        <nav className="hidden md:flex items-center gap-6 text-sm">
+          <a href="/#features" className="hover:text-white">Features</a>
+          <Link to="/tools" className="hover:text-white">Tools</Link>
+          <Link to="/how-to" className="hover:text-white">Guides</Link>
+          <Link to="/store" className="hover:text-white">Store</Link>
+        </nav>
 
         <div className="flex items-center gap-2">
-          <a className="btn btn-secondary" href="#pricing">Pricing</a>
-          <a className="btn btn-primary" href="#generator">Try free</a>
+          <a href="#generator" onClick={goTryFree} className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-[#7C3AED] to-[#22D3EE] text-sm font-medium">Try free</a>
+          <Link to="/login" className="px-3 py-1.5 rounded-lg border border-white/15 text-sm">Login</Link>
+          <Link to="/signup" className="px-3 py-1.5 rounded-lg border border-white/15 text-sm hidden sm:inline">Sign up</Link>
         </div>
-      </nav>
+      </div>
     </header>
   );
 }
