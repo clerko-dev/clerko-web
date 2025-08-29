@@ -1,12 +1,24 @@
 <!doctype html>
-<html lang="en">
+<html lang="pl">
   <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-    />
-    <title>Clerko â€” Proposals & Quotes</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clerko</title>
+
+    <!-- Ładowanie GA4 jeśli ustawisz VITE_GA_MEASUREMENT_ID w .env -->
+    <script type="module">
+      const id = import.meta.env?.VITE_GA_MEASUREMENT_ID
+      if (id) {
+        window.dataLayer = window.dataLayer || []
+        function gtag(){dataLayer.push(arguments)}
+        gtag('js', new Date()); gtag('config', id)
+
+        const s = document.createElement('script')
+        s.async = true
+        s.src = `https://www.googletagmanager.com/gtag/js?id=${id}`
+        document.head.appendChild(s)
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
