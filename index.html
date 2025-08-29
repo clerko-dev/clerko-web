@@ -1,25 +1,15 @@
 <!doctype html>
-<html lang="pl">
+<html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Clerko</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>Clerko â€” Proposals & Quotes</title>
   </head>
-  <body style="background:#0b0f14;color:#e6edf3;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif">
-    <div id="root">
-      <!-- Fallback: jeśli widzisz ten blok po deployu, JS się nie załadował -->
-      <section style="max-width:900px;margin:40px auto;padding:0 20px">
-        <h1 style="margin:0 0 8px">Clerko – fallback (JS nie wystartował)</h1>
-        <p>To widzisz tylko wtedy, gdy bundel nie został pobrany/uruchomiony. Po naprawie znika, gdy React się zamontuje.</p>
-      </section>
-    </div>
-
-    <!-- Krótki log, by sprawdzić, czy inline script działa -->
-    <script type="module">
-      console.log("[index.html] inline script działa");
-    </script>
-
-    <!-- Vite podmieni to na `/assets/*.js` w produkcji -->
+  <body>
+    <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

@@ -1,24 +1,39 @@
-import React from "react"
-
-const steps = [
-  { n: "1", t: "Pick a tool", d: "Choose a generator (Offer Creator, PDF/Data Extractor, SEO Page Maker)." },
-  { n: "2", t: "Generate & package", d: "Produce assets or offers, package as product, preview in store." },
-  { n: "3", t: "Publish & sell", d: "Push live, capture leads, and start collecting payments." },
-]
+import React from "react";
+import GlassCard from "@/components/ui/GlassCard.jsx";
 
 export default function StepsSection() {
+  const steps = [
+    {
+      title: "Input details",
+      text: "Wpisz klienta, zakres, cenę i notatki. Gotowe w 60 sekund.",
+    },
+    {
+      title: "AI generations",
+      text: "Wygeneruj profesjonalną propozycję oraz wersje alternatywne.",
+    },
+    {
+      title: "Download & send",
+      text: "Skopiuj, pobierz PDF albo wyślij link — śledź otwarcia (Pro).",
+    },
+  ];
+
   return (
-    <section>
-      <h2 className="text-2xl font-semibold">How it works</h2>
-      <div className="grid-auto mt-4">
-        {steps.map((s) => (
-          <div key={s.n} className="card">
-            <div className="text-3xl font-bold mb-2">{s.n}</div>
-            <h3 className="text-lg font-semibold">{s.t}</h3>
-            <p className="text-muted mt-1">{s.d}</p>
-          </div>
+    <section id="how-it-works" className="container px-4 py-16 sm:py-24">
+      <div className="max-w-2xl mb-8" data-reveal>
+        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">How it works</h2>
+        <p className="mt-3 text-white/60">
+          Trzy kroki — zero zamieszania. Zrobione jak u agencji z topki.
+        </p>
+      </div>
+
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4" data-reveal>
+        {steps.map((s, i) => (
+          <GlassCard key={i} className="p-6 hover:bg-white/[0.08] transition">
+            <div className="font-medium">{s.title}</div>
+            <div className="text-sm text-white/70 mt-2">{s.text}</div>
+          </GlassCard>
         ))}
       </div>
     </section>
-  )
+  );
 }

@@ -1,37 +1,108 @@
-import React from "react"
-import { Link } from "react-router-dom"
-import { track } from "@/analytics/ga.js"
+import React from "react";
+import { track } from "../../lib/analytics";
 
-const plans = [
-  { name: "Free", price: "$0", btn: "Start free", perks: ["1 tool", "Basic templates", "Community support"], tag: "Get a feel" },
-  { name: "Pro", price: "$19/mo", btn: "Go Pro", perks: ["All tools", "Pro templates", "Email support"], tag: "Most popular" },
-  { name: "Lifetime", price: "$59", btn: "Buy once", perks: ["All tools", "All templates", "Priority updates"], tag: "Best value" },
-]
+const PRICES = {
+  PRO_MONTHLY: "https://buy.stripe.com/REPLACE_ME_MONTHLY", // TODO: wklej swĂłj Payment Link
+  LIFETIME: "https://buy.stripe.com/REPLACE_ME_LIFETIME",   // TODO: wklej swĂłj Payment Link
+};
+
+function Tier({ name, price, period, features, href, highlight = false }) {
+  return (
+    <div
+      className={[
+        "group flex flex-col rounded-2xl border p-6 shadow-2xl backdrop-blur",
+        highlight
+          ? "border-indigo-400/30 bg-indigo-400/10 shadow-indigo-500/10"
+          : "border-white/10 bg-white/5",
+      ].join(" ")}
+    >
+      <div className="mb-2 text-sm font-semibold text-white/70">{name}</div>
+      <div className="mb-4 flex items-end gap-1">
+        <div className="text-3xl font-extrabold">${price}</div>
+        {period && <div className="pb-1 text-sm text-white/60">/{period}</div>}
+      </div>
+
+      <ul className="mb-6 space-y-2 text-sm text-white/80">
+        {features.map((f) => (
+          <li key={f} className="flex items-start gap-2">
+            <span className="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-cyan-400" />
+            <span>{f}</span>
+          </li>
+        ))}
+      </ul>
+
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener"
+        onClick={() => track("checkout_click", { tier: name })}
+        className={[
+          "mt-auto inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-semibold transition",
+          highlight
+            ? "bg-gradient-to-r from-indigo-500 to-cyan-400 text-black shadow-lg shadow-cyan-500/20 hover:brightness-110"
+            : "border border-white/15 bg-white/10 text-white/90 hover:bg-white/15",
+        ].join(" ")}
+      >
+        Get {name}
+      </a>
+    </div>
+  );
+}
 
 export default function PricingSection() {
   return (
-    <section>
-      <h2 className="text-2xl font-semibold">Pricing</h2>
-      <div className="grid-auto mt-4">
-        {plans.map((p) => (
-          <div key={p.name} className="card flex flex-col">
-            <div className="text-sm text-brand">{p.tag}</div>
-            <h3 className="text-xl font-semibold">{p.name}</h3>
-            <div className="text-3xl font-bold mt-1">{p.price}</div>
-            <ul className="text-muted mt-3 space-y-1 list-disc list-inside">
-              {p.perks.map(x => <li key={x}>{x}</li>)}
-            </ul>
-            <Link
-              to="/signup"
-              className="btn mt-4 border-brand/40 bg-brand/20 hover:bg-brand/30"
-              onClick={() => track('pricing_click', { plan: p.name })}
-            >
-              {p.btn}
-            </Link>
-            <div className="text-xs text-muted mt-2">Cancel anytime.</div>
-          </div>
-        ))}
+    <section id="pricing" className="relative bg-[#0A0B14] py-20">
+      <div className="container-x">
+        <div className="mx-auto mb-10 max-w-2xl text-center">
+          <h2 className="text-3xl font-extrabold">Simple pricing</h2>
+          <p className="mt-2 text-white/70">
+            Start free. Upgrade when you need PDF export, saved templates, and branding.
+          </p>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-3">
+          <Tier
+            name="Starter"
+            price="0"
+            period=""
+            href="#generator"
+            features={[
+              "Proposal generator",
+              "Basic templates",
+              "Copy to clipboard",
+            ]}
+          />
+          <Tier
+            name="Pro"
+            price="9"
+            period="mo"
+            href={PRICES.PRO_MONTHLY}
+            highlight
+            features={[
+              "Everything in Starter",
+              "PDF export",
+              "Saved templates",
+              "Branding removal",
+              "Email support",
+            ]}
+          />
+          <Tier
+            name="Lifetime"
+            price="49"
+            period=""
+            href={PRICES.LIFETIME}
+            features={[
+              "All Pro features",
+              "Lifetime updates",
+              "Priority support",
+            ]}
+          />
+        </div>
+
+        <p className="mt-6 text-center text-xs text-white/50">
+          Prices in USD. Taxes may apply. Payment via Stripe.
+        </p>
       </div>
     </section>
-  )
+  );
 }

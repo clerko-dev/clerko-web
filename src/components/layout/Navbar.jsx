@@ -1,37 +1,47 @@
-import React from "react"
-import { Link, NavLink } from "react-router-dom"
-import { track } from "@/analytics/ga.js"
-
-const navLink = ({ isActive }) =>
-  "px-3 py-2 rounded-lg text-sm " + (isActive ? "text-sky-300" : "text-slate-300/80 hover:text-slate-200")
+import React from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const goTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
+  const goTryFree = (e) => {
+    e.preventDefault();
+    if (location.pathname !== "/") {
+      navigate("/");
+      // poczekaj aż Home się zrenderuje
+      setTimeout(() => {
+        const el = document.getElementById("generator");
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 0);
+    } else {
+      const el = document.getElementById("generator");
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
-    <header className="sticky top-0 z-40 bg-[var(--bg)]/80 backdrop-blur border-b border-slate-800/60">
-      <div className="container flex items-center justify-between py-3">
-        <Link to="/" className="flex items-center gap-2">
-          <span className="inline-flex h-7 w-7 rounded-xl bg-gradient-to-br from-violet-500 to-sky-400" />
-          <span className="font-semibold">Clerko</span>
+    <header className="sticky top-0 z-40 backdrop-blur border-b border-white/10">
+      <div className="container mx-auto px-4 h-14 flex items-center justify-between">
+        <Link to="/" onClick={goTop} className="font-semibold tracking-tight">
+          Clerko
         </Link>
 
-        <nav className="hidden md:flex items-center gap-2">
-          <NavLink to="/" className={navLink}>Home</NavLink>
-          <NavLink to="/tools" className={navLink}>Tools</NavLink>
-          <NavLink to="/how-to" className={navLink}>How-to / Guides</NavLink>
-          <NavLink to="/store" className={navLink}>Store</NavLink>
+        <nav className="hidden md:flex items-center gap-6 text-sm">
+          <a href="/#features" className="hover:text-white">Features</a>
+          <Link to="/tools" className="hover:text-white">Tools</Link>
+          <Link to="/how-to" className="hover:text-white">Guides</Link>
+          <Link to="/store" className="hover:text-white">Store</Link>
         </nav>
 
-        <Link
-          to="/signup"
-          className="btn-gradient text-sm"
-          onClick={() => track("cta_click", { location: "navbar", label: "try_free" })}
-        >
-          Try Free
-          <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M5 12h14M13 5l7 7-7 7" />
-          </svg>
-        </Link>
+        <div className="flex items-center gap-2">
+          <a href="#generator" onClick={goTryFree} className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-[#7C3AED] to-[#22D3EE] text-sm font-medium">Try free</a>
+          <Link to="/login" className="px-3 py-1.5 rounded-lg border border-white/15 text-sm">Login</Link>
+          <Link to="/signup" className="px-3 py-1.5 rounded-lg border border-white/15 text-sm hidden sm:inline">Sign up</Link>
+        </div>
       </div>
     </header>
-  )
+  );
 }

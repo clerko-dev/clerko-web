@@ -1,78 +1,62 @@
-import React, { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { supabase } from './supabase.js'
+// src/lib/auth.jsx
+import { supabase } from "@/lib/supabase";
 
 /**
- * --- Named exports (używane przez strony) ---
- * Dzięki nim Login.jsx/Signup.jsx mogą importować:
- *   import { signInWithEmail, signUpWithEmail, sendMagicLink, signOut } from '@/lib/auth.jsx'
- * Dodatkowo udostępniamy to samo przez hook `useAuth()`.
+ * Logowanie użytkownika klasyczne: email + hasło
  */
 export async function signInWithEmail(email, password) {
-  return supabase.auth.signInWithPassword({ email, password })
-}
-
-export async function signUpWithEmail(email, password) {
-  return supabase.auth.signUp({ email, password })
-}
-
-export async function sendMagicLink(email) {
-  return supabase.auth.signInWithOtp({ email, options: { shouldCreateUser: true } })
-}
-
-export async function signOut() {
-  return supabase.auth.signOut()
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+  if (error) throw error;
+  return data;
 }
 
 /**
- * --- Context + hook ---
- * Zapewnia dostęp do `user`, `session`, `loading` oraz metod auth w całej aplikacji.
+ * Rejestracja: email + hasło + username
+ * - zapisujemy username w user_metadata
+ * - (opcjonalnie) możesz dodać też insert do tabeli profiles
  */
-const AuthContext = createContext(null)
+export async function signUpWithEmail({ email, password, username }) {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: { username },
+    },
+  });
+  if (error) throw error;
 
-export function AuthProvider({ children }) {
-  const [session, setSession] = useState(null)
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    let mounted = true
-
-    // Bieżąca sesja po starcie
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!mounted) return
-      setSession(session)
-      setUser(session?.user ?? null)
-      setLoading(false)
-    })
-
-    // Subskrypcja zmian stanu auth
-    const { data: subscription } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session)
-      setUser(session?.user ?? null)
-    })
-
-    return () => {
-      mounted = false
-      subscription?.subscription?.unsubscribe?.()
-    }
-  }, [])
-
-  const value = useMemo(() => ({
-    user,
-    session,
-    loading,
-    // metody dostępne przez hook
-    signInWithEmail,
-    signUpWithEmail,
-    sendMagicLink,
-    signOut
-  }), [user, session, loading])
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+  // jeżeli email confirmation jest WYŁĄCZONE, user będzie od razu zalogowany
+  // jeżeli WŁĄCZONE — user musi kliknąć link z maila, a username zapisaliśmy już w metadata
+  return data;
 }
 
-export function useAuth() {
-  const ctx = useContext(AuthContext)
-  if (!ctx) throw new Error('useAuth() must be used within <AuthProvider>')
-  return ctx
+/**
+ * Ustaw/zmień username w metadata
+ */
+export async function setUsername(username) {
+  const { data, error } = await supabase.auth.updateUser({
+    data: { username },
+  });
+  if (error) throw error;
+  return data;
+}
+
+/**
+ * Pobierz aktualnego usera (z metadata)
+ */
+export async function getCurrentUser() {
+  const { data, error } = await supabase.auth.getUser();
+  if (error) throw error;
+  return data.user;
+}
+
+/**
+ * Wylogowanie
+ */
+export async function signOut() {
+  const { error } = await supabase.auth.signOut();
+  if (error) throw error;
 }

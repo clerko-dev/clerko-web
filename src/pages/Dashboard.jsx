@@ -1,25 +1,24 @@
-import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useAuth } from '@/lib/auth.jsx'
+import React from 'react';
+import SEO from '@/components/SEO.jsx';
+import Button from '@/components/ui/Button.jsx';
+import { useAuth } from '@/lib/auth.jsx';
+import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
-  const navigate = useNavigate()
-  const { user, loading, signOut } = useAuth()
-
-  useEffect(() => {
-    if (!loading && !user) navigate('/login')
-  }, [loading, user, navigate])
-
-  if (loading) return <div className="container">Ładowanie…</div>
-  if (!user) return null
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
 
   return (
-    <div className="container">
-      <h2>Dashboard</h2>
-      <p>Zalogowano jako: <strong>{user.email}</strong></p>
-      <button className="btn" onClick={async () => { await signOut(); navigate('/login') }}>
-        Wyloguj
-      </button>
-    </div>
-  )
+    <>
+      <SEO title="Dashboard — Clerko" />
+      <section className="container mx-auto py-16">
+        <h1 className="text-3xl font-bold text-white mb-2">Welcome 👋</h1>
+        <p className="text-white/70 mb-6">{user?.email}</p>
+        <div className="flex gap-3">
+          <Button onClick={() => navigate('/#generator')}>Open Generator</Button>
+          <Button variant="secondary" onClick={signOut}>Sign out</Button>
+        </div>
+      </section>
+    </>
+  );
 }
