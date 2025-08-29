@@ -1,123 +1,88 @@
-import React, { useMemo, useState } from "react";
-import Button from "@/components/ui/Button.jsx";
-
-function formatPreview({ client, service, price, notes }) {
-  const lines = [
-    `Client: ${client || "Your Client"}`,
-    `Scope: ${service || "Service description"}`,
-    ...(price ? [`Price: ${price}`] : []),
-    ...(notes ? [`Notes: ${notes}`] : []),
-    "",
-    "Why us: speed, quality, clear terms.",
-  ];
-  return lines.join("\n");
-}
+// src/components/home/GeneratorSection.jsx
+import React from "react";
 
 export default function GeneratorSection() {
-  const [client, setClient] = useState("");
-  const [service, setService] = useState("");
-  const [price, setPrice] = useState("");
-  const [notes, setNotes] = useState("");
-
-  const preview = useMemo(
-    () => formatPreview({ client, service, price, notes }),
-    [client, service, price, notes]
-  );
-
-  function copy(text) {
-    navigator.clipboard.writeText(text);
-  }
-  function downloadTxt(filename, text) {
-    const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-
-  function clearAll() {
-    setClient(""); setService(""); setPrice(""); setNotes("");
-  }
-
   return (
-    <section id="generator" data-reveal className="relative bg-[#0A0B14] py-16 sm:py-20">
-      <div className="container mx-auto px-4 grid md:grid-cols-2 gap-6">
-        {/* left – form */}
-        <div className="glass p-6 md:p-8 rounded-2xl space-y-4">
-          <h3 className="text-xl font-semibold text-white">STEP 1</h3>
-          <p className="text-slate-400 -mt-2">Fill client & scope</p>
+    <section
+      id="generator"
+      className="relative bg-[#0A0B14] py-16 sm:py-20 scroll-mt-24"
+      data-reveal="from-bottom"
+    >
+      {/* tło dekoracyjne - bez blokowania kliknięć */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 z-0">
+        <div
+          className="absolute -top-24 left-1/2 h-[520px] w-[860px] -translate-x-1/2 rounded-full blur-3xl opacity-25"
+          style={{
+            background:
+              "radial-gradient(50% 50% at 50% 50%, #67e8f9 0%, rgba(103,232,249,0) 60%)",
+          }}
+        />
+      </div>
 
-          <label className="block">
-            <span className="text-slate-300 text-sm">Client</span>
-            <input
-              className="input mt-1"
-              placeholder="e.g., ACME LLC"
-              value={client}
-              onChange={(e) => setClient(e.target.value)}
-            />
-          </label>
+      <div className="relative z-10 container mx-auto max-w-5xl px-4">
+        <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 md:p-8 backdrop-blur-xl shadow-2xl shadow-cyan-500/5">
+          {/* ——— WSTAW TU SWÓJ ISTNIEJĄCY FORMULARZ GENERATORA ———
+              np. pola: client, service, price, notes oraz przyciski Generate / Clear / Copy / Download
+              Ważne: usuń z elementów klasy typu 'opacity-0', 'translate-y-?'
+              Jeżeli wcześniej miałeś data-reveal na polach, zostaw — patrz CSS niżej (domyślnie i tak będzie widoczne).
+          */}
+          <div className="text-zinc-200/90">
+            <h2 className="text-2xl md:text-3xl font-semibold tracking-tight">
+              Quote & Proposal Generator
+            </h2>
+            <p className="mt-2 text-zinc-300/75">
+              Wypełnij szczegóły poniżej, a wygenerujemy elegancką ofertę do
+              skopiowania, PDF lub wysyłki.
+            </p>
+          </div>
 
-          <label className="block">
-            <span className="text-slate-300 text-sm">Service / Scope</span>
-            <input
-              className="input mt-1"
-              placeholder="e.g., Website + copy"
-              value={service}
-              onChange={(e) => setService(e.target.value)}
-            />
-          </label>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <label className="block">
-              <span className="text-slate-300 text-sm">Price</span>
+          {/* Przykładowa sekcja miejsca na formularz */}
+          <div className="mt-6 grid gap-4 md:grid-cols-2">
+            <div className="space-y-2">
+              <label className="block text-sm text-zinc-300/80">Client</label>
               <input
-                className="input mt-1"
-                placeholder="e.g., $1,990"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
+                className="w-full rounded-xl bg-white/[0.03] border border-white/10 px-4 py-3 text-zinc-100 placeholder:text-zinc-400/60 outline-none focus:border-cyan-400/40"
+                placeholder="np. Acme Sp. z o.o."
               />
-            </label>
-
-            <label className="block sm:col-span-1">
-              <span className="text-slate-300 text-sm">Notes (optional)</span>
+            </div>
+            <div className="space-y-2">
+              <label className="block text-sm text-zinc-300/80">Service</label>
+              <input
+                className="w-full rounded-xl bg-white/[0.03] border border-white/10 px-4 py-3 text-zinc-100 placeholder:text-zinc-400/60 outline-none focus:border-cyan-400/40"
+                placeholder="np. One-page website"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="block text-sm text-zinc-300/80">Price</label>
+              <input
+                className="w-full rounded-xl bg-white/[0.03] border border-white/10 px-4 py-3 text-zinc-100 placeholder:text-zinc-400/60 outline-none focus:border-cyan-400/40"
+                placeholder="np. 2 500 USD"
+              />
+            </div>
+            <div className="space-y-2 md:col-span-2">
+              <label className="block text-sm text-zinc-300/80">Notes</label>
               <textarea
-                rows={1}
-                className="input mt-1 h-[42px]"
-                placeholder="Requirements, timeline, milestones…"
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
+                rows={5}
+                className="w-full rounded-xl bg-white/[0.03] border border-white/10 px-4 py-3 text-zinc-100 placeholder:text-zinc-400/60 outline-none focus:border-cyan-400/40"
+                placeholder="Zakres, terminy, warunki płatności…"
               />
-            </label>
-          </div>
-
-          <div className="flex gap-2 pt-1">
-            <Button type="button" onClick={() => { /* live preview is automatic */ }}>
-              Generate preview
-            </Button>
-            <Button type="button" variant="secondary" onClick={clearAll}>
-              Clear
-            </Button>
-          </div>
-        </div>
-
-        {/* right – preview/output */}
-        <div className="glass p-6 md:p-8 rounded-2xl space-y-3">
-          <div className="flex items-center justify-between">
-            <h3 className="text-xl font-semibold text-white">Preview</h3>
-            <div className="flex gap-2">
-              <Button type="button" variant="secondary" onClick={() => copy(preview)}>Copy</Button>
-              <Button type="button" onClick={() => downloadTxt("proposal.txt", preview)}>Download .txt</Button>
             </div>
           </div>
-          <pre className="bg-slate-900/60 border border-slate-800 rounded-xl p-4 text-slate-200 overflow-auto min-h-[220px] whitespace-pre-wrap">
-{preview}
-          </pre>
 
-          <p className="text-xs text-slate-400">
-            Pro tip: PRO plan adds PDF export, saved templates, and branding.
-          </p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <button className="rounded-xl bg-cyan-500/90 hover:bg-cyan-400 text-[#0A0B14] font-medium px-5 py-3 transition">
+              Generate preview
+            </button>
+            <button className="rounded-xl border border-white/15 bg-white/[0.02] hover:bg-white/[0.06] text-zinc-100 font-medium px-5 py-3 transition">
+              Clear
+            </button>
+            <button className="rounded-xl border border-white/15 bg-white/[0.02] hover:bg-white/[0.06] text-zinc-100 font-medium px-5 py-3 transition">
+              Copy
+            </button>
+            <button className="rounded-xl border border-white/15 bg-white/[0.02] hover:bg-white/[0.06] text-zinc-100 font-medium px-5 py-3 transition">
+              Download PDF
+            </button>
+          </div>
         </div>
       </div>
     </section>

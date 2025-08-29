@@ -26,13 +26,17 @@ body {
 }
 .input:focus { @apply ring-2 ring-white/20; }
 
-/* Scroll reveal */
-[data-reveal]{
+/* Progressive enhancement dla data-reveal:
+   - Bez JS: elementy są WIDOCZNE
+   - Z JS: dodamy klasę .reveal-init i elementy animują się przy scrollu
+*/
+[data-reveal] { opacity: 1; transform: none; }
+.reveal-init [data-reveal] {
   opacity: 0;
   transform: translateY(16px);
   transition: opacity .6s ease, transform .6s ease;
 }
-.reveal-in{
+.reveal-init [data-reveal].is-visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
 }
