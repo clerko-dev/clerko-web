@@ -29,49 +29,58 @@ ${notes || "Add notes or scope highlights here…"}
 
             <form className="mt-6 grid gap-4" onSubmit={(e) => e.preventDefault()}>
               <label className="grid gap-2">
-                <span className="text-sm text-white/60">Client</span>
-                <input
-                  type="text"
-                  value={client}
-                  onChange={(e) => setClient(e.target.value)}
-                  placeholder="e.g. Acme LLC"
-                  className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 outline-none focus:border-white/30"
-                />
-              </label>
+  <span className="text-sm text-white/60">Client</span>
+  <input
+    type="text"
+    name="client"
+    autoComplete="organization"
+    value={client}
+    onChange={(e) => setClient(e.target.value)}
+    placeholder="e.g. Acme LLC"
+    className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 outline-none focus:border-white/30"
+  />
+</label>
 
-              <label className="grid gap-2">
-                <span className="text-sm text-white/60">Project</span>
-                <input
-                  type="text"
-                  value={project}
-                  onChange={(e) => setProject(e.target.value)}
-                  placeholder="Website revamp"
-                  className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 outline-none focus:border-white/30"
-                />
-              </label>
+<label className="grid gap-2">
+  <span className="text-sm text-white/60">Project</span>
+  <input
+    type="text"
+    name="project"
+    autoComplete="off"
+    value={project}
+    onChange={(e) => setProject(e.target.value)}
+    placeholder="Website revamp"
+    className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 outline-none focus:border-white/30"
+  />
+</label>
 
-              <label className="grid gap-2">
-                <span className="text-sm text-white/60">Price (USD)</span>
-                <input
-                  type="number"
-                  inputMode="decimal"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                  placeholder="5000"
-                  className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 outline-none focus:border-white/30"
-                />
-              </label>
+<label className="grid gap-2">
+  <span className="text-sm text-white/60">Price (USD)</span>
+  <input
+    type="number"
+    name="price"
+    inputMode="decimal"
+    autoComplete="off"
+    value={price}
+    onChange={(e) => setPrice(e.target.value)}
+    placeholder="5000"
+    className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 outline-none focus:border-white/30"
+  />
+</label>
 
-              <label className="grid gap-2">
-                <span className="text-sm text-white/60">Notes</span>
-                <textarea
-                  rows="4"
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  placeholder="What’s included, timelines, milestones…"
-                  className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 outline-none focus:border-white/30"
-                />
-              </label>
+<label className="grid gap-2">
+  <span className="text-sm text-white/60">Notes</span>
+  <textarea
+    name="notes"
+    rows="4"
+    autoComplete="off"
+    value={notes}
+    onChange={(e) => setNotes(e.target.value)}
+    placeholder="What’s included, timelines, milestones…"
+    className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 outline-none focus:border-white/30"
+  />
+</label>
+
 
               <div className="flex gap-3 pt-2">
                 <a href="#pricing" className="btn-primary">Upgrade to export</a>

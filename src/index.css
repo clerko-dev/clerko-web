@@ -21,12 +21,11 @@ body {
 .js [data-reveal] {
   opacity: 0;
   transform: translateY(8px);
-  transition: opacity .6s ease, transform .6s ease;
-  will-change: opacity, transform;
+  transition: opacity 400ms ease, transform 400ms ease;
 }
-[data-reveal].in {
-  opacity: 1 !important;
-  transform: none !important;
+.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
 }
 
 /* Typografia (Sora jako display) */
