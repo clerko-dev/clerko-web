@@ -12,14 +12,13 @@ import Privacy from "@/pages/Privacy.jsx"
 import Terms from "@/pages/Terms.jsx"
 import Login from "@/pages/Login.jsx"
 import Signup from "@/pages/Signup.jsx"
-import Account from "@/pages/Account.jsx"
 import Dashboard from "@/pages/Dashboard.jsx"
 
 function NotFound() {
   return (
     <div className="container py-12">
-      <h2 className="text-2xl font-semibold">Nie znaleziono strony</h2>
-      <p className="text-muted mt-2">Sprawdź adres URL lub przejdź na stronę główną.</p>
+      <h2 className="text-2xl font-semibold">Page not found</h2>
+      <p className="text-muted mt-2">Check the URL or go back to the homepage.</p>
     </div>
   )
 }
@@ -38,7 +37,6 @@ export default function App() {
           <Route path="/terms" element={<Terms />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/account" element={<Account />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/home" element={<Navigate to="/" replace />} />
           <Route path="*" element={<NotFound />} />

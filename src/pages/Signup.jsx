@@ -1,20 +1,8 @@
 import React, { useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
-import SEO from "@/components/SEO.jsx"
-import Button from "@/components/ui/Button.jsx"
+import { useNavigate, Link } from "react-router-dom"
 import { signUpWithEmail } from "@/lib/auth.jsx"
 
-const inputStyle = {
-  width: "100%",
-  padding: 10,
-  marginTop: 6,
-  borderRadius: 8,
-  border: "1px solid #1c2430",
-  background: "#0e131a",
-  color: "inherit"
-}
-
-const cardStyle = { marginBottom: 12 }
+const inputStyle = "w-full mt-1 px-3 py-2 rounded-xl border border-slate-800 bg-slate-900/60"
 
 export default function Signup() {
   const navigate = useNavigate()
@@ -25,59 +13,29 @@ export default function Signup() {
 
   async function onSubmit(e) {
     e.preventDefault()
-    setLoading(true)
-    setError(null)
-
+    setLoading(true); setError(null)
     const { error } = await signUpWithEmail(email, password)
-
     setLoading(false)
-
-    if (error) {
-      setError(error.message)
-      return
-    }
-
+    if (error) { setError(error.message); return }
     navigate("/dashboard")
   }
 
   return (
-    <div className="container">
-      <SEO title="Rejestracja" description="Utwórz konto w Clerko" />
-      <h2>Rejestracja</h2>
-
-      <form onSubmit={onSubmit} style={{ maxWidth: 420 }}>
-        <div className="card" style={cardStyle}>
+    <section className="container py-10" style={{ maxWidth: 520 }}>
+      <h1 className="text-3xl font-bold">Create your account</h1>
+      <form onSubmit={onSubmit} className="mt-6 space-y-4">
+        <div className="card">
           <label>Email</label>
-          <input
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={inputStyle}
-          />
+          <input className={inputStyle} type="email" required value={email} onChange={e=>setEmail(e.target.value)} />
         </div>
-
-        <div className="card" style={cardStyle}>
-          <label>Hasło</label>
-          <input
-            type="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={inputStyle}
-          />
+        <div className="card">
+          <label>Password</label>
+          <input className={inputStyle} type="password" required value={password} onChange={e=>setPassword(e.target.value)} />
         </div>
-
-        {error && <p style={{ color: "#ff8a8a" }}>{error}</p>}
-
-        <Button type="submit" disabled={loading}>
-          {loading ? "Tworzenie…" : "Utwórz konto"}
-        </Button>
+        {error && <p className="text-red-400">{error}</p>}
+        <button className="btn" disabled={loading}>{loading ? "Creating…" : "Sign up"}</button>
       </form>
-
-      <p style={{ marginTop: 12 }}>
-        Masz konto? <Link to="/login">Zaloguj się</Link>
-      </p>
-    </div>
+      <p className="text-muted mt-3">Already have an account? <Link to="/login">Log in</Link></p>
+    </section>
   )
 }

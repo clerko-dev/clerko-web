@@ -1,13 +1,38 @@
-// src/lib/supabase.js
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from "./supabase";
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+export async function signUpWithEmail({ email, password, username }) {
+  // 1) rejestracja
+  const { data, error } = await supabase.auth.signUp({ email, password });
+  if (error) throw error;
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    persistSession: true,
-    autoRefreshToken: true,
-    detectSessionInUrl: true,
-  },
-});
+  // 2) utwórz profil (tabela profiles: id UUID PK = auth.uid(), username unique)
+  const user = data.user;
+  if (user) {
+    const { error: pErr } = await supabase.from("profiles").insert({
+      id: user.id,
+      username,
+      created_at: new Date().toISOString(),
+    });
+    if (pErr && pErr.code !== "23505") throw pErr; // 23505 = unique violation
+  }
+  return data;
+}
+
+export async function signInWithEmail({ email, password }) {
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  if (error) throw error;
+  return data;
+}
+
+export async function signInWithApple() {
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "apple",
+    options: { redirectTo: window.location.origin + "/dashboard" },
+  });
+  if (error) throw error;
+  return data;
+}
+
+export async function signOut() {
+  await supabase.auth.signOut();
+}

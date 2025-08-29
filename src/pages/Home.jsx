@@ -12,8 +12,8 @@ export default function Home() {
   return (
     <div className="container space-y-16 py-10">
       <HeroSection />
-      <FeaturesSection />
       <SocialProofSection />
+      <FeaturesSection />
       <StepsSection />
       <GeneratorSection />
       <PricingSection />
