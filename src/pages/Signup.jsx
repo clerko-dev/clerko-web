@@ -27,8 +27,57 @@ export default function Signup() {
     e.preventDefault()
     setLoading(true)
     setError(null)
+
     const { error } = await signUpWithEmail(email, password)
+
     setLoading(false)
+
     if (error) {
       setError(error.message)
-      retur
+      return
+    }
+
+    navigate("/dashboard")
+  }
+
+  return (
+    <div className="container">
+      <SEO title="Rejestracja" description="Utwórz konto w Clerko" />
+      <h2>Rejestracja</h2>
+
+      <form onSubmit={onSubmit} style={{ maxWidth: 420 }}>
+        <div className="card" style={cardStyle}>
+          <label>Email</label>
+          <input
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            style={inputStyle}
+          />
+        </div>
+
+        <div className="card" style={cardStyle}>
+          <label>Hasło</label>
+          <input
+            type="password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            style={inputStyle}
+          />
+        </div>
+
+        {error && <p style={{ color: "#ff8a8a" }}>{error}</p>}
+
+        <Button type="submit" disabled={loading}>
+          {loading ? "Tworzenie…" : "Utwórz konto"}
+        </Button>
+      </form>
+
+      <p style={{ marginTop: 12 }}>
+        Masz konto? <Link to="/login">Zaloguj się</Link>
+      </p>
+    </div>
+  )
+}
