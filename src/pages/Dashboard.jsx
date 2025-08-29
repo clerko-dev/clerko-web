@@ -1,7 +1,7 @@
 import React from 'react';
 import SEO from '@/components/SEO.jsx';
 import Button from '@/components/ui/Button.jsx';
-import { useAuth } from '@/lib/auth.jsx';
+import { useAuth, signOutUser } from "@/lib/auth.jsx";
 import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
