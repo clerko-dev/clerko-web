@@ -1,4 +1,4 @@
-
+import "./lib/reveal.js";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
@@ -6,7 +6,6 @@ import { HelmetProvider } from "react-helmet-async";
 import App from "./App.jsx";
 import "./index.css";
 import { AuthProvider } from "./lib/auth.jsx"; 
-
 
 function RevealInit() {
   React.useEffect(() => {

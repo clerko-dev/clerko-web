@@ -1,25 +1,40 @@
 // src/lib/reveal.js
-export function initScrollReveal() {
-  const els = Array.from(document.querySelectorAll("[data-reveal]"));
+(function () {
+  if (typeof window === "undefined") return;
 
-  // reset klas
-  els.forEach((el) => el.classList.remove("reveal-in", "reveal-out"));
+  const start = () => {
+    const root = document.documentElement;
+    if (!root.classList.contains("reveal-init")) {
+      root.classList.add("reveal-init");
+    }
 
-  const io = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(({ isIntersecting, intersectionRatio, target }) => {
-        if (isIntersecting && intersectionRatio > 0.2) {
-          target.classList.add("reveal-in");
-          target.classList.remove("reveal-out");
-        } else {
-          target.classList.remove("reveal-in");
-          target.classList.add("reveal-out");
+    const nodes = Array.from(document.querySelectorAll("[data-reveal]"));
+    if (!nodes.length) return;
+
+    if (!("IntersectionObserver" in window)) {
+      // Fallback: pokaż wszystko od razu
+      nodes.forEach((el) => el.classList.add("is-visible"));
+      return;
+    }
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            e.target.classList.add("is-visible");
+            io.unobserve(e.target);
+          }
         }
-      });
-    },
-    { threshold: [0, 0.2, 0.5, 1], rootMargin: "0px 0px -10% 0px" }
-  );
+      },
+      { rootMargin: "0px 0px -12% 0px", threshold: 0.1 }
+    );
 
-  els.forEach((el) => io.observe(el));
-  return () => io.disconnect();
-}
+    nodes.forEach((el) => io.observe(el));
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", start, { once: true });
+  } else {
+    start();
+  }
+})();
