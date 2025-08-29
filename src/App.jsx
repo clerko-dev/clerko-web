@@ -26,7 +26,7 @@ export default function App() {
 
       <main>
         <Routes>
-          <Route path="/" element={<Page title="Clerko – działa 🎉">To jest minimalny render diagnostyczny.</Page>} />
+          <Route path="/" element={<Page title="Clerko – działa 🎉">Minimalny render diagnostyczny.</Page>} />
           <Route path="/tools" element={<Page title="Tools">Lista narzędzi (stub).</Page>} />
           <Route path="/store" element={<Page title="Store">Sklep (stub).</Page>} />
           <Route path="*" element={<Page title="404">Nie znaleziono strony.</Page>} />
