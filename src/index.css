@@ -1,8 +1,25 @@
-:root { --bg: #0b0f14; --fg: #e6edf3; --muted: #8a939e; --brand: #6aa6ff; }
-* { box-sizing: border-box; }
-html, body, #root { height: 100%; }
-body { margin: 0; background: var(--bg); color: var(--fg);
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
-a { color: var(--brand); text-decoration: none; }
-.btn { display:inline-flex; gap:8px; padding:10px 14px; border:1px solid #1c2430; border-radius:10px; background:#0e141b; color:inherit; }
-.btn:hover { border-color:#2b3646; background:#111a24; }
+/* src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Baza */
+@layer base {
+  :root {
+    --bg: #0b0f14;
+    --fg: #e6edf3;
+    --muted: #8a939e;
+    --brand: #6aa6ff;
+  }
+  html, body, #root { height: 100%; }
+  body { @apply bg-[var(--bg)] text-[var(--fg)] antialiased; background-image: theme(backgroundImage.radial-fade); }
+  a { @apply text-[var(--brand)]; }
+}
+
+/* Przydatne utilsy zgodne z tym, co używaliśmy */
+@layer components {
+  .container { @apply max-w-7xl mx-auto px-4; }
+  .btn { @apply inline-flex items-center gap-2 rounded-xl border border-slate-800 bg-slate-900/70 px-4 py-2 hover:bg-slate-900; }
+  .card { @apply rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-soft; }
+  .grid-auto { @apply grid gap-6 sm:grid-cols-2 lg:grid-cols-3; }
+}

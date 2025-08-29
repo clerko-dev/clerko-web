@@ -1,41 +1,50 @@
 import React from "react"
-import { Routes, Route, Link } from "react-router-dom"
+import { Routes, Route, Navigate } from "react-router-dom"
 
-function Page({ title, children }) {
+import Navbar from "@/components/layout/Navbar.jsx"
+import Footer from "@/components/layout/Footer.jsx"
+
+import Home from "@/pages/Home.jsx"
+import Tools from "@/pages/Tools.jsx"
+import HowTo from "@/pages/HowTo.jsx"
+import Store from "@/pages/Store.jsx"
+import Privacy from "@/pages/Privacy.jsx"
+import Terms from "@/pages/Terms.jsx"
+import Login from "@/pages/Login.jsx"
+import Signup from "@/pages/Signup.jsx"
+import Account from "@/pages/Account.jsx"
+import Dashboard from "@/pages/Dashboard.jsx"
+
+function NotFound() {
   return (
-    <section style={{ maxWidth: 900, margin: "40px auto", padding: "0 20px" }}>
-      <h1 style={{ margin: 0, fontSize: 32 }}>{title}</h1>
-      <div style={{ marginTop: 12 }}>{children}</div>
-    </section>
+    <div className="container py-12">
+      <h2 className="text-2xl font-semibold">Nie znaleziono strony</h2>
+      <p className="text-muted mt-2">Sprawdź adres URL lub przejdź na stronę główną.</p>
+    </div>
   )
 }
 
 export default function App() {
   return (
-    <div>
-      <header style={{
-        position: "sticky", top: 0, background: "rgba(11,15,20,.9)",
-        borderBottom: "1px solid #1c2430", padding: "10px 20px"
-      }}>
-        <nav style={{ display: "flex", gap: 12 }}>
-          <Link className="btn" to="/">Home</Link>
-          <Link className="btn" to="/tools">Tools</Link>
-          <Link className="btn" to="/store">Store</Link>
-        </nav>
-      </header>
-
-      <main>
+    <>
+      <Navbar />
+      <main className="min-h-[60vh]">
         <Routes>
-          <Route path="/" element={<Page title="Clerko – działa 🎉">Minimalny render diagnostyczny.</Page>} />
-          <Route path="/tools" element={<Page title="Tools">Lista narzędzi (stub).</Page>} />
-          <Route path="/store" element={<Page title="Store">Sklep (stub).</Page>} />
-          <Route path="*" element={<Page title="404">Nie znaleziono strony.</Page>} />
+          <Route path="/" element={<Home />} />
+          <Route path="/tools" element={<Tools />} />
+          <Route path="/how-to" element={<HowTo />} />
+          <Route path="/store" element={<Store />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/home" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-
-      <footer style={{ borderTop: "1px solid #1c2430", marginTop: 40, padding: 16, textAlign: "center", color: "#8a939e" }}>
-        © {new Date().getFullYear()} Clerko
-      </footer>
-    </div>
+      <Footer />
+    </>
   )
 }

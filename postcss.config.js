@@ -5,3 +5,10 @@ export default {
     autoprefixer: {}
   }
 };
+// postcss.config.js
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}
