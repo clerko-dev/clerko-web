@@ -40,3 +40,6 @@ body {
   opacity: 1;
   transform: none;
 }
+@layer base {
+  h1, h2, h3, .font-display { @apply font-display; }
+}
