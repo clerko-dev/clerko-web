@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ProposalPreview from "./ProposalPreview";
 import ProposalPreview from "@/components/preview/ProposalPreview.jsx";
 
 export default function HeroSection() {
