@@ -5,6 +5,18 @@ export default function Home() {
   return (
     <>
       <HeroSection />
+      import HighlightsStrip from "@/components/home/HighlightsStrip.jsx";
+// ...
+<>
+  <HeroSection />
+  import HighlightsStrip from "@/components/home/HighlightsStrip.jsx";
+// ...
+<>
+  <HeroSection />
+  <HighlightsStrip />
+  {/* dalej: Features/Steps/Generator/Pricing/FAQ... */}
+</>
+
       <GeneratorSection />
     </>
   );

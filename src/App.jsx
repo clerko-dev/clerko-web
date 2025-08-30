@@ -14,6 +14,20 @@ import Dashboard from "./pages/Dashboard.jsx";
 
 export default function App() {
   const location = useLocation();
+useEffect(() => {
+  const els = document.querySelectorAll("[data-reveal]");
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) e.target.classList.add("is-visible");
+        else e.target.classList.remove("is-visible"); // miękki fade-out poza viewport
+      });
+    },
+    { threshold: 0.2 }
+  );
+  els.forEach((el) => io.observe(el));
+  return () => io.disconnect();
+}, [location.pathname]);
 
   // INIT reveal-on-scroll
   useEffect(() => {
