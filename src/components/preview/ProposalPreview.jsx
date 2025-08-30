@@ -1,96 +1,179 @@
+// src/components/preview/ProposalPreview.jsx
 import React from "react";
 
-export default function ProposalPreview() {
+export default function ProposalPreview({ className = "" }) {
+  const items = [
+    { description: "Brand identity package", qty: 1, unitPrice: 1200 },
+    { description: "Website design (5 pages)", qty: 1, unitPrice: 2200 },
+    { description: "Copywriting", qty: 5, unitPrice: 120 },
+  ];
+
+  const subtotal = items.reduce((s, i) => s + i.qty * i.unitPrice, 0);
+  const discount = 200;
+  const taxRate = 0.08;
+  const tax = Math.round((subtotal - discount) * taxRate * 100) / 100;
+  const total = subtotal - discount + tax;
+
+  const fmt = (n) =>
+    n.toLocaleString("en-US", { style: "currency", currency: "USD" });
+  const today = new Date().toISOString().slice(0, 10);
+
   return (
-    <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6 md:p-8 text-white">
+    <div
+      className={[
+        "bg-white text-slate-900 rounded-xl shadow-2xl ring-1 ring-black/5 overflow-hidden",
+        "print:shadow-none print:ring-0",
+        className,
+      ].join(" ")}
+    >
       {/* Header */}
-      <div className="flex items-start justify-between gap-4">
+      <div className="px-6 py-5 border-b border-slate-200 flex items-start justify-between">
         <div>
-          <div className="text-xs uppercase tracking-widest text-white/60">Proposal</div>
-          <div className="mt-1 text-lg font-semibold">#1024 • ACME Studio</div>
-          <div className="text-white/60 text-sm">Issued: 2025-08-30 • Valid for 14 days</div>
+          <div className="text-[11px] tracking-widest text-slate-500">
+            PROPOSAL
+          </div>
+          <div className="mt-1 text-2xl font-semibold">
+            Creative Services Proposal
+          </div>
         </div>
         <div className="text-right">
-          <div className="text-xs uppercase tracking-widest text-white/60">Total</div>
-          <div className="text-2xl md:text-3xl font-extrabold">$4,980</div>
+          <div className="text-sm font-semibold">
+            <span className="bg-gradient-to-r from-violet-600 to-fuchsia-500 bg-clip-text text-transparent">
+              Clerko
+            </span>
+          </div>
+          <div className="text-xs text-slate-500">Proposal #PR-1027</div>
+          <div className="text-xs text-slate-500">Date: {today}</div>
+          <div className="text-xs text-slate-500">Valid until: 14 days</div>
         </div>
       </div>
 
-      {/* Bill to */}
-      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="rounded-xl bg-white/[0.02] border border-white/10 p-4">
-          <div className="text-xs uppercase tracking-widest text-white/60">From</div>
-          <div className="mt-1 font-medium">Clerko</div>
-          <div className="text-white/60 text-sm">proposals@clerko.app</div>
+      {/* Parties */}
+      <div className="px-6 py-4 grid grid-cols-2 gap-6">
+        <div>
+          <div className="text-[11px] font-semibold text-slate-500">From</div>
+          <div className="mt-1 text-sm font-medium">Acme Studio LLC</div>
+          <div className="text-xs text-slate-600">hello@acmestudio.com</div>
+          <div className="text-xs text-slate-600">
+            123 Market St, San Francisco, CA
+          </div>
         </div>
-        <div className="rounded-xl bg-white/[0.02] border border-white/10 p-4">
-          <div className="text-xs uppercase tracking-widest text-white/60">To</div>
-          <div className="mt-1 font-medium">ACME Studio</div>
-          <div className="text-white/60 text-sm">billing@acmestudio.com</div>
+        <div>
+          <div className="text-[11px] font-semibold text-slate-500">To</div>
+          <div className="mt-1 text-sm font-medium">BrightCorp Inc.</div>
+          <div className="text-xs text-slate-600">miranda@brightcorp.com</div>
+          <div className="text-xs text-slate-600">1200 Lakeview, Austin, TX</div>
         </div>
       </div>
 
       {/* Items */}
-      <div className="mt-6 overflow-hidden rounded-xl border border-white/10">
-        <table className="w-full text-sm">
-          <thead className="bg-white/[0.03]">
-            <tr className="text-white/60">
-              <th className="text-left py-3 px-4 font-medium">Item</th>
-              <th className="text-right py-3 px-4 font-medium">Qty</th>
-              <th className="text-right py-3 px-4 font-medium">Price</th>
-              <th className="text-right py-3 px-4 font-medium">Amount</th>
+      <div className="px-6">
+        <table className="w-full text-sm border-separate [border-spacing:0]">
+          <thead>
+            <tr className="text-slate-600">
+              <th className="text-left py-2 border-b border-slate-200">
+                Item
+              </th>
+              <th className="text-right py-2 border-b border-slate-200 w-16">
+                Qty
+              </th>
+              <th className="text-right py-2 border-b border-slate-200 w-32">
+                Unit price
+              </th>
+              <th className="text-right py-2 border-b border-slate-200 w-32">
+                Amount
+              </th>
             </tr>
           </thead>
-          <tbody className="[&>tr:nth-child(odd)]:bg-white/[0.01]">
-            <tr>
-              <td className="py-3 px-4">
-                Website redesign<br />
-                <span className="text-white/50">UI, responsive, accessibility</span>
-              </td>
-              <td className="py-3 px-4 text-right">1</td>
-              <td className="py-3 px-4 text-right">$2,800</td>
-              <td className="py-3 px-4 text-right">$2,800</td>
-            </tr>
-            <tr>
-              <td className="py-3 px-4">
-                CMS integration<br />
-                <span className="text-white/50">Content model + migration</span>
-              </td>
-              <td className="py-3 px-4 text-right">1</td>
-              <td className="py-3 px-4 text-right">$1,600</td>
-              <td className="py-3 px-4 text-right">$1,600</td>
-            </tr>
-            <tr>
-              <td className="py-3 px-4">
-                QA & handoff<br />
-                <span className="text-white/50">Tests + docs</span>
-              </td>
-              <td className="py-3 px-4 text-right">1</td>
-              <td className="py-3 px-4 text-right">$580</td>
-              <td className="py-3 px-4 text-right">$580</td>
-            </tr>
+          <tbody>
+            {items.map((i, idx) => (
+              <tr key={idx} className="align-top">
+                <td className="py-2 pr-3">
+                  <div className="font-medium">{i.description}</div>
+                  <div className="text-xs text-slate-500">
+                    Deliverables & milestones included
+                  </div>
+                </td>
+                <td className="py-2 text-right">{i.qty}</td>
+                <td className="py-2 text-right">{fmt(i.unitPrice)}</td>
+                <td className="py-2 text-right font-medium">
+                  {fmt(i.qty * i.unitPrice)}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
 
-      {/* Totals */}
-      <div className="mt-4 flex flex-col items-end gap-2">
-        <div className="flex items-center gap-10 text-sm text-white/70">
-          <span>Subtotal</span><span className="font-medium">$4,980</span>
+      {/* Divider */}
+      <div className="px-6 mt-3">
+        <div className="border-t border-slate-200" />
+      </div>
+
+      {/* Summary + Terms */}
+      <div className="px-6 py-4 grid grid-cols-2 gap-6">
+        <div>
+          <div className="text-[11px] font-semibold text-slate-500 mb-1">
+            Summary
+          </div>
+          <dl className="text-sm space-y-1">
+            <div className="flex justify-between">
+              <dt className="text-slate-600">Subtotal</dt>
+              <dd>{fmt(subtotal)}</dd>
+            </div>
+            <div className="flex justify-between">
+              <dt className="text-slate-600">Discount</dt>
+              <dd>-{fmt(discount)}</dd>
+            </div>
+            <div className="flex justify-between">
+              <dt className="text-slate-600">Tax (8%)</dt>
+              <dd>{fmt(tax)}</dd>
+            </div>
+            <div className="flex justify-between pt-2 font-semibold text-slate-900">
+              <dt>Total</dt>
+              <dd>{fmt(total)}</dd>
+            </div>
+          </dl>
         </div>
-        <div className="flex items-center gap-10 text-sm text-white/70">
-          <span>Tax (0%)</span><span className="font-medium">$0.00</span>
-        </div>
-        <div className="flex items-center gap-10 text-base">
-          <span className="text-white/80">Total due</span>
-          <span className="font-bold text-white">$4,980</span>
+        <div>
+          <div className="text-[11px] font-semibold text-slate-500 mb-1">
+            Terms
+          </div>
+          <p className="text-xs leading-5 text-slate-600">
+            50% due on acceptance, 50% on delivery. Prices valid for 14 days.
+            Work begins upon payment. Design files delivered in Figma & PDF.
+          </p>
+          <div className="mt-3 grid grid-cols-2 gap-3">
+            <div className="border-t border-slate-300 pt-2 text-xs">
+              <div className="font-medium">Client signature</div>
+              <div className="text-[10px] text-slate-500">Name, Date</div>
+            </div>
+            <div className="border-t border-slate-300 pt-2 text-xs">
+              <div className="font-medium">Issued by</div>
+              <div className="text-[10px] text-slate-500">Acme Studio</div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Terms */}
-      <div className="mt-6 text-xs text-white/60 leading-relaxed">
-        By accepting, you agree to the attached scope and payment terms. 
-        50% due upfront, 50% upon delivery. Revisions: up to 2 rounds.
+      {/* Footer actions */}
+      <div className="px-6 pb-5">
+        <div className="mt-2 flex items-center justify-between">
+          <div className="text-[11px] text-slate-500">
+            Created with{" "}
+            <span className="font-semibold bg-gradient-to-r from-violet-600 to-fuchsia-500 bg-clip-text text-transparent">
+              Clerko
+            </span>
+          </div>
+          <div className="flex gap-2">
+            <button className="rounded-md border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50">
+              Download PDF
+            </button>
+            <button className="rounded-md bg-slate-900 px-3 py-1.5 text-xs font-medium text-white hover:bg-slate-800">
+              Accept
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
