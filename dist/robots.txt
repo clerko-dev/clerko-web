@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://clerko.vercel.app/sitemap.xml

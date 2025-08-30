@@ -1,49 +1,91 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import ProposalPreview from "./ProposalPreview";
 import ProposalPreview from "@/components/preview/ProposalPreview.jsx";
 
 export default function HeroSection() {
+  const [expanded, setExpanded] = React.useState(false);
+  const cardRef = React.useRef(null);
+
   return (
-    <section id="hero" className="relative min-h-[100svh] overflow-hidden bg-[#0A0B14] pt-28">
-      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-6 md:grid-cols-2 md:gap-12">
-        {/* Copy */}
-        <div>
-          <h1 className="text-4xl font-semibold leading-tight text-white md:text-5xl">
-            Close deals faster with{" "}
-            <span className="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-pink-300 bg-clip-text font-extrabold tracking-tight text-transparent">
-              Clerko
-            </span>
-          </h1>
-          <p className="mt-4 max-w-xl text-lg text-slate-300">
-            Create beautiful, itemized quotes and proposals in minutes. Share as a link or PDF,
-            get approvals, and move from draft to paid—without the busywork.
-          </p>
+    <section className="relative isolate overflow-hidden bg-[#0A0B14]">
+      <div className="mx-auto max-w-7xl px-6 pt-20 pb-10 md:pt-28 md:pb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          {/* LEFT: copy */}
+          <div>
+            <h1 className="text-4xl md:text-5xl font-semibold leading-tight text-white">
+              Close deals faster with{" "}
+              <span className="font-extrabold tracking-tight bg-gradient-to-r from-[#A486FF] via-[#8B5CF6] to-[#6AE3FE] bg-clip-text text-transparent">
+                Clerko
+              </span>
+            </h1>
+            <p className="mt-4 text-white/70 text-lg">
+              Create beautiful, itemized quotes and proposals in minutes. Share as a link or PDF,
+              get approvals, and move from draft to paid—without the busywork.
+            </p>
 
-          <div className="mt-6 flex flex-wrap gap-3">
-            <a
-              href="#generator"
-              className="rounded-xl bg-white px-5 py-3 text-sm font-semibold text-slate-900 hover:bg-slate-100"
-            >
-              Try free
-            </a>
-            <Link
-              to="/store"
-              className="rounded-xl border border-white/20 bg-white/5 px-5 py-3 text-sm font-semibold text-white backdrop-blur hover:bg-white/10"
-            >
-              View pricing
-            </Link>
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <a href="#generator" className="inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-medium text-white bg-white/10 hover:bg-white/15 border border-white/15 backdrop-blur">
+                Try free
+              </a>
+              <Link to="/store" className="inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-medium text-white/90 bg-transparent hover:bg-white/10 border border-white/15">
+                View pricing
+              </Link>
+              <span className="text-xs text-white/50 ml-2">No credit card required.</span>
+            </div>
           </div>
-          <div className="mt-3 text-xs text-slate-400">No credit card required.</div>
-        </div>
 
-        {/* Preview */}
-        <div className="relative">
-          <div className="pointer-events-none absolute -inset-6 -z-10 rounded-3xl bg-[radial-gradient(ellipse_at_top_left,rgba(124,58,237,0.28),transparent_55%),radial-gradient(ellipse_at_bottom_right,rgba(244,114,182,0.22),transparent_55%)] blur-2xl"></div>
-          <ProposalPreview />
+          {/* RIGHT: collapsible preview */}
+          <div ref={cardRef} className="relative">
+            <div
+              className={[
+                "relative rounded-2xl border border-white/10 bg-white/[0.02] overflow-hidden",
+                "transition-[max-height] duration-500 ease-in-out",
+                expanded ? "max-h-[1400px]" : "max-h-[380px] md:max-h-[440px] lg:max-h-[520px]"
+              ].join(" ")}
+            >
+              <ProposalPreview />
+
+              {/* Gradient mask when collapsed */}
+              {!expanded && (
+                <>
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-[#0A0B14]" />
+                  <button
+                    type="button"
+                    aria-expanded={expanded}
+                    onClick={() => {
+                      setExpanded(true);
+                      // scroll, żeby user zobaczył rozwiniętą kartę
+                      setTimeout(() => cardRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }), 10);
+                    }}
+                    className="absolute bottom-4 left-1/2 -translate-x-1/2 inline-flex items-center gap-2 rounded-full bg-white/10 hover:bg-white/20 text-white text-sm px-4 py-2 border border-white/20 backdrop-blur"
+                  >
+                    Expand preview
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="opacity-90">
+                      <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+                </>
+              )}
+            </div>
+
+            {/* Collapse when expanded */}
+            {expanded && (
+              <button
+                type="button"
+                onClick={() => setExpanded(false)}
+                className="absolute -top-3 -right-3 md:top-2 md:right-2 inline-flex items-center gap-2 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs px-3 py-1.5 border border-white/20 backdrop-blur"
+                aria-label="Collapse preview"
+              >
+                Collapse
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="opacity-90">
+                  <path d="M18 15l-6-6-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            )}
+          </div>
         </div>
       </div>
-
-      <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-b from-transparent to-[#0A0B14]"></div>
     </section>
   );
 }

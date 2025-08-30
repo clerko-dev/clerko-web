@@ -1,4 +1,4 @@
-﻿# Dependencies
+# Dependencies
 node_modules/
 
 # Build output
@@ -28,3 +28,7 @@ Thumbs.db
 .vercel
 
 .env
+dist/
+node_modules/
+.env
+.vercel

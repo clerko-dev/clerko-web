@@ -14,6 +14,13 @@ export default function Navbar() {
           aria-label="Clerko — back to home"
         >
           Clerko
+          onClick={(e) => {
+  if (location.pathname === "/") {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+}}
+
         </Link>
 
         <ul className="hidden sm:flex items-center gap-6 text-white/80 text-sm">
