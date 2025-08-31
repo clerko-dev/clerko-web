@@ -33,6 +33,7 @@ export default function Navbar() {
         <div className="flex items-center gap-3">
           <Link to="/login" className="btn-ghost">Log in</Link>
           <Link to="/signup" className="btn-primary">Sign up</Link>
+          <Link to="/dashboard" className="hover:opacity-80">Dashboard</Link>
         </div>
       </nav>
     </header>

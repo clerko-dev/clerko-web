@@ -1,6 +1,9 @@
 import React from "react";
 import SEO from "@/components/SEO.jsx";
 import Button from "@/components/ui/Button.jsx";
+import RateCalculator from "@/components/tools/RateCalculator.jsx";
+import DiscountCalc from "@/components/tools/DiscountCalc.jsx";
+import TermsGenerator from "@/components/tools/TermsGenerator.jsx";
 
 const tools = [
   {
@@ -76,5 +79,17 @@ export default function Tools() {
         </div>
       </section>
     </>
+  );
+}
+export default function Tools(){
+  return (
+    <div className="max-w-6xl mx-auto px-4 py-10 space-y-6">
+      <h1 className="text-2xl font-semibold mb-4">Free sales tools</h1>
+      <div className="grid lg:grid-cols-3 gap-6">
+        <RateCalculator />
+        <DiscountCalc />
+        <TermsGenerator />
+      </div>
+    </div>
   );
 }

@@ -8,6 +8,20 @@ import GeneratorSection from "@/components/home/GeneratorSection.jsx";
 import PricingSection from "@/components/home/PricingSection.jsx";
 import FAQSection from "@/components/home/FAQSection.jsx";
 
+function Home() {
+  return (
+    <>
+      <SEO
+        title="Clerko — Proposals & Quotes in Minutes"
+        description="Create beautiful, itemized quotes and proposals in minutes. Share as a link or PDF, get approvals, and get paid faster."
+        pathname="/"
+      />
+      {/* ...reszta sekcji */}
+    </>
+  );
+}
+export default Home;
+
 export default function Home() {
   return (
     <>

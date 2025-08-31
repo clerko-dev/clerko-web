@@ -10,7 +10,8 @@ import HowTo from "./pages/HowTo.jsx";
 import Store from "./pages/Store.jsx";
 import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
-import Dashboard from "./pages/Dashboard.jsx";
+import Dashboard from "@/pages/Dashboard.jsx";
+import ProposalView from "@/pages/ProposalView.jsx";
 
 export default function App() {
   const location = useLocation();
@@ -68,6 +69,7 @@ useEffect(() => {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/p/:slug" element={<ProposalView />} />
         </Routes>
       </main>
       <Footer />
