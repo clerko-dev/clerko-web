@@ -12,6 +12,8 @@ import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
 import Dashboard from "@/pages/Dashboard.jsx";
 import ProposalView from "@/pages/ProposalView.jsx";
+import Guides from "@/pages/Guides.jsx";
+import GuideDetail from "@/pages/GuideDetail.jsx";
 
 export default function App() {
  useEffect(() => {
@@ -77,6 +79,8 @@ export default function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/p/:slug" element={<ProposalView />} />
+          <Route path="/guides" element={<Guides />} />
+<Route path="/guides/:slug" element={<GuideDetail />} />
         </Routes>
       </main>
       <Footer />
