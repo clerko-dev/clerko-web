@@ -16,19 +16,13 @@ import ProposalView from "@/pages/ProposalView.jsx";
 export default function App() {
   const location = useLocation();
 useEffect(() => {
-  const els = document.querySelectorAll("[data-reveal]");
-  const io = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) e.target.classList.add("is-visible");
-        else e.target.classList.remove("is-visible"); // miękki fade-out poza viewport
-      });
-    },
-    { threshold: 0.2 }
-  );
-  els.forEach((el) => io.observe(el));
-  return () => io.disconnect();
-}, [location.pathname]);
+  if (location.hash) {
+    const id = location.hash.replace("#", "");
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}, [location]);
+
 
   // INIT reveal-on-scroll
   useEffect(() => {
