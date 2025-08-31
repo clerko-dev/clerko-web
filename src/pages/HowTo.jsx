@@ -97,16 +97,32 @@ export default function HowTo() {
             </motion.article>
           ))}
         </div>
+{/* Featured */}
+<motion.div {...fade(0.07)} className="mb-8">
+  <Link
+    to={`/how-to/${guides[0].slug}`}
+    className="block rounded-2xl border border-white/10 bg-gradient-to-r from-white/[0.06] to-white/[0.02] p-5 hover:border-white/20 transition"
+  >
+    <div className="text-xs text-white/60 mb-2">Featured</div>
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div>
+        <h2 className="text-xl font-medium">{guides[0].title}</h2>
+        <p className="text-sm text-zinc-400 max-w-2xl">{guides[0].excerpt}</p>
+      </div>
+      <span className="text-xs text-white/60 shrink-0">{guides[0].readTime}</span>
+    </div>
+  </Link>
+</motion.div>
 
         {filtered.length === 0 && (
           <div className="text-sm text-white/60 mt-6">No guides match your search.</div>
         )}
 
-        <div className="mt-10 text-center text-sm text-white/60">
-          <Link to="/" className="underline underline-offset-4">
-            Try free \u2014 generate proposal
-          </Link>
-        </div>
+       <div className="mt-10 text-center text-sm text-white/60">
+  <Link to="/" className="underline underline-offset-4">
+    Try free {"—"} generate proposal
+  </Link>
+</div>
       </section>
     </>
   );

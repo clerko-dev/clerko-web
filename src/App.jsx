@@ -85,6 +85,10 @@ export default function App() {
 <Route path="/how-to/:slug" element={<GuideDetail />} />
 <Route path="/guides/:slug" element={<GuideDetail />} /> {/* alias */}
 <Route path="/guides/:slug" element={<GuideDetail />} />
+<Route path="/how-to" element={<HowTo />} />
+<Route path="/guides" element={<HowTo />} />
+<Route path="/how-to/:slug" element={<GuideDetail />} />
+<Route path="/guides/:slug" element={<GuideDetail />} />
         </Routes>
       </main>
       <Footer />
