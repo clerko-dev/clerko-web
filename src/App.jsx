@@ -80,6 +80,10 @@ export default function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/p/:slug" element={<ProposalView />} />
           <Route path="/guides" element={<Guides />} />
+          <Route path="/how-to" element={<HowTo />} />
+<Route path="/guides" element={<HowTo />} />            {/* alias */}
+<Route path="/how-to/:slug" element={<GuideDetail />} />
+<Route path="/guides/:slug" element={<GuideDetail />} /> {/* alias */}
 <Route path="/guides/:slug" element={<GuideDetail />} />
         </Routes>
       </main>

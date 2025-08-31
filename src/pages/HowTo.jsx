@@ -1,58 +1,111 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import { motion } from "framer-motion";
 import SEO from "@/components/SEO.jsx";
-import Button from "@/components/ui/Button.jsx";
+import { guides } from "@/data/guides.js";
 
-const guides = [
-  {
-    title: "Write a project proposal that gets a Yes",
-    time: "6 min",
-    href: "/how-to#write-a-project-proposal"
-  },
-  {
-    title: "Pricing proposals: fixed fee vs. milestones",
-    time: "5 min",
-    href: "/how-to#pricing-models"
-  },
-  {
-    title: "Scope creep: how to protect your margins",
-    time: "4 min",
-    href: "/how-to#scope-creep"
-  }
-];
+const fade = (d = 0) => ({
+  initial: { opacity: 0, y: 12 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.4, ease: "easeOut", delay: d },
+});
+
+const categories = ["All", ...Array.from(new Set(guides.map((g) => g.category)))];
 
 export default function HowTo() {
+  const [params, setParams] = useSearchParams();
+  const [q, setQ] = useState(params.get("q") || "");
+  const [cat, setCat] = useState(params.get("cat") || "All");
+
+  const filtered = useMemo(() => {
+    const term = q.trim().toLowerCase();
+    return guides.filter((g) => {
+      const inCat = cat === "All" || g.category === cat;
+      const inText =
+        !term ||
+        g.title.toLowerCase().includes(term) ||
+        g.excerpt.toLowerCase().includes(term) ||
+        g.tags.join(" ").toLowerCase().includes(term);
+      return inCat && inText;
+    });
+  }, [q, cat]);
+
+  function updateQuery(nextQ, nextCat) {
+    const obj = {};
+    if (nextQ) obj.q = nextQ;
+    if (nextCat && nextCat !== "All") obj.cat = nextCat;
+    setParams(obj, { replace: true });
+  }
+
   return (
     <>
-      <SEO
-        title="Clerko Guides â€” Close more deals"
-        description="Short, tactical guides on proposals, pricing, scope and client communication."
-        pathname="/how-to"
-      />
-      <section className="relative bg-[#0A0B14]">
-        <div className="mx-auto max-w-5xl px-4 py-12 md:py-16">
-          <header className="mb-8 md:mb-10">
-            <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Guides</h1>
-            <p className="mt-2 text-white/70">Tactical, no-fluff reads.</p>
-          </header>
+      <SEO title="Guides" description="Tactical, no-fluff reads on proposals, pricing and workflow." />
 
-          <div className="space-y-4">
-            {guides.map((g) => (
-              <a
-                key={g.href}
-                href={g.href}
-                className="block rounded-2xl border border-white/10 bg-white/5 p-5 hover:bg-white/10 transition"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="font-semibold">{g.title}</div>
-                  <div className="text-xs text-white/60">{g.time} read</div>
+      <section className="max-w-6xl mx-auto px-4 pt-16 pb-6">
+        <motion.h1 {...fade(0)} className="text-3xl sm:text-4xl font-semibold tracking-tight mb-2">
+          Guides
+        </motion.h1>
+        <motion.p {...fade(0.05)} className="text-zinc-400 mb-8">
+          Tactical, no-fluff reads.
+        </motion.p>
+
+        <motion.div {...fade(0.08)} className="flex flex-col sm:flex-row gap-3 sm:items-center mb-6">
+          <input
+            id="guide-search"
+            name="guide-search"
+            value={q}
+            onChange={(e) => { setQ(e.target.value); updateQuery(e.target.value, cat); }}
+            placeholder="Search guides (e.g., pricing, AI, scope)"
+            className="w-full sm:w-96 rounded-xl bg-white/[0.04] border border-white/10 text-sm text-white placeholder:text-white/40 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-white/20"
+            autoComplete="off"
+          />
+          <div className="flex flex-wrap gap-2">
+            {categories.map((c) => {
+              const active = c === cat;
+              return (
+                <button
+                  key={c}
+                  type="button"
+                  onClick={() => { setCat(c); updateQuery(q, c); }}
+                  className={`px-3 py-1.5 rounded-full text-sm border ${
+                    active ? "bg-white/[0.1] border-white/20" : "bg-white/[0.03] border-white/10 hover:border-white/20"
+                  }`}
+                >
+                  {c}
+                </button>
+              );
+            })}
+          </div>
+        </motion.div>
+
+        <div className="space-y-3">
+          {filtered.map((g, i) => (
+            <motion.article
+              key={g.slug}
+              {...fade(0.02 * i)}
+              className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 hover:border-white/20 transition"
+            >
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <h3 className="text-lg font-medium">
+                    <Link to={`/how-to/${g.slug}`} className="hover:opacity-80">{g.title}</Link>
+                  </h3>
+                  <p className="text-sm text-zinc-400">{g.excerpt}</p>
                 </div>
-              </a>
-            ))}
-          </div>
+                <div className="text-xs text-white/60 shrink-0">{g.readTime}</div>
+              </div>
+            </motion.article>
+          ))}
+        </div>
 
-          <div className="mt-10 text-center">
-            <Button as="a" href="/#generator" variant="gradient">Try free â€” generate proposal</Button>
-          </div>
+        {filtered.length === 0 && (
+          <div className="text-sm text-white/60 mt-6">No guides match your search.</div>
+        )}
+
+        <div className="mt-10 text-center text-sm text-white/60">
+          <Link to="/" className="underline underline-offset-4">
+            Try free \u2014 generate proposal
+          </Link>
         </div>
       </section>
     </>
