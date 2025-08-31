@@ -2,6 +2,7 @@
 import React, { Suspense, lazy } from "react";
 import SEO from "@/components/SEO.jsx";
 import HeroSection from "@/components/home/HeroSection.jsx";
+import FeaturesSection from "@/components/home/FeaturesSection.jsx";
 
 // Lazy-load cięższych sekcji dla szybszego TTFB
 const StepsSection = lazy(() => import("@/components/home/StepsSection.jsx"));
@@ -26,6 +27,7 @@ export default function Home() {
         <section id="generator" className="scroll-mt-28">
           <GeneratorSection />
         </section>
+        <FeaturesSection />
         <PricingSection />
         <SocialProofSection />
         {/* <FeaturesSection /> */}
