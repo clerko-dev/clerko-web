@@ -52,3 +52,9 @@ body {
 /* Fade in/out na scroll */
 [data-reveal] { opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease; will-change: opacity, transform; }
 [data-reveal].is-visible { opacity: 1; transform: translateY(0); }
+
+/* --- marquee (logos) --- */
+.marquee{ display:flex; overflow:hidden; mask-image:linear-gradient(to right, transparent, black 8%, black 92%, transparent); -webkit-mask-image:linear-gradient(to right, transparent, black 8%, black 92%, transparent); }
+.marquee__track{ display:flex; gap:1rem; padding-block:0.25rem; animation:marquee 28s linear infinite; }
+.marquee--reverse .marquee__track{ animation-direction:reverse; }
+@keyframes marquee{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
