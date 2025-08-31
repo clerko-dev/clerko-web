@@ -12,10 +12,9 @@ function Home() {
   return (
     <>
       <SEO
-        title="Clerko — Proposals & Quotes in Minutes"
-        description="Create beautiful, itemized quotes and proposals in minutes. Share as a link or PDF, get approvals, and get paid faster."
-        pathname="/"
-      />
+  title="Clerko — Proposals & quotes in minutes"
+  description="Create beautiful, itemized quotes and proposals in minutes. Share as a link or PDF, get approvals, and move from draft to paid — without the busywork."
+/>
       {/* ...reszta sekcji */}
     </>
   );

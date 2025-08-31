@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 export default function Navbar() {
   const loc = useLocation();
@@ -8,11 +9,17 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-[#0A0B14]/70">
       <nav className="container px-6 h-16 flex items-center justify-between">
         <Link
-          to="/"
-          onClick={() => setTimeout(scrollTop, 0)}
-          className="font-display font-extrabold text-lg tracking-tight"
-          aria-label="Clerko — back to home"
-        >
+  to="/"
+  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+  className="flex items-center gap-2"
+  aria-label="Clerko — go to homepage"
+>
+  <span className="text-xl font-semibold tracking-tight select-none">
+    <span className="bg-gradient-to-r from-purple-400 via-fuchsia-400 to-sky-400 bg-clip-text text-transparent">
+      Clerko
+    </span>
+  </span>
+</Link>
           Clerko
           onClick={(e) => {
   if (location.pathname === "/") {

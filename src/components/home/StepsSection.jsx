@@ -3,28 +3,31 @@ import GlassCard from "@/components/ui/GlassCard.jsx";
 
 export default function StepsSection() {
   const steps = [
-    {
-      title: "Input details",
-      text: "Wpisz klienta, zakres, cenę i notatki. Gotowe w 60 sekund.",
-    },
-    {
-      title: "AI generations",
-      text: "Wygeneruj profesjonalną propozycję oraz wersje alternatywne.",
-    },
-    {
-      title: "Download & send",
-      text: "Skopiuj, pobierz PDF albo wyślij link — śledź otwarcia (Pro).",
-    },
+  {/* Karta 1 */}
+<h3 className="font-semibold mb-1">Input details</h3>
+<p className="text-zinc-400">
+  Add client, scope, line items and notes. Ready in 60 seconds.
+</p>
+
+{/* Karta 2 */}
+<h3 className="font-semibold mb-1">AI generations</h3>
+<p className="text-zinc-400">
+  Generate a professional proposal plus on-brand alternatives.
+</p>
+
+{/* Karta 3 */}
+<h3 className="font-semibold mb-1">Download & send</h3>
+<p className="text-zinc-400">
+  Copy, export to PDF, or share as a link — track opens (Pro).
+</p>
   ];
 
   return (
     <section id="how-it-works" className="container px-4 py-16 sm:py-24">
-      <div className="max-w-2xl mb-8" data-reveal>
-        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">How it works</h2>
-        <p className="mt-3 text-white/60">
-          Trzy kroki — zero zamieszania. Zrobione jak u agencji z topki.
-        </p>
-      </div>
+      <h2 className="text-3xl md:text-4xl font-bold mb-3">How it works</h2>
+<p className="text-zinc-400 mb-8">
+  Three steps — zero hassle. Agency-grade results in minutes.
+</p>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4" data-reveal>
         {steps.map((s, i) => (
