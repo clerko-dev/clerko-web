@@ -61,7 +61,7 @@ export default function FeaturesSection() {
   ];
 
   return (
-    <section className="py-16 sm:py-20" data-reveal>
++    <section className="py-16 sm:py-20">
       <div className="max-w-6xl mx-auto px-4">
         <h2 className="text-2xl sm:text-3xl font-semibold text-white mb-6">
           Why teams choose Clerko

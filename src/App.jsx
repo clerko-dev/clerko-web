@@ -14,14 +14,27 @@ import Dashboard from "@/pages/Dashboard.jsx";
 import ProposalView from "@/pages/ProposalView.jsx";
 
 export default function App() {
-  const location = useLocation();
-useEffect(() => {
-  if (location.hash) {
-    const id = location.hash.replace("#", "");
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+ useEffect(() => {
+  const els = document.querySelectorAll("[data-reveal]");
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("is-visible");
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -10% 0px" }
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  } else {
+    // fallback – pokaż od razu
+    els.forEach((el) => el.classList.add("is-visible"));
   }
-}, [location]);
+}, []);
 
 
   // INIT reveal-on-scroll
