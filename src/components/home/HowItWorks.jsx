@@ -20,9 +20,9 @@ const IconShare = () => (
 );
 
 const steps = [
-  { k: "01", t: "Input details", d: "Add client, scope, line items and notes. Ready in 60 seconds.", Icon: IconNote },
-  { k: "02", t: "AI generations", d: "Polish tone, expand sections, and generate item descriptions instantly.", Icon: IconSparkle },
-  { k: "03", t: "Download & send", d: "Share as a link or export a PDF. Get approvals and move to paid.", Icon: IconShare },
+  { t: "Input details", d: "Add client, scope, line items and notes. Ready in 60 seconds.", Icon: IconNote },
+  { t: "AI generations", d: "Polish tone, expand sections, and generate item descriptions instantly.", Icon: IconSparkle },
+  { t: "Download & send", d: "Share as a link or export a PDF. Get approvals and move to paid.", Icon: IconShare },
 ];
 
 export default function HowItWorks() {
