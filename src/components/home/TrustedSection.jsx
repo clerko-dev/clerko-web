@@ -19,7 +19,7 @@ const brands = [
   "Loopwork",
 ];
 
-function LogoPill({ name }) {
++ function LogoPill({ name }) {
   return (
     <div className="rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-sm text-white/70 whitespace-nowrap">
       {name}

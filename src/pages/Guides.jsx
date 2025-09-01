@@ -97,8 +97,7 @@ export default function Guides() {
         {/* Grid of cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map((g, i) => (
-            <motion.article
-              {...fade(0.02 * i)}
+            <motion.article {...fade(0.02 * i)}
               key={g.slug}
               className="group rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur p-5 hover:border-white/20 transition"
             >
@@ -167,3 +166,27 @@ export default function Guides() {
     </>
   );
 }
+// TOC pudło już masz – dodaj sticky:
+<div className="hidden lg:block sticky top-24">
+  <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4">
+    <div className="text-xs uppercase tracking-wider text-white/60 mb-3">On this page</div>
+    {/* linki do sekcji */}
+    <ul className="space-y-2 text-sm text-white/70">
+      <li><a href="#overview" className="hover:text-white">Overview</a></li>
+      <li><a href="#framework" className="hover:text-white">Framework</a></li>
+      {/* … */}
+    </ul>
+  </div>
+</div>
+
+// Sticky CTA w dole artykułu (masz – dopnij sticky na mobile)
+<div className="lg:rounded-xl lg:border lg:border-white/10 lg:bg-white/[0.03] lg:p-5
+                fixed inset-x-0 bottom-0 z-40 bg-zinc-900/80 backdrop-blur lg:static">
+  <div className="max-w-5xl mx-auto flex items-center justify-between gap-3">
+    <div className="text-white/80 text-sm">Put it into action with <span className="font-semibold text-white">Clerko</span>.</div>
+    <div className="flex gap-2">
+      <Link to="/signup" className="px-4 py-2 rounded-lg bg-white text-zinc-900 text-sm font-medium">Try free</Link>
+      <Link to="/pricing" className="px-4 py-2 rounded-lg bg-white/[0.08] text-white text-sm">View pricing</Link>
+    </div>
+  </div>
+</div>

@@ -3,6 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import SEO from "@/components/SEO.jsx";
 import { guides } from "@/data/guides.js";
+import useReveal from "@/hooks/useReveal";
 
 const fade = (d = 0) => ({
   initial: { opacity: 0, y: 12 },
@@ -120,10 +121,38 @@ export default function HowTo() {
 
        <div className="mt-10 text-center text-sm text-white/60">
   <Link to="/" className="underline underline-offset-4">
-    Try free {"—"} generate proposal
+    Try free — generate proposal
   </Link>
 </div>
       </section>
     </>
   );
 }
+{guidesFiltered.map(g => {
+  const cardRef = useReveal();
+  return (
+    <Link
+      key={g.slug}
+      to={`/how-to/${g.slug}`}
+      ref={cardRef}
+      className="reveal block rounded-xl border border-white/10 bg-white/[0.03] hover:bg-white/[0.06] transition-colors px-5 py-4"
+    >
+      {/* ... */}
+    </Link>
+  );
+})}
+<SEO
+  title="Guides — Clerko"
+  description="Tactical, no-fluff guides on proposals, pricing and workflow. Learn, then generate a proposal in minutes."
+  url="https://clerko-web.vercel.app/how-to"
+/>
+{article && (
+  <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify({
+    "@context":"https://schema.org",
+    "@type":"Article",
+    headline: title,
+    description,
+    dateModified: new Date().toISOString(),
+    author: { "@type":"Organization", name:"Clerko" },
+  })}} />
+)}

@@ -58,3 +58,6 @@ body {
 .marquee__track{ display:flex; gap:1rem; padding-block:0.25rem; animation:marquee 28s linear infinite; }
 .marquee--reverse .marquee__track{ animation-direction:reverse; }
 @keyframes marquee{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+
+.reveal { opacity:0; transform: translateY(12px); transition: opacity .5s ease, transform .5s ease; }
+.reveal-in { opacity:1; transform: translateY(0); }
