@@ -6,6 +6,7 @@ import App from './App.jsx'
 import './index.css'
 import './lib/reveal.js'    // <— DODAĆ TO
 
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <HelmetProvider>

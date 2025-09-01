@@ -39,6 +39,10 @@ export default function Navbar() {
               Store
             </NavLink>
           </li>
+           <NavLink to="/how-to" className="hover:opacity-80">Guides</NavLink>
+  <NavLink to="/tools" className="hover:opacity-80">Tools</NavLink>
+  <NavLink to="/generator" className="hover:opacity-80">Generator</NavLink>
+  <NavLink to="/store" className="hover:opacity-80">Store</NavLink>
         </ul>
 
         <div className="flex items-center gap-2">

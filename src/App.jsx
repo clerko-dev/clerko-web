@@ -14,6 +14,8 @@ import Dashboard from "@/pages/Dashboard.jsx";
 import ProposalView from "@/pages/ProposalView.jsx";
 import Guides from "@/pages/Guides.jsx";
 import GuideDetail from "@/pages/GuideDetail.jsx";
+import Generator from "@/pages/Generator.jsx";
+import ProposalPublic from "@/pages/Proposal.jsx";
 
 export default function App() {
  useEffect(() => {
@@ -89,6 +91,8 @@ export default function App() {
 <Route path="/guides" element={<HowTo />} />
 <Route path="/how-to/:slug" element={<GuideDetail />} />
 <Route path="/guides/:slug" element={<GuideDetail />} />
+<Route path="/generator" element={<Generator />} />
+  <Route path="/p/:slug" element={<ProposalPublic />} />
         </Routes>
       </main>
       <Footer />
