@@ -1,6 +1,6 @@
 // src/lib/auth.jsx
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { supabase } from "@/lib/supabase.js"; // ⬅️ używamy JEDNEGO klienta
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase.js";
 
 const AuthContext = createContext(null);
 
@@ -9,46 +9,56 @@ export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Wstępne pobranie sesji + nasłuch zmian
   useEffect(() => {
     let mounted = true;
 
-    (async () => {
-      const { data } = await supabase.auth.getSession();
+    supabase.auth.getSession().then(({ data }) => {
       if (!mounted) return;
-      setSession(data?.session ?? null);
-      setUser(data?.session?.user ?? null);
+      setSession(data.session);
+      setUser(data.session?.user ?? null);
       setLoading(false);
-    })();
+    });
 
     const { data: sub } = supabase.auth.onAuthStateChange((_event, newSession) => {
-      setSession(newSession ?? null);
+      setSession(newSession);
       setUser(newSession?.user ?? null);
     });
 
     return () => {
-      sub?.subscription?.unsubscribe?.();
       mounted = false;
+      sub?.subscription?.unsubscribe?.();
     };
   }, []);
 
-  const value = useMemo(() => ({ user, session, loading, supabase }), [user, session, loading]);
+  // API auth
+  const signInWithEmail = async (email, password) => {
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) throw error;
+    return data;
+  };
 
+  const signUpWithEmail = async (email, password, username) => {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { data: { username } },
+    });
+    if (error) throw error;
+    return data;
+  };
+
+  const signOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) throw error;
+  };
+
+  const value = { supabase, session, user, loading, signInWithEmail, signUpWithEmail, signOut };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
   const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth must be used within <AuthProvider>.");
+  if (!ctx) throw new Error("useAuth must be used within AuthProvider");
   return ctx;
-}
-
-// Pomocnicze akcje (opcjonalnie – jeśli gdzieś ich używasz)
-export async function signInWithEmail({ email, password }) {
-  return await supabase.auth.signInWithPassword({ email, password });
-}
-export async function signUpWithEmail({ email, password }) {
-  return await supabase.auth.signUp({ email, password });
-}
-export async function signOut() {
-  return await supabase.auth.signOut();
 }

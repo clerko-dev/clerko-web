@@ -4,20 +4,20 @@ import { createClient } from "@supabase/supabase-js";
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-// jeden klient na całą przeglądarkę (działa też z Vite HMR)
-const g = globalThis;
-const GLOBAL_KEY = "__clerko_supabase";
+if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+  console.warn("[Clerko] Missing Supabase env vars (VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY).");
+}
 
-export const supabase =
-  g[GLOBAL_KEY] ||
-  createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-    auth: {
-      persistSession: true,
-      autoRefreshToken: true,
-      detectSessionInUrl: true,
-      // unikalny storageKey, żeby klienty z różnych projektów się nie „gryzły”
-      storageKey: `sb-${new URL(SUPABASE_URL).host}-auth`,
-    },
-  });
+export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: {
+    storageKey: "clerko-auth",       // unikatowy klucz, unikamy konfliktów
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true,
+  },
+  global: {
+    headers: { "x-client-info": "clerko-web" },
+  },
+});
 
-if (!g[GLOBAL_KEY]) g[GLOBAL_KEY] = supabase;
+export default supabase;
