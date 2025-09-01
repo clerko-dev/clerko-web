@@ -1,58 +1,39 @@
 // src/components/home/BenefitsSection.jsx
 import React from "react";
 
-export default function BenefitsSection() {
-  const benefits = [
-    {
-      title: "Create proposals fast",
-      desc: "Go from idea to shareable proposal in minutes with clean defaults and smart blocks.",
-    },
-    {
-      title: "Branded PDFs",
-      desc: "Export pixel-perfect PDFs with your logo, colors, and typography.",
-    },
-    {
-      title: "Itemized pricing",
-      desc: "Clear line items, quantities, discounts, taxes — no spreadsheet pain.",
-    },
-    {
-      title: "One-click approvals",
-      desc: "Clients approve online. Get notified instantly and move work forward.",
-    },
-    {
-      title: "Reusable templates",
-      desc: "Save your best proposals as templates and ship consistently.",
-    },
-    {
-      title: "Client repository",
-      desc: "Keep clients, proposals, and versions organized in one place.",
-    },
-  ];
+const features = [
+  { t: "Win deals faster", d: "Generate client-ready proposals in under a minute. Clean layout, instant preview." },
+  { t: "Crystal-clear pricing", d: "Items, quantities, discounts and taxes calculated automatically." },
+  { t: "Share as link or PDF", d: "One link to review & approve. Export a polished PDF when needed." },
+  { t: "Templates & snippets", d: "Save your best sections and reuse them to stay consistent." },
+  { t: "Approvals & e-sign", d: "Collect approvals and signatures on the page with an audit trail." },
+  { t: "Works with your stack", d: "Copy to invoice tools or CRM. Webhooks & API for automation." },
+];
 
+const Dot = () => (
+  <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-white/10 ring-1 ring-white/15">•</span>
+);
+
+export default function BenefitsSection() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-16">
       <div className="text-center mb-10">
-        <h2 className="fade-up text-2xl sm:text-3xl font-semibold tracking-tight text-white mb-2">
-          Everything you need to win deals
+        <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white mb-2">
+          Why teams switch to <span className="bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-400 to-sky-400">Clerko</span>
         </h2>
-        <p className="fade-up text-sm text-white/60 max-w-2xl mx-auto">
+        <p className="text-sm text-white/60 max-w-2xl mx-auto">
           Clerko helps you draft, price, brand and approve proposals without the grind.
         </p>
       </div>
 
       <div className="grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
-        {benefits.map((b, i) => (
-          <div
-            key={b.title}
-            className="fade-up rounded-2xl border border-white/10 bg-white/[0.04] p-5 hover:bg-white/[0.06] transition"
-            style={{ animationDelay: `${i * 60}ms` }}
-          >
+        {features.map((f, i) => (
+          <div key={i} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 hover:bg-white/[0.06] transition">
             <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 text-xs text-white/70 ring-1 ring-white/10">
-              <span>✓</span>
-              <span>Benefit</span>
+              <Dot /><span>Benefit</span>
             </div>
-            <h3 className="text-white font-medium mb-1">{b.title}</h3>
-            <p className="text-sm text-white/70">{b.desc}</p>
+            <h3 className="text-white font-medium mb-1">{f.t}</h3>
+            <p className="text-sm text-white/70">{f.d}</p>
           </div>
         ))}
       </div>
