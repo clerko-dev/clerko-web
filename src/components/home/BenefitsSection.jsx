@@ -16,19 +16,19 @@ const Dot = () => (
 
 export default function BenefitsSection() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16">
-      <div className="text-center mb-10">
-        <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white mb-2">
+    <section className="mx-auto max-w-6xl px-4 pb-16">
+      <div className="mb-8">
+        <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white">
           Why teams switch to <span className="bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-400 to-sky-400">Clerko</span>
         </h2>
-        <p className="text-sm text-white/60 max-w-2xl mx-auto">
+        <p className="text-sm text-white/60 mt-2 max-w-2xl">
           Clerko helps you draft, price, brand and approve proposals without the grind.
         </p>
       </div>
 
       <div className="grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
         {features.map((f, i) => (
-          <div key={i} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 hover:bg-white/[0.06] transition">
+          <div key={i} className="rounded-2xl border border-white/12 bg-white/[0.045] p-5 hover:bg-white/[0.06] transition">
             <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 text-xs text-white/70 ring-1 ring-white/10">
               <Dot /><span>Benefit</span>
             </div>

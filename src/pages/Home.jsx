@@ -1,17 +1,16 @@
-import React from "react";
-import SEO from "@/components/SEO.jsx";
-import HeroSection from "@/components/home/HeroSection.jsx";
-import HowItWorks from "@/components/home/HowItWorks.jsx";
-import BenefitsSection from "@/components/home/BenefitsSection.jsx";
-import TrustedSection from "@/components/home/TrustedSection.jsx";
-import CTASection from "@/components/home/CTASection.jsx";
+import HeroSection from '@/components/home/HeroSection.jsx';
+import HowItWorks from '@/components/home/HowItWorks.jsx';
+import HighlightsStrip from '@/components/home/HighlightsStrip.jsx';
+import BenefitsSection from '@/components/home/BenefitsSection.jsx';
+import TrustedSection from '@/components/home/TrustedSection.jsx';
+import CTASection from '@/components/home/CTASection.jsx';
 
 export default function Home() {
   return (
     <>
-      <SEO title="Clerko — Proposals & quotes in minutes" />
       <HeroSection />
       <HowItWorks />
+      <HighlightsStrip />   {/* 58s / 40+ / 92% na gradientowym pasie */}
       <BenefitsSection />
       <TrustedSection />
       <CTASection />
