@@ -1,173 +1,135 @@
 // src/pages/Guides.jsx
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { motion } from "framer-motion";
 import SEO from "@/components/SEO.jsx";
-import { guides } from "@/data/guides.js";
+import guides from "@/data/guides.js";
 
-// simple fade-in helper
-const fade = (d = 0) => ({
-  initial: { opacity: 0, y: 14 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.45, ease: "easeOut", delay: d },
-});
-
-const categories = ["All", ...Array.from(new Set(guides.map((g) => g.category)))];
+const TAGS = ["All", "Proposals", "Pricing", "Workflow"];
 
 export default function Guides() {
-  const [params, setParams] = useSearchParams();
-  const [q, setQ] = useState(params.get("q") || "");
-  const [cat, setCat] = useState(params.get("cat") || "All");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [q, setQ] = useState("");
+  const [tag, setTag] = useState(
+    TAGS.includes(searchParams.get("t") || "") ? searchParams.get("t")! : "All"
+  );
 
-  const filtered = useMemo(() => {
-    const term = q.trim().toLowerCase();
+  const filteredGuides = useMemo(() => {
+    const query = q.trim().toLowerCase();
     return guides.filter((g) => {
-      const inCat = cat === "All" || g.category === cat;
+      const t = (g.tag || g.category || "").toString();
+      const inTag = tag === "All" || t === tag;
       const inText =
-        !term ||
-        g.title.toLowerCase().includes(term) ||
-        g.excerpt.toLowerCase().includes(term) ||
-        g.tags.join(" ").toLowerCase().includes(term);
-      return inCat && inText;
+        !query ||
+        g.title.toLowerCase().includes(query) ||
+        (g.summary || "").toLowerCase().includes(query);
+      return inTag && inText;
     });
-  }, [q, cat]);
+  }, [q, tag]);
 
-  function updateQuery(nextQ, nextCat) {
-    const obj = {};
-    if (nextQ) obj.q = nextQ;
-    if (nextCat && nextCat !== "All") obj.cat = nextCat;
-    setParams(obj, { replace: true });
-  }
+  const setTagAndQuery = (t: string) => {
+    setTag(t);
+    if (t === "All") setSearchParams({});
+    else setSearchParams({ t });
+  };
 
   return (
     <>
       <SEO
         title="Guides — Clerko"
-        description="Short, practical guides on proposals, pricing, AI polish, approvals and delivery."
+        description="Tactical, no-fluff reads that help you write proposals, price quotes and protect margins."
       />
 
-      <section className="max-w-6xl mx-auto px-4 pt-20 pb-8">
-        <motion.h1 {...fade(0)} className="text-3xl sm:text-4xl font-semibold tracking-tight mb-3">
-          How-to / Guides
-        </motion.h1>
-        <motion.p {...fade(0.05)} className="text-zinc-400 mb-8 max-w-3xl">
-          Bite-size tutorials that help you create clear, client-ready proposals and quotes. No fluff.
-        </motion.p>
+      <div className="max-w-4xl mx-auto px-4 py-16">
+        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight mb-2">
+          Guides
+        </h1>
+        <p className="text-zinc-400 mb-8">Tactical, no-fluff reads.</p>
 
-        {/* Search + filters */}
-        <motion.div {...fade(0.08)} className="flex flex-col sm:flex-row gap-3 sm:items-center mb-6">
-          <div className="relative w-full sm:w-96">
-            <label htmlFor="guide-search" className="sr-only">
-              Search guides
-            </label>
-            <input
-              id="guide-search"
-              name="guide-search"
-              value={q}
-              onChange={(e) => {
-                setQ(e.target.value);
-                updateQuery(e.target.value, cat);
-              }}
-              placeholder="Search guides (e.g., pricing, AI, templates)"
-              className="w-full rounded-xl bg-white/[0.04] border border-white/10 text-sm text-white placeholder:text-white/40 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-white/20"
-              autoComplete="off"
-            />
-          </div>
-
+        {/* Search + tagi */}
+        <div className="flex flex-wrap items-center gap-3 mb-6">
+          <input
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder="Search guides (e.g., pricing, AI, scope)"
+            className="w-full md:w-96 rounded-xl border border-white/10 bg-white/[0.06] py-2.5 px-3 text-sm placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/10"
+          />
           <div className="flex flex-wrap gap-2">
-            {categories.map((c) => {
-              const active = c === cat;
-              return (
-                <button
-                  key={c}
-                  type="button"
-                  onClick={() => {
-                    setCat(c);
-                    updateQuery(q, c);
-                  }}
-                  className={`px-3 py-1.5 rounded-full text-sm border transition ${
-                    active
-                      ? "bg-white/[0.10] border-white/20"
-                      : "bg-white/[0.03] border-white/10 hover:border-white/20"
-                  }`}
-                >
-                  {c}
-                </button>
-              );
-            })}
+            {TAGS.map((t) => (
+              <button
+                key={t}
+                onClick={() => setTagAndQuery(t)}
+                className={`rounded-full px-3 py-1.5 text-sm border ${
+                  t === tag
+                    ? "border-white/20 bg-white/[0.08] text-white"
+                    : "border-white/10 text-white/70 hover:text-white"
+                }`}
+              >
+                {t}
+              </button>
+            ))}
           </div>
-        </motion.div>
+        </div>
 
-        {/* Grid of cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filtered.map((g, i) => (
-            <motion.article
-              key={g.slug}
-              {...fade(0.02 * i)}
-              className="group rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur p-5 hover:border-white/20 transition"
-            >
-              <div className="flex items-center justify-between gap-2 mb-2">
-                <span className="text-xs text-white/60">{g.category}</span>
-                <span className="text-xs text-white/40">{g.readTime}</span>
-              </div>
-              <h3 className="text-lg font-medium mb-1">{g.title}</h3>
-              <p className="text-sm text-zinc-400 mb-4">{g.excerpt}</p>
-              <div className="flex flex-wrap gap-1.5 mb-4">
-                {g.tags.slice(0, 3).map((t) => (
-                  <span
-                    key={t}
-                    className="text-[11px] px-2 py-1 rounded-full bg-white/[0.06] border border-white/10 text-white/70"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-white/40">Updated {g.updated}</span>
-                <Link
-                  to={`/guides/${g.slug}`}
-                  className="text-white hover:opacity-80 underline underline-offset-4"
-                >
-                  Read guide →
-                </Link>
-              </div>
-            </motion.article>
+        {/* Lista artykułów */}
+        <ul className="space-y-3">
+          {filteredGuides.map((g) => (
+            <li key={g.slug}>
+              <Link
+                to={`/how-to/${g.slug}`}
+                className="block rounded-xl border border-white/10 bg-white/[0.03] hover:bg-white/[0.05] transition-colors"
+              >
+                <div className="p-4">
+                  <div className="flex items-center justify-between gap-4">
+                    <div>
+                      <h3 className="text-base md:text-lg font-medium">
+                        {g.title}
+                      </h3>
+                      <p className="text-sm text-zinc-400 mt-1">{g.summary}</p>
+                    </div>
+                    <span className="text-xs text-white/60 whitespace-nowrap">
+                      {g.read || `${g.readMin || 6} min`}
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            </li>
           ))}
-        </div>
 
-        {/* Empty state */}
-        {filtered.length === 0 && (
-          <div className="text-sm text-white/60 mt-6">
-            No guides match your search. Try another keyword or category.
-          </div>
-        )}
-      </section>
+          {filteredGuides.length === 0 && (
+            <li className="text-sm text-white/60 px-1 py-8">
+              No results. Try a different query.
+            </li>
+          )}
+        </ul>
 
-      {/* Page CTA */}
-      <section className="max-w-6xl mx-auto px-4 pb-20">
-        <div className="rounded-2xl border border-white/10 bg-gradient-to-r from-white/[0.05] to-white/[0.02] p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div>
-            <h3 className="text-lg font-medium mb-1">Ready to put this into practice?</h3>
-            <p className="text-sm text-zinc-400">
-              Generate client-ready proposals in minutes with Clerko.
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <Link
-              to="/pricing"
-              className="px-4 py-2 rounded-xl bg-white text-black text-sm hover:opacity-90"
-            >
-              View pricing
-            </Link>
-            <Link
-              to="/"
-              className="px-4 py-2 rounded-xl border border-white/20 text-sm hover:border-white/40"
-            >
-              Try free
-            </Link>
+        {/* CTA pod listą */}
+        <div className="mt-12 lg:rounded-xl lg:border lg:border-white/10 lg:bg-white/[0.03] lg:p-5">
+          <div className="max-w-5xl mx-auto flex items-center justify-between gap-3">
+            <div>
+              <h3 className="text-lg font-medium mb-1">
+                Put it into action with Clerko
+              </h3>
+              <p className="text-sm text-zinc-400">
+                Create, preview and share your proposals.
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <Link
+                to="/"
+                className="px-4 py-2 rounded-xl border border-white/20 hover:bg-white/[0.05]"
+              >
+                Try free
+              </Link>
+              <Link
+                to="/pricing"
+                className="px-4 py-2 rounded-xl bg-white text-black"
+              >
+                View pricing
+              </Link>
+            </div>
           </div>
         </div>
-      </section>
+      </div>
     </>
   );
 }
