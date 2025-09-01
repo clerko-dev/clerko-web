@@ -32,3 +32,13 @@
     "vite": "^5.4.19"
   }
 }
+{
+  "scripts": {
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "build": "npm run lint && vite build"
+  },
+  "devDependencies": {
+    "eslint": "^9.0.0",
+    "eslint-plugin-react": "^7.34.0"
+  }
+}
