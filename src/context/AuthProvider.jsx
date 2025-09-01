@@ -1,7 +1,7 @@
 // src/context/AuthProvider.jsx
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { supabase } from "@/lib/supabase.js";
-
+import AuthProvider from "@/context/AuthProvider.jsx";
 /**
  * Minimalny kontekst uwierzytelniania dla całej aplikacji.
  * Działa nawet, gdy brak ENV – wtedy tryb "anonimowy".
@@ -88,3 +88,5 @@ function AuthProvider({ children }) {
 }
 
 export default AuthProvider;
+export { default } from "@/lib/auth.jsx";
+export * from "@/lib/auth.jsx";
