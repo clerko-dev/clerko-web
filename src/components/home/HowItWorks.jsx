@@ -43,11 +43,13 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section className="relative mx-auto max-w-6xl px-4 py-16">
-      {/* tło – delikatny gradient jak na wcześniejszych screenach */}
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(80%_50%_at_20%_0%,rgba(139,92,246,.25),transparent_60%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(70%_40%_at_80%_20%,rgba(59,130,246,.18),transparent_60%)]" />
+        <section className="relative mx-auto max-w-6xl px-4 py-16">
+      {/* subtelna belka tła przez całą szerokość kontenera */}
+      <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-48 w-[min(1200px,100%)] -translate-x-1/2 rounded-[32px] overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-fuchsia-500/15 via-indigo-500/10 to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(55%_80%_at_50%_0%,rgba(59,130,246,.18),transparent_60%)]" />
+        {/* miękkie ścięcie brzegów */}
+        <div className="absolute inset-0 [mask-image:linear-gradient(90deg,transparent,black_10%,black_90%,transparent)]" />
       </div>
 
       <div className="text-center mb-10">
@@ -57,26 +59,6 @@ export default function HowItWorks() {
         <p className="text-sm text-white/60 max-w-2xl mx-auto">
           Three simple steps from idea to signed proposal.
         </p>
-      </div>
-
-      <div className="grid gap-4 sm:gap-5 md:grid-cols-3">
-        {steps.map((s, i) => (
-          <div
-            key={s.k}
-            className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 hover:bg-white/[0.06] transition"
-          >
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 text-xs text-white/70 ring-1 ring-white/10">
-              <span>{s.k}</span><span>Step</span>
-            </div>
-            <div className="flex items-start gap-3">
-              <s.Icon />
-              <div>
-                <h3 className="text-white font-medium mb-1">{s.title}</h3>
-                <p className="text-sm text-white/70">{s.body}</p>
-              </div>
-            </div>
-          </div>
-        ))}
       </div>
 
       {/* przyciski pod kartami */}

@@ -5,7 +5,7 @@ import { HelmetProvider } from 'react-helmet-async';
 
 import GAListener from '@/components/GAListener.jsx';
 import Navbar from '@/components/layout/Navbar.jsx';
-import Footer from "@/components/layout/Footer.jsx";
+import Footer from '@/components/layout/Footer.jsx';
 import Home from '@/pages/Home.jsx';
 import Guides from '@/pages/Guides.jsx';
 const GuideDetail = lazy(() => import('@/pages/GuideDetail.jsx')); // lazy tylko tu
