@@ -1,50 +1,63 @@
-// fragment pliku src/App.jsx (główna struktura)
+// src/App.jsx
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 
-import AuthProvider from "@/context/AuthProvider.jsx";   // <— WAŻNE
-import SEO from "@/components/SEO.jsx";
 import Navbar from "@/components/layout/Navbar.jsx";
+import ErrorBoundary from "@/components/layout/ErrorBoundary.jsx";
 
 import Home from "@/pages/Home.jsx";
-import Generator from "@/pages/Generator.jsx";
+import HowTo from "@/pages/HowTo.jsx";
 import Guides from "@/pages/Guides.jsx";
 import GuideDetail from "@/pages/GuideDetail.jsx";
 import Tools from "@/pages/Tools.jsx";
+// te dwie trasy możesz tymczasowo zostawić jeśli nieużywane:
 import Pricing from "@/pages/Pricing.jsx";
+import Store from "@/pages/Store.jsx";
+
 import Login from "@/pages/Login.jsx";
 import Signup from "@/pages/Signup.jsx";
+import Dashboard from "@/pages/Dashboard.jsx";
+import Proposal from "@/pages/Proposal.jsx";
+import ProposalView from "@/pages/ProposalView.jsx";
 import NotFound from "@/pages/NotFound.jsx";
 
-class ErrorBoundary extends React.Component {
-  static getDerivedStateFromError() { return { hasError: true }; }
-  componentDidCatch(error, info){ console.error("App error:", error, info); }
-  render(){ return this.state?.hasError ? <div className="text-white p-8">Something went wrong.</div> : this.props.children;}
-}
+// UŻYWAMY JEDNEGO klienta Supabase — provider i hook z lib/auth.jsx
+import AuthProvider from "@/lib/auth.jsx";
 
 export default function App() {
   return (
     <HelmetProvider>
-      <ErrorBoundary>
-        <AuthProvider>
-          <BrowserRouter>
-            <SEO />
-            <Navbar />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/generator" element={<Generator />} />
-              <Route path="/guides" element={<Guides />} />
-              <Route path="/guides/:slug" element={<GuideDetail />} />
-              <Route path="/tools" element={<Tools />} />
-              <Route path="/pricing" element={<Pricing />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </AuthProvider>
-      </ErrorBoundary>
+      <AuthProvider>
+        <Router>
+          <ErrorBoundary>
+            <div className="min-h-screen bg-zinc-950 text-white">
+              <Navbar />
+              <Routes>
+                <Route path="/" element={<Home />} />
+
+                <Route path="/how-to" element={<HowTo />} />
+                <Route path="/how-to/:slug" element={<GuideDetail />} />
+                <Route path="/guides" element={<Guides />} />
+
+                <Route path="/tools" element={<Tools />} />
+                <Route path="/pricing" element={<Pricing />} />
+                <Route path="/store" element={<Store />} />
+
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/proposal" element={<Proposal />} />
+                <Route path="/proposal/:id" element={<ProposalView />} />
+
+                <Route path="/404" element={<NotFound />} />
+                <Route path="*" element={<Navigate to="/404" replace />} />
+              </Routes>
+            </div>
+          </ErrorBoundary>
+        </Router>
+      </AuthProvider>
     </HelmetProvider>
   );
 }
