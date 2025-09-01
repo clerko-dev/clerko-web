@@ -4,17 +4,6 @@ import { Link, NavLink } from 'react-router-dom';
 import Logo from '@/components/ui/Logo.jsx';
 import { useAuth } from '@/context/AuthProvider.jsx';
 
-const LogoPill = ({ className = '' }) => (
-  <Link
-    to="/"
-    className={`inline-flex items-center gap-2 rounded-full px-3 py-1 ring-1 ring-white/10 bg-white/5 hover:bg-white/10 transition ${className}`}
-    aria-label="Clerko — home"
-  >
-    <Logo className="h-5 w-5" />
-    <span className="text-sm font-semibold text-white">Clerko</span>
-  </Link>
-);
-
 export default function Navbar() {
   const { user } = useAuth();
 
@@ -28,7 +17,15 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-40 bg-gradient-to-b from-black/30 to-transparent backdrop-blur">
       <div className="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between">
-        <LogoPill />
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 rounded-full px-3 py-1 ring-1 ring-white/10 bg-white/5 hover:bg-white/10 transition"
+          aria-label="Clerko — home"
+        >
+          <Logo className="h-5 w-5" />
+          <span className="text-sm font-semibold text-white">Clerko</span>
+        </Link>
+
         <nav className="hidden md:flex items-center gap-6 text-sm text-white/80">
           {links.map((l) => (
             <NavLink
@@ -40,6 +37,7 @@ export default function Navbar() {
             </NavLink>
           ))}
         </nav>
+
         <div className="flex items-center gap-3">
           {user ? (
             <Link
