@@ -1,7 +1,7 @@
 // src/context/AuthProvider.jsx
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase.js";
-
+export { AuthProvider, useAuth } from '../../lib/auth';
 const AuthContext = createContext(null);
 
 // Zwróć ZAWSZE bezpieczny obiekt – nawet bez providera/kluczy

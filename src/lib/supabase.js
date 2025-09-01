@@ -1,18 +1,10 @@
 // src/lib/supabase.js
-import { createClient } from "@supabase/supabase-js";
+import { createClient } from '@supabase/supabase-js';
 
-const URL = import.meta.env.VITE_SUPABASE_URL;
-const KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const url = import.meta.env.VITE_SUPABASE_URL ?? '';
+const anon = import.meta.env.VITE_SUPABASE_ANON_KEY ?? '';
 
-// Jeżeli nie masz jeszcze kluczy – NIE twórz klienta (unikamy błędów/race conditions)
-export const supabase =
-  URL && KEY
-    ? createClient(URL, KEY, {
-        auth: {
-          persistSession: true,
-          storageKey: "clerko-auth",
-          autoRefreshToken: true,
-          flowType: "pkce",
-        },
-      })
-    : null;
+export const hasSupabaseEnv = Boolean(url && anon);
+
+/** Gdy brak ENV — zwracamy null zamiast crasha */
+export const supabase = hasSupabaseEnv ? createClient(url, anon) : null;

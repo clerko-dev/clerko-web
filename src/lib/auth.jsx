@@ -1,64 +1,56 @@
 // src/lib/auth.jsx
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase.js";
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { supabase, hasSupabaseEnv } from './supabase';
 
-const AuthContext = createContext(null);
+const AuthCtx = createContext({
+  user: null,
+  loading: true,
+  ready: false,
+  hasSupabaseEnv,
+  signOut: async () => {},
+});
 
-export default function AuthProvider({ children }) {
-  const [session, setSession] = useState(null);
+export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Wstępne pobranie sesji + nasłuch zmian
   useEffect(() => {
     let mounted = true;
-
-    supabase.auth.getSession().then(({ data }) => {
-      if (!mounted) return;
-      setSession(data.session);
-      setUser(data.session?.user ?? null);
-      setLoading(false);
-    });
-
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, newSession) => {
-      setSession(newSession);
-      setUser(newSession?.user ?? null);
-    });
-
+    let unsub;
+    (async () => {
+      try {
+        if (!supabase) return; // brak ENV — działamy bez auth
+        const { data } = await supabase.auth.getSession();
+        if (mounted) setUser(data?.session?.user ?? null);
+        const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
+          setUser(session?.user ?? null);
+        });
+        unsub = sub?.subscription;
+      } catch (e) {
+        console.error('Auth init failed:', e);
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    })();
     return () => {
       mounted = false;
-      sub?.subscription?.unsubscribe?.();
+      if (unsub) unsub.unsubscribe?.();
     };
   }, []);
 
-  // API auth
-  const signInWithEmail = async (email, password) => {
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) throw error;
-    return data;
-  };
+  useEffect(() => {
+    if (!supabase) setLoading(false);
+  }, []);
 
-  const signUpWithEmail = async (email, password, username) => {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { data: { username } },
-    });
-    if (error) throw error;
-    return data;
-  };
+  const value = useMemo(() => ({
+    user,
+    loading,
+    ready: !loading,
+    hasSupabaseEnv,
+    signOut: async () => { if (supabase) await supabase.auth.signOut(); },
+  }), [user, loading]);
 
-  const signOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) throw error;
-  };
-
-  const value = { supabase, session, user, loading, signInWithEmail, signUpWithEmail, signOut };
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return <AuthCtx.Provider value={value}>{children}</AuthCtx.Provider>;
 }
 
-export function useAuth() {
-  const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth must be used within AuthProvider");
-  return ctx;
-}
+export const useAuth = () => useContext(AuthCtx);

@@ -1,18 +1,26 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
-import { HelmetProvider } from 'react-helmet-async'
-import App from './App.jsx'
-import './index.css'
-import './lib/reveal.js'    // <— DODAĆ TO
+// src/main.jsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App.jsx';
+import { ErrorBoundary } from './components/layout/ErrorBoundary.jsx';
+import { AuthProvider } from './lib/auth.jsx';
+import Healthcheck from './Healthcheck.tsx';
+import './index.css';
 
+if (import.meta.env.PROD) {
+  window.addEventListener('error', (e) => console.error('GlobalError:', e.error || e.message, e));
+  window.addEventListener('unhandledrejection', (e) => console.error('UnhandledRejection:', e.reason));
+}
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <HelmetProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </HelmetProvider>
-  </React.StrictMode>
-)
+const params = new URLSearchParams(window.location.search);
+const debug = params.get('debug') === '1';
+
+const Root = () => (
+  <ErrorBoundary>
+    <AuthProvider>
+      {debug ? <Healthcheck /> : <App />}
+    </AuthProvider>
+  </ErrorBoundary>
+);
+
+ReactDOM.createRoot(document.getElementById('root')).render(<Root />);
