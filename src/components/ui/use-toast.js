@@ -1,103 +1,67 @@
-import { useState, useEffect } from "react"
+// src/components/ui/use-toast.js
+import { useEffect, useState } from "react";
 
-const TOAST_LIMIT = 1
+const TOAST_LIMIT = 1;
 
-let count = 0
-function generateId() {
-  count = (count + 1) % Number.MAX_VALUE
-  return count.toString()
-}
+let counter = 0;
+const genId = () => {
+  counter = (counter + 1) % Number.MAX_VALUE;
+  return counter.toString();
+};
 
-const toastStore = {
-  state: {
-    toasts: [],
-  },
+const store = {
+  state: { toasts: [] },
   listeners: [],
-  
-  getState: () => toastStore.state,
-  
-  setState: (nextState) => {
-    if (typeof nextState === 'function') {
-      toastStore.state = nextState(toastStore.state)
-    } else {
-      toastStore.state = { ...toastStore.state, ...nextState }
-    }
-    
-    toastStore.listeners.forEach(listener => listener(toastStore.state))
+  getState() {
+    return this.state;
   },
-  
-  subscribe: (listener) => {
-    toastStore.listeners.push(listener)
+  setState(updater) {
+    this.state = typeof updater === "function" ? updater(this.state) : updater;
+    this.listeners.forEach((l) => l(this.state));
+  },
+  subscribe(listener) {
+    this.listeners.push(listener);
     return () => {
-      toastStore.listeners = toastStore.listeners.filter(l => l !== listener)
-    }
-  }
-}
+      this.listeners = this.listeners.filter((l) => l !== listener);
+    };
+  },
+};
 
-export const toast = ({ ...props }) => {
-  const id = generateId()
+export function toast(props = {}) {
+  const id = genId();
 
-  const update = (props) =>
-    toastStore.setState((state) => ({
-      ...state,
-      toasts: state.toasts.map((t) =>
-        t.id === id ? { ...t, ...props } : t
-      ),
-    }))
+  const dismiss = () =>
+    store.setState((s) => ({
+      ...s,
+      toasts: s.toasts.filter((t) => t.id !== id),
+    }));
 
-  const dismiss = () => toastStore.setState((state) => ({
-    ...state,
-    toasts: state.toasts.filter((t) => t.id !== id),
-  }))
+  const update = (next) =>
+    store.setState((s) => ({
+      ...s,
+      toasts: s.toasts.map((t) => (t.id === id ? { ...t, ...next } : t)),
+    }));
 
-  toastStore.setState((state) => ({
-    ...state,
-    toasts: [
-      { ...props, id, dismiss },
-      ...state.toasts,
-    ].slice(0, TOAST_LIMIT),
-  }))
+  store.setState((s) => ({
+    ...s,
+    toasts: [{ id, dismiss, ...props }, ...s.toasts].slice(0, TOAST_LIMIT),
+  }));
 
-  return {
-    id,
-    dismiss,
-    update,
-  }
+  return { id, dismiss, update };
 }
 
 export function useToast() {
-  const [state, setState] = useState(toastStore.getState())
-  
+  const [state, setState] = useState(store.getState());
+
+  useEffect(() => store.subscribe(setState), []);
+
   useEffect(() => {
-    const unsubscribe = toastStore.subscribe((state) => {
-      setState(state)
-    })
-    
-    return unsubscribe
-  }, [])
-  
-  useEffect(() => {
-    const timeouts = []
+    const timers = state.toasts.map((t) => {
+      if (t.duration === Infinity) return null;
+      return setTimeout(() => t.dismiss(), t.duration ?? 5000);
+    }).filter(Boolean);
+    return () => timers.forEach((id) => clearTimeout(id));
+  }, [state.toasts]);
 
-    state.toasts.forEach((toast) => {
-      if (toast.duration === Infinity) {
-        return
-      }
-
-      const timeout = setTimeout(() => {
-        toast.dismiss()
-      }, toast.duration || 5000)
-
-      timeouts.push(timeout)
-    })
-
-    return () => {
-      timeouts.forEach((timeout) => clearTimeout(timeout))
-    }
-  }, [state.toasts])
-
-  return {
-    toast,
-    toasts: state.toasts,
-  }
+  return { toast, toasts: state.toasts };
 }
