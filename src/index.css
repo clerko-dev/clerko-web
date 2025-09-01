@@ -62,3 +62,5 @@ body {
 .reveal { opacity:0; transform: translateY(12px); transition: opacity .5s ease, transform .5s ease; }
 .reveal-in { opacity:1; transform: translateY(0); }
 
+.fade-up { opacity: 0; transform: translateY(12px); animation: fadeUp .4s ease-out forwards; }
+@keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
