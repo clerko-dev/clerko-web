@@ -53,3 +53,4 @@ export const guideBodies = {
     { h: "Controls", list: ["Write assumptions.", "Track change-requests.", "Price additions as options."] },
   ],
 };
+export default guides;
