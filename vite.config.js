@@ -9,6 +9,11 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  base: '/',  // Added: For correct asset paths on Vercel
+  server: {
+    port: 3000,  // Added: Default dev port
+    open: true,  // Added: Auto-open browser on dev
+  },
   build: {
     outDir: 'dist',
     sourcemap: false,
@@ -20,5 +25,8 @@ export default defineConfig({
         }
       }
     }
+  },
+  optimizeDeps: {
+    include: ['jspdf', 'html2canvas'],  // Added: Pre-bundle heavy deps for faster dev
   }
 })

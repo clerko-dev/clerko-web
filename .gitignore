@@ -27,8 +27,7 @@ Thumbs.db
 # Vercel
 .vercel
 
-.env
-dist/
-node_modules/
-.env
-.vercel
+# Additional
+.cache/  # Vite cache
+coverage/  # Test coverage reports
+*.swp  # Vim temp files
