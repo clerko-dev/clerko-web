@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://clerko-web.vercel.app/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://clerko-web.vercel.app/tools</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://clerko-web.vercel.app/how-to</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://clerko-web.vercel.app/store</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://clerko-web.vercel.app/privacy</loc><changefreq>yearly</changefreq><priority>0.4</priority></url>
-  <url><loc>https://clerko-web.vercel.app/terms</loc><changefreq>yearly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://twoja-domena.com/</loc></url>
+  <url><loc>https://twoja-domena.com/pricing</loc></url>
+  <url><loc>https://twoja-domena.com/tools</loc></url>
+  <url><loc>https://twoja-domena.com/generator</loc></url>
+  <url><loc>https://twoja-domena.com/how-to</loc></url>
 </urlset>
-

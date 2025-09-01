@@ -17,12 +17,28 @@ import Dashboard from "@/pages/Dashboard.jsx";
 import NotFound from "@/pages/NotFound.jsx";
 
 import { AuthProvider } from "@/context/AuthProvider.jsx";
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '@/context/AuthProvider.jsx';
+import GAListener from '@/components/GAListener.jsx';
+import React, { Suspense, lazy } from 'react';
+// zamiast: import GuideDetail from '@/pages/GuideDetail.jsx';
+const GuideDetail = lazy(() => import('@/pages/GuideDetail.jsx'));
+
+const PrivateRoute = ({ children }) => {
+  const { user, ready } = useAuth();
+  if (!ready) return <div className="p-6">Loading…</div>;
+  return user ? children : <Navigate to="/login" replace />;
+};
+
+
 
 function AppInner(){
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#0B0B0E] to-[#111216]">
       <Navbar />
+      <Suspense fallback={<div className="p-6">Loading…</div>}></Suspense>
       <Routes>
+         <Route path="/how-to/:slug" element={<GuideDetail/>} />
         <Route index element={<Home />} />
         <Route path="/how-to" element={<HowTo />} />
         <Route path="/guides" element={<Guides />} />
@@ -33,7 +49,10 @@ function AppInner(){
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/dashboard" element={<PrivateRoute><Dashboard/></PrivateRoute>} />
+
       </Routes>
+      </Suspense>
     </div>
   );
 }
@@ -45,6 +64,7 @@ export default function App(){
         <ErrorBoundary>
           <Suspense fallback={<div className="p-6 text-white/70">Loading…</div>}>
             <BrowserRouter>
+            <GAListener />
               <AppInner />
             </BrowserRouter>
           </Suspense>

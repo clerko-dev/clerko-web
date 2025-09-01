@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-
-Sitemap: https://clerko-web.vercel.app/sitemap.xml
+Sitemap: https://twoja-domena.com/sitemap.xml
