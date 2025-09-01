@@ -9,24 +9,26 @@ const TAGS = ["All", "Proposals", "Pricing", "Workflow"];
 export default function Guides() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [q, setQ] = useState("");
-  const [tag, setTag] = useState(
-    TAGS.includes(searchParams.get("t") || "") ? searchParams.get("t")! : "All"
-  );
+
+  // żadnego TypeScript – czyste JS
+  const tParam = searchParams.get("t") || "";
+  const initialTag = TAGS.includes(tParam) ? tParam : "All";
+  const [tag, setTag] = useState(initialTag);
 
   const filteredGuides = useMemo(() => {
     const query = q.trim().toLowerCase();
     return guides.filter((g) => {
-      const t = (g.tag || g.category || "").toString();
-      const inTag = tag === "All" || t === tag;
-      const inText =
+      const gTag = (g.tag || g.category || "").toString();
+      const matchesTag = tag === "All" || gTag === tag;
+      const matchesText =
         !query ||
         g.title.toLowerCase().includes(query) ||
         (g.summary || "").toLowerCase().includes(query);
-      return inTag && inText;
+      return matchesTag && matchesText;
     });
   }, [q, tag]);
 
-  const setTagAndQuery = (t: string) => {
+  const setTagAndQuery = (t) => {
     setTag(t);
     if (t === "All") setSearchParams({});
     else setSearchParams({ t });
@@ -45,7 +47,7 @@ export default function Guides() {
         </h1>
         <p className="text-zinc-400 mb-8">Tactical, no-fluff reads.</p>
 
-        {/* Search + tagi */}
+        {/* Search + tags */}
         <div className="flex flex-wrap items-center gap-3 mb-6">
           <input
             value={q}
@@ -70,7 +72,7 @@ export default function Guides() {
           </div>
         </div>
 
-        {/* Lista artykułów */}
+        {/* List */}
         <ul className="space-y-3">
           {filteredGuides.map((g) => (
             <li key={g.slug}>
@@ -102,7 +104,7 @@ export default function Guides() {
           )}
         </ul>
 
-        {/* CTA pod listą */}
+        {/* CTA */}
         <div className="mt-12 lg:rounded-xl lg:border lg:border-white/10 lg:bg-white/[0.03] lg:p-5">
           <div className="max-w-5xl mx-auto flex items-center justify-between gap-3">
             <div>
