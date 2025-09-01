@@ -16,7 +16,7 @@ import Login from "@/pages/Login.jsx";
 import Dashboard from "@/pages/Dashboard.jsx";
 import NotFound from "@/pages/NotFound.jsx";
 
-import AuthProvider from "@/context/AuthProvider.jsx";
+import { AuthProvider } from "@/context/AuthProvider.jsx";
 
 function AppInner(){
   return (
