@@ -16,6 +16,7 @@ import Guides from "@/pages/Guides.jsx";
 import GuideDetail from "@/pages/GuideDetail.jsx";
 import Generator from "@/pages/Generator.jsx";
 import ProposalPublic from "@/pages/Proposal.jsx";
+import ErrorBoundary from "@/components/layout/ErrorBoundary.jsx";
 
 export default function App() {
  useEffect(() => {
@@ -97,5 +98,16 @@ export default function App() {
       </main>
       <Footer />
     </>
+  );
+}
+export default function App(){
+  return (
+    <ErrorBoundary>
+      <HelmetProvider>
+        <BrowserRouter>
+          {/* ...twój Navbar i <Routes> */}
+        </BrowserRouter>
+      </HelmetProvider>
+    </ErrorBoundary>
   );
 }

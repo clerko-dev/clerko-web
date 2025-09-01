@@ -1,69 +1,68 @@
-// src/pages/Guides.jsx
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import SEO from "@/components/SEO.jsx";
-import { guides } from "@/data/guides.js";
+import { guides } from "@/data/guides.js"; // eksport nazwany
 
 const TAGS = ["All", "Proposals", "Pricing", "Workflow"];
 
 export default function Guides() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [q, setQ] = useState("");
+  const [q, setQ] = useState(searchParams.get("q") || "");
 
-  // żadnego TypeScript – czyste JS
-  const tParam = searchParams.get("t") || "";
-  const initialTag = TAGS.includes(tParam) ? tParam : "All";
-  const [tag, setTag] = useState(initialTag);
+  const initialTagParam = searchParams.get("t") || "All";
+  const [tag, setTag] = useState(
+    TAGS.includes(initialTagParam) ? initialTagParam : "All"
+  );
 
-  const filteredGuides = useMemo(() => {
-    const query = q.trim().toLowerCase();
-    return guides.filter((g) => {
-      const gTag = (g.tag || g.category || "").toString();
-      const matchesTag = tag === "All" || gTag === tag;
-      const matchesText =
-        !query ||
-        g.title.toLowerCase().includes(query) ||
-        (g.summary || "").toLowerCase().includes(query);
-      return matchesTag && matchesText;
-    });
+  // Utrzymuj URL w zgodzie ze stanem (SEO + DX)
+  useEffect(() => {
+    const p = {};
+    if (q) p.q = q;
+    if (tag && tag !== "All") p.t = tag;
+    setSearchParams(p, { replace: true });
+  }, [q, tag, setSearchParams]);
+
+  // ✅ Definicja guidesFiltered – brak tego wywalał render
+  const guidesFiltered = useMemo(() => {
+    let list = Array.isArray(guides) ? [...guides] : [];
+    if (tag && tag !== "All") list = list.filter(g => (g.tags || []).includes(tag));
+    if (q) {
+      const s = q.toLowerCase();
+      list = list.filter(
+        g =>
+          (g.title || "").toLowerCase().includes(s) ||
+          (g.description || "").toLowerCase().includes(s)
+      );
+    }
+    return list;
   }, [q, tag]);
-
-  const setTagAndQuery = (t) => {
-    setTag(t);
-    if (t === "All") setSearchParams({});
-    else setSearchParams({ t });
-  };
 
   return (
     <>
       <SEO
         title="Guides — Clerko"
-        description="Tactical, no-fluff reads that help you write proposals, price quotes and protect margins."
+        description="Tactical, no-fluff reads about proposals, pricing and workflow."
       />
+      <div className="max-w-4xl mx-auto px-4 py-12">
+        <h1 className="text-3xl font-bold text-white mb-2">Guides</h1>
+        <p className="text-white/60 mb-6">Tactical, no-fluff reads.</p>
 
-      <div className="max-w-4xl mx-auto px-4 py-16">
-        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight mb-2">
-          Guides
-        </h1>
-        <p className="text-zinc-400 mb-8">Tactical, no-fluff reads.</p>
-
-        {/* Search + tags */}
-        <div className="flex flex-wrap items-center gap-3 mb-6">
+        <div className="flex flex-col sm:flex-row gap-3 items-center mb-6">
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search guides (e.g., pricing, AI, scope)"
-            className="w-full md:w-96 rounded-xl border border-white/10 bg-white/[0.06] py-2.5 px-3 text-sm placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/10"
+            className="w-full sm:flex-1 rounded-lg bg-white/[0.06] border border-white/10 px-3 py-2 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-500/40"
           />
-          <div className="flex flex-wrap gap-2">
+          <div className="flex gap-2">
             {TAGS.map((t) => (
               <button
                 key={t}
-                onClick={() => setTagAndQuery(t)}
-                className={`rounded-full px-3 py-1.5 text-sm border ${
-                  t === tag
-                    ? "border-white/20 bg-white/[0.08] text-white"
-                    : "border-white/10 text-white/70 hover:text-white"
+                onClick={() => setTag(t)}
+                className={`rounded-full px-3 py-1 text-sm transition ${
+                  tag === t
+                    ? "bg-white text-zinc-900"
+                    : "bg-white/[0.06] text-white/70 hover:text-white"
                 }`}
               >
                 {t}
@@ -72,64 +71,30 @@ export default function Guides() {
           </div>
         </div>
 
-        {/* List */}
-        <ul className="space-y-3">
-          {filteredGuides.map((g) => (
-            <li key={g.slug}>
-              <Link
-                to={`/how-to/${g.slug}`}
-                className="block rounded-xl border border-white/10 bg-white/[0.03] hover:bg-white/[0.05] transition-colors"
-              >
-                <div className="p-4">
-                  <div className="flex items-center justify-between gap-4">
-                    <div>
-                      <h3 className="text-base md:text-lg font-medium">
-                        {g.title}
-                      </h3>
-                      <p className="text-sm text-zinc-400 mt-1">{g.summary}</p>
-                    </div>
-                    <span className="text-xs text-white/60 whitespace-nowrap">
-                      {g.read || `${g.readMin || 6} min`}
-                    </span>
-                  </div>
+        <div className="space-y-3">
+          {guidesFiltered.map((g) => (
+            <Link
+              to={`/how-to/${g.slug}`}
+              key={g.slug}
+              className="block rounded-xl border border-white/10 bg-white/[0.03] px-4 py-4 hover:bg-white/[0.06] transition"
+            >
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <h3 className="text-white font-medium">{g.title}</h3>
+                  <p className="text-white/60 text-sm">{g.description}</p>
                 </div>
-              </Link>
-            </li>
+                <span className="text-white/50 text-xs">
+                  {g.read || g.readTime || ""}
+                </span>
+              </div>
+            </Link>
           ))}
 
-          {filteredGuides.length === 0 && (
-            <li className="text-sm text-white/60 px-1 py-8">
-              No results. Try a different query.
-            </li>
+          {guidesFiltered.length === 0 && (
+            <div className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-10 text-center text-white/60">
+              No guides found.
+            </div>
           )}
-        </ul>
-
-        {/* CTA */}
-        <div className="mt-12 lg:rounded-xl lg:border lg:border-white/10 lg:bg-white/[0.03] lg:p-5">
-          <div className="max-w-5xl mx-auto flex items-center justify-between gap-3">
-            <div>
-              <h3 className="text-lg font-medium mb-1">
-                Put it into action with Clerko
-              </h3>
-              <p className="text-sm text-zinc-400">
-                Create, preview and share your proposals.
-              </p>
-            </div>
-            <div className="flex gap-2">
-              <Link
-                to="/"
-                className="px-4 py-2 rounded-xl border border-white/20 hover:bg-white/[0.05]"
-              >
-                Try free
-              </Link>
-              <Link
-                to="/pricing"
-                className="px-4 py-2 rounded-xl bg-white text-black"
-              >
-                View pricing
-              </Link>
-            </div>
-          </div>
         </div>
       </div>
     </>
