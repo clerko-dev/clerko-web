@@ -1,78 +1,60 @@
+// src/components/home/BenefitsSection.jsx
 import React from "react";
-import { motion } from "framer-motion";
-import {
-  Sparkles, FileText, Link as LinkIcon, Layers, ShieldCheck, Wand2,
-} from "lucide-react";
-
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 24 },
-  whileInView: { opacity: 1, y: 0 },
-  transition: { duration: 0.6, ease: "easeOut", delay },
-  viewport: { once: false, amount: 0.2 },
-});
 
 export default function BenefitsSection() {
-  const stats = [
-    { value: "58s", label: "avg time to first draft" },
-    { value: "40+", label: "ready-to-use templates" },
-    { value: "92%", label: "approval rate (teams on Pro)" },
-  ];
-
   const benefits = [
-    { icon: <Sparkles className="w-5 h-5" />, title: "Win deals faster",
-      desc: "Generate client-ready proposals in under a minute. Clean layout, instant preview." },
-    { icon: <FileText className="w-5 h-5" />, title: "Crystal-clear pricing",
-      desc: "Items, quantities, discounts and taxes calculated automatically." },
-    { icon: <LinkIcon className="w-5 h-5" />, title: "Share as link or PDF",
-      desc: "One link to review & approve. Export a polished PDF when needed." },
-    { icon: <Layers className="w-5 h-5" />, title: "Templates & snippets",
-      desc: "Save your best sections and reuse them to stay consistent." },
-    { icon: <ShieldCheck className="w-5 h-5" />, title: "Approvals & e-sign",
-      desc: "Collect approvals and signatures on the page with an audit trail." },
-    { icon: <Wand2 className="w-5 h-5" />, title: "Works with your stack",
-      desc: "Copy to invoice tools or CRM. Webhooks & API for automation." },
+    {
+      title: "Create proposals fast",
+      desc: "Go from idea to shareable proposal in minutes with clean defaults and smart blocks.",
+    },
+    {
+      title: "Branded PDFs",
+      desc: "Export pixel-perfect PDFs with your logo, colors, and typography.",
+    },
+    {
+      title: "Itemized pricing",
+      desc: "Clear line items, quantities, discounts, taxes — no spreadsheet pain.",
+    },
+    {
+      title: "One-click approvals",
+      desc: "Clients approve online. Get notified instantly and move work forward.",
+    },
+    {
+      title: "Reusable templates",
+      desc: "Save your best proposals as templates and ship consistently.",
+    },
+    {
+      title: "Client repository",
+      desc: "Keep clients, proposals, and versions organized in one place.",
+    },
   ];
 
   return (
-    <section className="relative py-20 sm:py-24">
-      <div className="pointer-events-none absolute inset-x-0 -top-8 h-24 bg-gradient-to-r from-fuchsia-500/10 via-purple-500/10 to-sky-500/10 blur-2xl" />
+    <section className="mx-auto max-w-6xl px-4 py-16">
+      <div className="text-center mb-10">
+        <h2 className="fade-up text-2xl sm:text-3xl font-semibold tracking-tight text-white mb-2">
+          Everything you need to win deals
+        </h2>
+        <p className="fade-up text-sm text-white/60 max-w-2xl mx-auto">
+          Clerko helps you draft, price, brand and approve proposals without the grind.
+        </p>
+      </div>
 
-      <div className="max-w-6xl mx-auto px-4">
-        <motion.div {...fadeUp(0)} className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-14">
-          {stats.map((s) => (
-            <div key={s.label}
-              className="group relative rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur px-6 py-5 overflow-hidden">
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-fuchsia-500/5 via-purple-500/5 to-sky-500/5"/>
-              <div className="relative">
-                <div className="text-3xl font-semibold tracking-tight">{s.value}</div>
-                <div className="text-sm text-zinc-400 mt-1">{s.label}</div>
-              </div>
+      <div className="grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {benefits.map((b, i) => (
+          <div
+            key={b.title}
+            className="fade-up rounded-2xl border border-white/10 bg-white/[0.04] p-5 hover:bg-white/[0.06] transition"
+            style={{ animationDelay: `${i * 60}ms` }}
+          >
+            <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 text-xs text-white/70 ring-1 ring-white/10">
+              <span>✓</span>
+              <span>Benefit</span>
             </div>
-          ))}
-        </motion.div>
-
-        <motion.h2 {...fadeUp(0.05)} className="text-2xl sm:text-3xl font-semibold tracking-tight mb-6">
-          Why teams switch to{" "}
-          <span className="bg-gradient-to-r from-fuchsia-400 to-sky-400 bg-clip-text text-transparent font-semibold">
-            Clerko
-          </span>
-        </motion.h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {benefits.map((b, i) => (
-            <motion.div key={b.title} {...fadeUp(0.08 + i * 0.05)}
-              className="group relative rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur p-6 hover:-translate-y-0.5 transition">
-              <div className="absolute inset-0 rounded-2xl pointer-events-none ring-1 ring-white/5" />
-              <div className="flex items-start gap-3">
-                <div className="shrink-0 rounded-xl bg-white/[0.06] border border-white/10 p-2 text-white/80">{b.icon}</div>
-                <div>
-                  <div className="text-base font-medium">{b.title}</div>
-                  <p className="text-sm text-zinc-400 leading-relaxed mt-1">{b.desc}</p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+            <h3 className="text-white font-medium mb-1">{b.title}</h3>
+            <p className="text-sm text-white/70">{b.desc}</p>
+          </div>
+        ))}
       </div>
     </section>
   );
