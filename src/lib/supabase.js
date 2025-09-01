@@ -1,13 +1,23 @@
 // src/lib/supabase.js
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    persistSession: true,
-    autoRefreshToken: true,
-    detectSessionInUrl: true,
-  },
-});
+// jeden klient na całą przeglądarkę (działa też z Vite HMR)
+const g = globalThis;
+const GLOBAL_KEY = "__clerko_supabase";
+
+export const supabase =
+  g[GLOBAL_KEY] ||
+  createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true,
+      // unikalny storageKey, żeby klienty z różnych projektów się nie „gryzły”
+      storageKey: `sb-${new URL(SUPABASE_URL).host}-auth`,
+    },
+  });
+
+if (!g[GLOBAL_KEY]) g[GLOBAL_KEY] = supabase;
