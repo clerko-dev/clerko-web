@@ -2,7 +2,7 @@
 import { useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import SEO from "@/components/SEO.jsx";
-import guides from "@/data/guides.js";
+import { guides } from "@/data/guides.js";
 
 const TAGS = ["All", "Proposals", "Pricing", "Workflow"];
 
