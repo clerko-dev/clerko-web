@@ -47,3 +47,28 @@ export default function HowItWorks() {
               <span>Step</span>
             </div>
             <h3 className="text-white font-medium mb-1">{s.title}</h3>
+            <p className="text-sm text-white/70">{s.body}</p>
+          </div>
+        ))}
+      </div>
+
+      <div
+        className="fade-up mt-10 flex items-center justify-center gap-3"
+        style={{ animationDelay: "260ms" }}
+      >
+        <Link
+          to="/"
+          className="rounded-xl border border-white/20 px-4 py-2 text-sm text-white/90 hover:border-white/40"
+        >
+          Try free
+        </Link>
+        <Link
+          to="/pricing"
+          className="rounded-xl bg-white px-4 py-2 text-sm text-black hover:opacity-90"
+        >
+          View pricing
+        </Link>
+      </div>
+    </section>
+  );
+}
