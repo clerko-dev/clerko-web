@@ -3,7 +3,7 @@ import React, { Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 
-import ErrorBoundary from "@/components/layout/ErrorBoundary.jsx";
+import { ErrorBoundary } from "@/components/layout/ErrorBoundary.jsx";
 import Navbar from "@/components/layout/Navbar.jsx";
 import Home from "@/pages/Home.jsx";
 import HowTo from "@/pages/HowTo.jsx";
