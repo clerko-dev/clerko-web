@@ -11,9 +11,7 @@ export default function Footer() {
     >
       <div className="grid sm:grid-cols-2 gap-6 items-center">
         <span className="text-sm">
-          © {new Date().getFullYear()}
-          
-          Clerko. All rights reserved.
+          © {new Date().getFullYear()} Clerko. All rights reserved.
         </span>
 
         <ul className="flex flex-wrap items-center gap-4 justify-start sm:justify-end text-sm">
