@@ -58,9 +58,11 @@ export default function App() {
 
             <Route path="*" element={<NotFound />} />
           </Routes>
+       
         </Suspense>
+        <Footer />
       </BrowserRouter>
     </HelmetProvider>
-   <Footer />
+  
   );
 }
