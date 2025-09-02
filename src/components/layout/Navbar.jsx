@@ -1,44 +1,58 @@
-// src/components/layout/Navbar.jsx
-import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import Logo from '@/components/ui/Logo.jsx';
-import { useAuth } from '@/context/AuthProvider.jsx';
+import { useEffect, useState } from "react";
+import Logo from "@/components/Logo.jsx"; // jeśli masz inny komponent/logo, podmień import
 
 export default function Navbar() {
-  const { user } = useAuth();
-  const linkClass = ({ isActive }) =>
-    `text-sm hover:text-white ${isActive ? 'text-white' : 'text-white/70'}`;
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-40">
-      <div className="mx-auto max-w-6xl px-4 h-14 flex items-center justify-between">
-        <Link to="/" className="inline-flex items-center">
-          <Logo className="h-6" />
-        </Link>
+    <header
+      className={[
+        "fixed top-0 inset-x-0 z-50 transition-all duration-300",
+        scrolled
+          ? // tło po scrollu: półtransparent + blur + subtelna linia u dołu
+            "bg-black/60 supports-[backdrop-filter]:bg-black/40 backdrop-blur-md border-b border-white/10"
+          : // start: całkiem transparentny (bez obwódki)
+            "bg-transparent border-b border-transparent"
+      ].join(" ")}
+    >
+      <nav className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+        {/* LEWA STRONA – logo */}
+        <a href="/" className="flex items-center gap-2">
+          <Logo className="h-6 w-auto" />
+          {/* Upewnij się, że nie masz drugiego tekstowego logo obok: usuń ewentualny <span>Clerko</span> */}
+        </a>
 
-        <nav className="hidden md:flex items-center gap-6">
-          <NavLink to="/tools" className={linkClass}>Tools</NavLink>
-          <NavLink to="/generator" className={linkClass}>Generator</NavLink>
-          <NavLink to="/how-to" className={linkClass}>Guides</NavLink>
-          <NavLink to="/pricing" className={linkClass}>Pricing</NavLink>
-        </nav>
+        {/* ŚRODEK – linki na desktopie */}
+        <ul className="hidden sm:flex items-center gap-6 text-sm">
+          <li><a className="text-white/80 hover:text-white transition" href="/how-to">How-to / Guides</a></li>
+          <li><a className="text-white/80 hover:text-white transition" href="/tools">Tools</a></li>
+          <li><a className="text-white/80 hover:text-white transition" href="/pricing">Pricing</a></li>
+          <li><a className="text-white/80 hover:text-white transition" href="/store">Store</a></li>
+        </ul>
 
+        {/* PRAWA STRONA – CTA */}
         <div className="flex items-center gap-2">
-          {user ? (
-            <Link to="/dashboard" className="text-sm hover:text-white text-white/80">Dashboard</Link>
-          ) : (
-            <>
-              <Link to="/login" className="text-sm hover:text-white text-white/80">Log in</Link>
-              <Link
-                to="/signup"
-                className="text-sm rounded-xl bg-white px-3 py-1.5 text-black hover:opacity-90"
-              >
-                Get Pro
-              </Link>
-            </>
-          )}
+          <a
+            href="/login"
+            className="px-3 py-1.5 rounded-md border border-white/15 text-white/90 text-sm hover:bg-white/10 transition"
+          >
+            Log in
+          </a>
+          <a
+            href="/signup"
+            className="px-3 py-1.5 rounded-md bg-white text-black text-sm hover:bg-zinc-100 transition"
+          >
+            Sign up
+          </a>
         </div>
-      </div>
+      </nav>
     </header>
   );
 }
