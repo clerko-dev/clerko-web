@@ -12,7 +12,7 @@ export default function Footer() {
       <div className="grid sm:grid-cols-2 gap-6 items-center">
         <span className="text-sm">
           © {new Date().getFullYear()}
-          <br />
+          
           Clerko. All rights reserved.
         </span>
 
