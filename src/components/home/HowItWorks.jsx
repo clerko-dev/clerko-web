@@ -28,7 +28,7 @@ const steps = [
 export default function HowItWorks() {
   return (
     <section className="relative mx-auto max-w-6xl px-4 pt-16 pb-8">
-      {/* delikatny „glow” nad sekcją, niewidoczny prostokąt */}
+      {/* tło / glow */}
       <div className="pointer-events-none absolute -z-10 left-1/2 top-0 h-40 w-[min(1200px,100%)] -translate-x-1/2 rounded-[28px] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-fuchsia-500/12 via-indigo-500/10 to-transparent" />
         <div className="absolute inset-0 bg-[radial-gradient(55%_80%_at_60%_0%,rgba(59,130,246,.14),transparent_60%)]" />
@@ -44,10 +44,11 @@ export default function HowItWorks() {
 
       <div className="grid gap-4 sm:gap-5 md:grid-cols-3">
         {steps.map((s) => (
-          <div key={s.k} className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 hover:bg-white/[0.06] transition">
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 text-xs text-white/70 ring-1 ring-white/10">
-              <span>{s.k}</span><span>Step</span>
-            </div>
+          <div
+            key={s.t}
+            className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 hover:bg-white/[0.06] transition"
+          >
+            {/* badge "01 Step" — USUNIĘTY */}
             <div className="flex items-start gap-3">
               <s.Icon />
               <div>
