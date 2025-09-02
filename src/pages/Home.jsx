@@ -10,15 +10,12 @@ export default function Home() {
     <>
       <HeroSection />
       <HowItWorks />
-{/* ...Hero / inne sekcje nad HowItWorks */}
-      <HowItWorks />
 
       {/* Why teams switch to Clerko */}
       <div className="mt-12">
         <BenefitsSection />
       </div>
 
-</div>
       <TrustedSection />
       <CTASection />
     </>
